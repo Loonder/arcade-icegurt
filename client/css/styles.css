@@ -1,11 +1,12 @@
-/* PALETA FINAL: LIMPO E FORTE (CLEAN & BOLD) */
+/* PALETA FINAL: TEMA ANOS 2000 (NEON/TERMINAL) */
 :root {
-  --icegurt-dark-blue: #003D7A; /* Azul Marinho FORTE (Estrutura/Header) */
-  --icegurt-light-blue: #E0F6FF; /* Azul Bebê Claro (Fundo suave) */
-  --icegurt-red: #FF0000; /* VERMELHO VIVO (Ação/Destaque) */
-  --icegurt-white: #FFFFFF;
-  --icegurt-gray: #CCCCCC;
-  --icegurt-text-dark: #1A1A1A; /* Texto escuro */
+  --icegurt-dark-blue: #001f3f; /* Azul escuro quase preto */
+  --icegurt-light-blue: #2c3e50; /* Cinza escuro suave */
+  --icegurt-red: #ff4136; /* Vermelho neon/clássico */
+  --icegurt-white: #e9ff70; /* Texto/Neon Verde-Amarelado */
+  --icegurt-gray: #7f8c8d; /* Cinza de fundo */
+  --icegurt-text-dark: #e9ff70; /* Texto principal (Neon) */
+  --icegurt-bg-color: #1a1a1a; /* Fundo principal */
 }
 
 /* Base e Estilos Globais */
@@ -17,11 +18,19 @@
 
 body {
   font-family: 'Courier New', monospace;
-  background: linear-gradient(135deg, var(--icegurt-light-blue) 0%, #FFD1D1 100%);
+  background: var(--icegurt-bg-color); /* Fundo preto/escuro */
   color: var(--icegurt-text-dark);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+/* Base de texto com efeito de terminal/glow */
+p, a, span, h1, h2, h3, h4, .form-input {
+  text-shadow: 0 0 5px var(--icegurt-white); /* Efeito Glow */
+}
+.form-input {
+    text-shadow: none; /* Remove glow do input para leitura */
 }
 
 /* ESTRUTURA DE TELAS */
@@ -38,7 +47,6 @@ body {
   flex-direction: column;
 }
 
-/* A tela principal não deve ser flex centralizada */
 #mainScreen.active {
   display: flex;
   flex-direction: column;
@@ -46,18 +54,17 @@ body {
   padding: 0;
 }
 
-/* GameScreen só é flex no modo tela cheia */
 #gameScreen.active {
   display: flex;
 }
 
 /* PAINÉIS E BOTÕES */
 .main-panel {
-  background: var(--icegurt-white);
-  border: 4px solid var(--icegurt-dark-blue);
+  background: var(--icegurt-dark-blue); /* Fundo painel escuro */
+  border: 4px solid var(--icegurt-red); /* Borda Neon Vermelha */
   padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 0; /* Estilo Terminal: Cantos retos */
+  box-shadow: 0 0 15px rgba(255, 65, 54, 0.5); /* Super Glow Vermelho */
   text-align: center;
   width: 100%;
 }
@@ -69,10 +76,11 @@ body {
 }
 
 .section-title {
-  color: var(--icegurt-dark-blue);
+  color: var(--icegurt-white);
   font-size: 1.8em;
   margin-bottom: 25px;
   text-align: center;
+  text-shadow: 0 0 10px var(--icegurt-white);
 }
 
 .form-input {
@@ -80,10 +88,10 @@ body {
   padding: 12px;
   margin: 10px 0;
   background: var(--icegurt-light-blue);
-  border: 2px solid var(--icegurt-dark-blue);
+  border: 2px solid var(--icegurt-white);
   color: var(--icegurt-text-dark);
   font-family: 'Courier New', monospace;
-  border-radius: 5px;
+  border-radius: 0;
 }
 
 /* BOTÕES PRIMÁRIOS */
@@ -91,59 +99,27 @@ body {
   width: 100%;
   padding: 14px;
   background: var(--icegurt-red);
-  color: var(--icegurt-white);
+  color: var(--icegurt-dark-blue); /* Texto Escuro no Fundo Neon */
   border: none;
   font-weight: bold;
-  border-radius: 8px;
+  border-radius: 0;
   cursor: pointer;
   margin: 10px 0;
-  box-shadow: 0 4px 0 var(--icegurt-dark-blue);
+  box-shadow: 0 4px 0 var(--icegurt-white); /* Sombra 3D Verde */
   transition: all 0.1s ease-in-out;
   font-size: 1em;
+  text-shadow: none;
 }
 
 .btn-primary:hover {
-  background: #CC0000;
+  background: #ff7871;
   transform: translateY(-2px);
-  box-shadow: 0 6px 0 var(--icegurt-dark-blue);
+  box-shadow: 0 6px 0 var(--icegurt-white);
 }
 
 .btn-primary:active {
   transform: translateY(2px);
-  box-shadow: 0 2px 0 var(--icegurt-dark-blue);
-}
-
-.btn-primary:disabled {
-  background: var(--icegurt-gray);
-  cursor: not-allowed;
-  box-shadow: 0 4px 0 #888;
-}
-
-/* BOTÕES PRIMÁRIOS */
-.btn-primary {
-  width: 100%;
-  padding: 14px;
-  background: var(--icegurt-red);
-  color: var(--icegurt-white);
-  border: none;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  margin: 10px 0;
-  box-shadow: 0 4px 0 var(--icegurt-dark-blue);
-  transition: all 0.1s ease-in-out;
-  font-size: 1em;
-}
-
-.btn-primary:hover {
-  background: #CC0000;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 var(--icegurt-dark-blue);
-}
-
-.btn-primary:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 var(--icegurt-dark-blue);
+  box-shadow: 0 2px 0 var(--icegurt-white);
 }
 
 .btn-primary:disabled {
@@ -155,35 +131,37 @@ body {
 /* BOTÕES SECUNDÁRIOS */
 .btn-small {
   background: var(--icegurt-light-blue);
-  color: var(--icegurt-dark-blue);
-  border: 2px solid var(--icegurt-dark-blue);
+  color: var(--icegurt-text-dark);
+  border: 2px solid var(--icegurt-text-dark);
   padding: 5px 12px;
-  border-radius: 5px;
+  border-radius: 0;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
+  text-shadow: none;
 }
 
 .btn-small:hover {
-  background: var(--icegurt-white);
+  background: var(--icegurt-gray);
 }
 
 .btn-secondary {
   padding: 12px 20px;
-  background: var(--icegurt-dark-blue);
-  color: var(--icegurt-white);
+  background: var(--icegurt-white); /* Fundo Neon Verde */
+  color: var(--icegurt-dark-blue); /* Texto Escuro */
   border: none;
   font-weight: bold;
-  border-radius: 8px;
+  border-radius: 0;
   cursor: pointer;
   margin-top: 10px;
   box-shadow: 0 4px 0 var(--icegurt-red);
   transition: all 0.1s ease-in-out;
+  text-shadow: none;
 }
 
 .btn-secondary:hover {
-  background: #005A99;
+  background: #cff09e; /* Neon mais claro no hover */
   transform: translateY(-2px);
   box-shadow: 0 6px 0 var(--icegurt-red);
 }
@@ -195,16 +173,16 @@ body {
 
 /* NOVO: Estilo para alinhar ícone/seta dentro de botões */
 .btn-with-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Centraliza horizontalmente */
-  gap: 8px; /* Espaçamento entre a seta e o texto */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza horizontalmente */
+    gap: 8px; /* Espaçamento entre a seta e o texto */
 }
 
 /* NOVO: Garante que a seta Unicode tenha o estilo de texto */
 .btn-with-icon::first-letter {
-  font-size: 1.2em; /* Aumenta um pouco o tamanho da seta */
-  font-weight: bold;
+    font-size: 1.2em; /* Aumenta um pouco o tamanho da seta */
+    font-weight: bold;
 }
 
 /* ============================ */
@@ -280,10 +258,11 @@ header h1 {
   color: var(--icegurt-white);
   font-size: 1.5em;
   white-space: nowrap;
+  text-shadow: 0 0 10px var(--icegurt-white);
 }
 
 .user-info {
-  color: var(--icegurt-light-blue);
+  color: var(--icegurt-white);
   display: flex;
   gap: 20px;
   align-items: center;
@@ -318,13 +297,13 @@ main {
 /* ============= */
 
 .game-card {
-  background: var(--icegurt-white);
-  border: 4px solid var(--icegurt-dark-blue);
+  background: var(--icegurt-light-blue);
+  border: 4px solid var(--icegurt-white);
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
   text-align: center;
-  border-color: var(--icegurt-light-blue);
+  border-color: var(--icegurt-red);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -333,12 +312,12 @@ main {
 
 .game-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  border-color: var(--icegurt-red);
+  box-shadow: 0 0 20px var(--icegurt-red);
+  border-color: var(--icegurt-white);
 }
 
 .game-card h3 {
-  color: var(--icegurt-dark-blue);
+  color: var(--icegurt-white);
   margin-top: 10px;
 }
 
@@ -364,20 +343,20 @@ main {
 /* ========================== */
 
 .leaderboard-container {
-  background: var(--icegurt-white);
+  background: var(--icegurt-dark-blue);
   border: 3px solid var(--icegurt-red);
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+  border-radius: 0;
+  box-shadow: 0 0 15px rgba(255, 65, 54, 0.5);
   text-align: center;
   color: var(--icegurt-text-dark);
   align-self: start;
 }
 
 .leaderboard-container h2 {
-  color: var(--icegurt-dark-blue);
+  color: var(--icegurt-white);
   margin-bottom: 20px;
-  border-bottom: 2px solid var(--icegurt-light-blue);
+  border-bottom: 2px solid var(--icegurt-white);
   padding-bottom: 10px;
 }
 
@@ -386,7 +365,7 @@ main {
   border: 1px solid var(--icegurt-dark-blue);
   margin-bottom: 8px;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -399,7 +378,7 @@ main {
 
 .leaderboard-item:nth-child(1) {
   border-width: 3px !important;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+  box-shadow: 0 0 10px rgba(255, 65, 54, 0.7);
 }
 
 /* ======================================= */
@@ -428,13 +407,11 @@ main {
 /* CORREÇÃO: aplicar estilo ao canvas certo */
 #gameContainer canvas {
     border: 6px solid #278bff;
-    border-radius: 12px;
+    border-radius: 0;
     background: #000;
     box-shadow:
         0 0 15px rgba(39, 139, 255, 0.9),
         0 0 35px rgba(39, 139, 255, 0.4);
-
-    /* IMPORTANTÍSSIMO → pro Asteroids não ficar minúsculo */
     max-width: 100%;
     height: auto !important;
     image-rendering: pixelated;
@@ -445,11 +422,11 @@ main {
     width: 270px;
     background: #ffffff;
     padding: 20px;
-    border-radius: 12px;
-    border: 4px solid #ff4d4d;
+    border-radius: 0;
+    border: 4px solid var(--icegurt-red);
     box-shadow:
-        0 0 15px rgba(255, 80, 80, 0.5),
-        0 0 25px rgba(255, 80, 80, 0.15);
+        0 0 15px rgba(255, 65, 54, 0.5),
+        0 0 25px rgba(255, 65, 54, 0.15);
     font-family: monospace;
     font-size: 15px;
     display: flex;
@@ -467,7 +444,7 @@ body.game-is-active #gameScreen.active {
 body.game-is-active .game-wrapper {
     flex: 1;
     height: 100%;
-    padding-top: 70px; /* espaço pro botão voltar */
+    padding-top: 70px;
 }
 
 /* Footer */
@@ -479,6 +456,7 @@ footer {
   margin-top: auto;
   border-top: 3px solid var(--icegurt-red);
   width: 100%;
+  text-shadow: 0 0 5px var(--icegurt-white);
 }
 
 /* ============================ */
@@ -492,18 +470,18 @@ footer {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .modal-content {
-  background: var(--icegurt-white);
-  border: 4px solid var(--icegurt-dark-blue);
+  background: var(--icegurt-dark-blue);
+  border: 4px solid var(--icegurt-red);
   padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 0;
+  box-shadow: 0 0 15px rgba(255, 65, 54, 0.5);
   text-align: center;
   width: 90%;
   max-width: 450px;
@@ -512,11 +490,12 @@ footer {
 .modal-content #modalTitle {
   font-size: 1.8em;
   margin-bottom: 15px;
+  color: var(--icegurt-red);
 }
 
 .modal-content p {
   font-size: 1.1em;
-  color: var(--icegurt-text-dark);
+  color: var(--icegurt-white);
   margin-bottom: 25px;
 }
 
@@ -657,4 +636,122 @@ body.game-is-active #gameScreen .btn-secondary {
   background: rgba(0, 0, 0, 0.5);
   border: 2px solid var(--icegurt-white);
   margin: 0;
+}
+
+
+/* NOVO: Estilo para alinhar ícone/seta dentro de botões */
+.btn-with-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza horizontalmente */
+    gap: 8px; /* Espaçamento entre a seta e o texto */
+}
+
+/* NOVO: Garante que a seta Unicode tenha o estilo de texto */
+.btn-with-icon::first-letter {
+    font-size: 1.2em; /* Aumenta um pouco o tamanho da seta */
+    font-weight: bold;
+}
+
+
+/* =============================== */
+/* ===== TEAM SECTION (TECH) ===== */
+/* =============================== */
+
+/* Wrapper geral */
+.team-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 25px;
+}
+
+/* Card do membro */
+.team-member {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 18px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.18);
+    backdrop-filter: blur(6px);
+    transition: 0.25s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 6px 22px rgba(0,0,0,0.25);
+}
+
+/* Foto */
+.team-member img {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 14px;
+    border: 2px solid var(--icegurt-light-blue);
+}
+
+/* Textos */
+.team-member-info h5 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.team-member-info a {
+    margin-top: 4px;
+    display: inline-block;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: var(--icegurt-light-blue);
+    font-weight: 600;
+}
+
+/* =============================== */
+/* ========== SELOS TECH ========= */
+/* =============================== */
+
+.member-badges {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: white;
+}
+
+/* Badges individuais */
+.badge-fullstack {
+    background: linear-gradient(90deg, #0066FF, #00C2FF);
+}
+
+.badge-hardware {
+    background: linear-gradient(90deg, #ff7b00, #ffb300);
+}
+
+.badge-support {
+    background: linear-gradient(90deg, #7F00FF, #BA55FF);
+}
+
+.badge-video {
+    background: linear-gradient(90deg, #ff005e, #ff4fa3);
+}
+
+.badge-vm {
+    background: linear-gradient(90deg, #00a86b, #22c55e);
+}
+
+/* Emojis maiores e alinhados */
+.badge span {
+    font-size: 1rem;
 }
