@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
   "name": "arcade-icegurt",
   "version": "1.0.0",
@@ -9,16 +8,4 @@
   "devDependencies": {
     "http-server": "^14.1.1"
   }
-=======
-{
-  "name": "arcade-icegurt",
-  "version": "1.0.0",
-  "description": "Arcade IceGurt com vários jogos integrados",
-  "scripts": {
-    "serve": "npx http-server ."
-  },
-  "devDependencies": {
-    "http-server": "^14.1.1"
-  }
->>>>>>> 465635d1277c0f2803a4be118d4b668d8414b2b6
 }
