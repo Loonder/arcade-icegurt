@@ -119,6 +119,39 @@ body {
   box-shadow: 0 4px 0 #888;
 }
 
+/* BOTÕES PRIMÁRIOS */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: var(--icegurt-red);
+  color: var(--icegurt-white);
+  border: none;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px 0;
+  box-shadow: 0 4px 0 var(--icegurt-dark-blue);
+  transition: all 0.1s ease-in-out;
+  font-size: 1em;
+}
+
+.btn-primary:hover {
+  background: #CC0000;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--icegurt-dark-blue);
+}
+
+.btn-primary:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--icegurt-dark-blue);
+}
+
+.btn-primary:disabled {
+  background: var(--icegurt-gray);
+  cursor: not-allowed;
+  box-shadow: 0 4px 0 #888;
+}
+
 /* BOTÕES SECUNDÁRIOS */
 .btn-small {
   background: var(--icegurt-light-blue);
@@ -158,6 +191,20 @@ body {
 .btn-secondary:active {
   transform: translateY(2px);
   box-shadow: 0 2px 0 var(--icegurt-red);
+}
+
+/* NOVO: Estilo para alinhar ícone/seta dentro de botões */
+.btn-with-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centraliza horizontalmente */
+  gap: 8px; /* Espaçamento entre a seta e o texto */
+}
+
+/* NOVO: Garante que a seta Unicode tenha o estilo de texto */
+.btn-with-icon::first-letter {
+  font-size: 1.2em; /* Aumenta um pouco o tamanho da seta */
+  font-weight: bold;
 }
 
 /* ============================ */
