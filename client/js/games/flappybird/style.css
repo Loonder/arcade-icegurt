@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
+* {
+    font-family: helvetica, sans-serif;
+    /* Impedir seleção de texto */
+    -webkit-user-select: none; 
+    -moz-user-select: none;
+    user-select: none;
+    /* Incluir padding e borda no cálculo da largura/altura total */
+    box-sizing: border-box; 
+}
+body {
+    background-color: rgba(0,0,0, .95);
+    /* Ocupa a altura total da janela de visualização */
+    height: 100vh; 
+    /* Remove margens padrão */
+    margin: 0;
+    /* Adiciona Flexbox para centralizar o contêiner do jogo */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centraliza o contêiner verticalmente */
+    align-items: center; /* Centraliza o contêiner horizontalmente */
+}
+
+/********************
+* video game screen *
+********************/
+.game-title h1 {
+    /***** Flappy Bird *****/
+    text-align: center;
+    font-family: 'Carter One', cursive;
+    color: rgb(251, 176, 37);
+    font-size: 3em;
+    line-height: 150%;
+    letter-spacing: 4px;
+    text-shadow: 2px 4px rgba(250,250,250, 1);
+    margin: 0 0 20px 0; /* Ajustei a margem inferior */
+    position: static; /* Remove o top fixo para o Flexbox funcionar */
+}
+
+/* O contêiner principal do jogo deve ser responsivo */
+.game-screen {
+    /* REMOVEMOS largura e altura FIXAS */
+    /* Garante que o contêiner não exceda o tamanho da viewport, 
+       mas respeite a proporção do jogo (300/500 = 0.6) */
+    max-width: 90vw; 
+    max-height: 90vh; 
+    
+    /* Usa a propriedade 'aspect-ratio' para manter a proporção 3:5 */
+    /* Isso garante que ele não fique esticado */
+    aspect-ratio: 3 / 5; 
+
+    /* Centralização original não é mais necessária, mas mantive a posição */
+    margin: 0;
+    position: relative;
+    top: 0; 
+}
+    canvas {
+        background-color: black;
+        display: block;
+        /* Canvas deve preencher o contêiner .game-screen 
+           (que já está com a proporção correta) */
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        border-radius: 10px;
+        
+        /* Opcional: Para manter a clareza dos pixels em telas grandes */
+        image-rendering: pixelated; 
+        image-rendering: -moz-crisp-edges;
+    }
+    .game-description {
+        color: #f0f0f0;
+        line-height: 2em;
+        text-align: center;
+        margin-top: 20px; /* Margem para separar do canvas */
+    }

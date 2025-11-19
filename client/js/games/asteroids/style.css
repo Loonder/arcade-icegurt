@@ -1,0 +1,52 @@
+/* ASTEROIDS – estilo seguro e isolado */
+
+#asteroids-container {
+    background-color: #000;
+    color: #fff;
+    font-family: "Calibri", "System", monospace;
+    padding: 20px 0;
+}
+
+/* container principal do jogo */
+#asteroids-container #asteroids {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 640px;
+    border: 1px solid #fff;
+    padding: 5px;
+}
+
+/* textos dentro do asteroids */
+#asteroids-container #asteroids > * {
+    color: #fff;
+}
+
+/* topo com score / info */
+#asteroids-container #asteroids > div {
+    font-family: "System", monospace;
+    font-size: 11px;
+    padding-bottom: 5px;
+}
+
+#asteroids-container #asteroids > div > span {
+    float: right;
+    padding-left: 20px;
+}
+
+/* instruções */
+#asteroids-container #instructions {
+    width: 100%;
+    max-width: 640px;
+    margin: 20px auto;
+}
+
+/* títulos */
+#asteroids-container h1 {
+    font-size: 18px;
+    color: #fff;
+}
+
+#asteroids-container h2 {
+    font-size: 16px;
+    color: #fff;
+}
