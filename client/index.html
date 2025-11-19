@@ -1,3 +1,4 @@
+<h1>ESTOU AQUI</h1>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -345,98 +346,130 @@
         </div>
 
 <div id="docsScreen" class="screen">
-            <div class="main-panel" style="max-width: 800px; width: 90%;">
-                <h1 class="main-title">📚 DOCUMENTAÇÃO</h1>
+    <div class="main-panel" style="max-width: 800px; width: 90%;">
+        <h1 class="main-title">📚 DOCUMENTAÇÃO</h1>
 
-                <div class="documentation-content">
-                    <p>Bem-vindo aos bastidores do <strong>Arcade IceGurt</strong>! Este projeto foi construído usando uma arquitetura moderna de aplicação web.</p>
+        <div class="documentation-content">
+            <p>Bem-vindo aos bastidores do <strong>Arcade IceGurt</strong>! Aqui você encontra informações sobre o sistema, arquitetura e equipe que tornou tudo isso possível para a ExpoTech 2025/2.</p>
 
-                    <h4>Sobre o Grupo (IceGurt Team)</h4>
-                    <p>Este projeto foi desenvolvido com orgulho pela equipe IceGurt Arcade para o projeto da ExpoTech 2025/2.</p>
-                    
-                    <ul class="team-list">
-                        <li class="team-member">
-                            <img src="https://placehold.co/60x60/003D7A/FFFFFF?text=PM" alt="Foto de Paulo Moraes">
-                            <div class="team-member-info">
-                                <h5>Paulo Moraes</h5>
-                                <a href="httpsm:" target="_blank" rel="noopener noreferrer">Ver LinkedIn</a>
-                            </div>
-                        </li>
-                        
-                        <li class="team-member">
-                            <img src="https://placehold.co/60x60/E0F6FF/003D7A?text=MS" alt="Foto de Miqueias Santos">
-                            <div class="team-member-info">
-                                <h5>Miqueias Santos</h5>
-                                <a href="#" target="_blank" rel="noopener noreferrer">Ver LinkedIn</a>
-                            </div>
-                        </li>
-                        <li class="team-member">
-                            <img src="https://placehold.co/60x60/E0F6FF/003D7A?text=GC" alt="Foto de Guilherme Costa">
-                            <div class="team-member-info">
-                                <h5>Guilherme Costa</h5>
-                                <a href="#" target="_blank" rel="noopener noreferrer">Ver LinkedIn</a>
-                            </div>
-                        </li>
-                        <li class="team-member">
-                            <img src="https://placehold.co/60x60/E0F6FF/003D7A?text=JL" alt="Foto de João Lopes">
-                            <div class="team-member-info">
-                                <h5>João Lopes</h5>
-                                <a href="#" target="_blank" rel="noopener noreferrer">Ver LinkedIn</a>
-                            </div>
-                        </li>
-                        <li class="team-member">
-                            <img src="https://placehold.co/60x60/E0F6FF/003D7A?text=LB" alt="Foto de Lucas Barboza">
-                            <div class="team-member-info">
-                                <h5>Lucas Barboza</h5>
-                                <a href="#" target="_blank" rel="noopener noreferrer">Ver LinkedIn</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <hr style="border: 0; border-top: 2px dashed var(--icegurt-light-blue); margin: 25px 0;">
+            <h4>Sobre o Grupo (IceGurt Team)</h4>
+<p>Este projeto foi desenvolvido pela equipe IceGurt Arcade para a ExpoTech 2025/2, unindo tecnologia, criatividade e um toque de diversão.</p>
 
-                    
-                    <h4>Frontend (O que você vê)</h4>
-                    <ul>
-                        <li><strong>HTML5:</strong> Para a estrutura de todas as telas (Login, Menu, Loja, etc.).</li>
-                        <li><strong>CSS3:</strong> Para a estilização, usando Variáveis CSS (cores) e Flexbox/Grid para o layout.</li>
-                        <li><strong>JavaScript (ES6+):</strong> O "cérebro" do frontend. Ele controla tudo:
-                            <ul>
-                                <li>Manipulação do DOM (ex: <code>mostrarTela()</code>).</li>
-                                <li>Event Listeners (cliques em botões, envio de formulários).</li>
-                                <li>Carregamento dinâmico dos scripts dos jogos (Snake, Flappy, etc.).</li>
-                                <li>Comunicação em tempo real com o servidor.</li>
-                            </ul>
-                        </li>
-                    </ul>
-                    
-                    <h4>Backend (O que roda no servidor)</h4>
-                    <ul>
-                        <li><strong>Node.js:</strong> A plataforma que permite rodar JavaScript no servidor.</li>
-                        <li><strong>Express.js:</strong> (Provavelmente) Usado para criar as rotas da API (ex: <code>/api/auth/login</code>).</li>
-                        <li><strong>Socket.IO:</strong> A mágica da comunicação em tempo real. É o que permite seu score e geladinhos atualizarem instantaneamente e o ranking funcionar ao vivo.</li>
-                    </ul>
+<ul class="team-list">
 
-                    <h4>Arquitetura</h4>
-                    <p>O fluxo funciona assim:</p>
-                    <ol>
-                        <li>Você se autentica (Login/Registro) via API.</li>
-                        <li>O servidor confirma e te envia um "Token".</li>
-                        <li>Você se conecta ao Socket.IO.</li>
-                        <li>Você joga um jogo.</li>
-                        <li>Ao final (<code>finalizarJogo()</code>), seu <code>app.js</code> envia o score para o servidor via Socket (<code>socket.emit('jogo-finalizado', ...)</code>).</li>
-                        <li>O servidor recebe, salva no banco de dados, e avisa todos os clientes (ou só você) sobre a atualização (<code>socket.on('atualizar-geladinhos', ...)</code>).</li>
-                    </ol>
-                    <img src="https://placehold.co/600x300/E0F6FF/003D7A?text=Diagrama+da+Arquitetura" alt="Diagrama da Arquitetura">
-
-                    <h4>Os Jogos</h4>
-                    <p>Como você mencionou, os jogos (Pac-Man, Snake, etc.) são projetos independentes. Este <code>app.js</code> atua como um "Hub" ou "Launcher", carregando-os dinamicamente e capturando o score final para converter em 🍦 Geladinhos.</p>
-                    <img src="https://placehold.co/400x250/FFD1D1/FF0000?text=Foto+do+PacMan+Original" alt="Jogo Pac-Man">
-
-                    </div>
-                
-                <button id="btnDocsToMenu" class="btn-secondary btn-with-icon" style="margin-top: 30px;">&#x2190; Voltar ao Menu</button>
+    <!-- PAULO -->
+    <li class="team-member">
+        <img src="img/eu_foto.JPEG" alt="Foto de Paulo Moraes">
+        <div class="team-member-info">
+            <h5>Paulo Moraes</h5>
+            <div class="member-badges">
+                <div class="badge badge-fullstack"><span>💻</span> Full Stack</div>
+                <div class="badge badge-support"><span>🛠️</span> Suporte Técnico</div>
             </div>
+            <a href="https://www.linkedin.com/in/paulomoraesdev/" target="_blank">Ver LinkedIn</a>
         </div>
+    </li>
+
+    <!-- MIQUEIAS -->
+    <li class="team-member">
+        <img src="img/miqueias_foto.jpeg" alt="Foto de Miqueias Santos">
+        <div class="team-member-info">
+            <h5>Miqueias Santos</h5>
+            <div class="member-badges">
+                <div class="badge badge-hardware"><span>🔧</span> Hardware</div>
+            </div>
+            <a href="https://www.linkedin.com/in/miqueias-santos-3583b2314/" target="_blank">Ver LinkedIn</a>
+        </div>
+    </li>
+
+    <!-- GUILHERME -->
+    <li class="team-member">
+        <img src="img/guilherme_foto.jpg" alt="Foto de Guilherme Costa">
+        <div class="team-member-info">
+            <h5>Guilherme Costa</h5>
+            <div class="member-badges">
+                <div class="badge badge-hardware"><span>🔧</span> Manutenção</div>
+            </div>
+            <a href="#" target="_blank">Ver LinkedIn</a>
+        </div>
+    </li>
+
+    <!-- LOPES -->
+    <li class="team-member">
+        <img src="img/lopes_foto.jpg" alt="Foto de João Lopes">
+        <div class="team-member-info">
+            <h5>João Lopes</h5>
+            <div class="member-badges">
+                <div class="badge badge-video"><span>🎥</span> Videomaker</div>
+                <div class="badge badge-hardware"><span>🔧</span> Montagem</div>
+            </div>
+            <a href="https://www.linkedin.com/in/jo%C3%A3o-vitor-pedreira-lopes-114701232/" target="_blank">Ver LinkedIn</a>
+        </div>
+    </li>
+
+    <!-- LUCAS -->
+    <li class="team-member">
+        <img src="img/lucas_foto.jpeg" alt="Foto de Lucas Barboza">
+        <div class="team-member-info">
+            <h5>Lucas Barboza</h5>
+            <div class="member-badges">
+                <div class="badge badge-vm"><span>🖥️</span> VirtualBox</div>
+                <div class="badge badge-hardware"><span>🔧</span> Montagem</div>
+            </div>
+            <a href="https://www.linkedin.com/in/lucas-barboza1/" target="_blank">Ver LinkedIn</a>
+        </div>
+    </li>
+
+</ul>
+
+            <hr class="docs-divider">
+
+            <h4>🖥️ Frontend — O que você vê</h4>
+            <ul>
+                <li><strong>HTML5:</strong> Estrutura das páginas.</li>
+                <li><strong>CSS3:</strong> Estilos usando variáveis, animações e layout responsivo.</li>
+                <li><strong>JavaScript (ES6+):</strong>
+                    <ul>
+                        <li>Controle das telas (Login, Menu, Loja etc.)</li>
+                        <li>Eventos e lógica dos botões</li>
+                        <li>Carregamento dos jogos</li>
+                        <li>Socket.IO para ranking e geladinhos em tempo real</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>⚙️ Backend — O cérebro do Arcade</h4>
+            <ul>
+                <li><strong>Node.js:</strong> Execução do servidor.</li>
+                <li><strong>Express.js:</strong> Gerenciamento das rotas de autenticação.</li>
+                <li><strong>Socket.IO:</strong> Comunicação em tempo real com todos os jogadores.</li>
+            </ul>
+
+            <h4>🏗 Arquitetura do Sistema</h4>
+            <p>O fluxo geral funciona assim:</p>
+
+            <ol>
+                <li>Cliente faz login/registro pela API.</li>
+                <li>Servidor autentica e envia um Token JWT.</li>
+                <li>Cliente conecta ao Socket.IO usando o token.</li>
+                <li>Servidor valida a conexão.</li>
+                <li>Jogador inicia e conclui um jogo.</li>
+                <li>O score final é enviado via <code>socket.emit('jogo-finalizado')</code>.</li>
+                <li>Servidor salva no banco.</li>
+                <li>Servidor envia broadcast de atualização.</li>
+                <li>Todos os clientes recebem o novo ranking em tempo real.</li>
+            </ol>
+
+            <h4>🎮 Os Jogos</h4>
+            <p>Os jogos são carregados dinamicamente pelo <code>app.js</code>, que atua como um “hub”. Cada score se transforma em geladinhos acumulados no ranking.</p>
+
+            <img src="img/foto_pacman.jpg" class="docs-img" alt="Jogo Pac-Man">
+        </div>
+
+        <button id="btnDocsToMenu" class="btn-secondary btn-with-icon" style="margin-top: 30px;">&#x2190; Voltar ao Menu</button>
+    </div>
+</div>
+
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/app.js"></script>
