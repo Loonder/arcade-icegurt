@@ -1,15 +1,25 @@
-/* PALETA FINAL: TEMA ANOS 2000 (NEON/TERMINAL) */
+/* IMPORTANDO FONTE MODERNA (Poppins) para dar ar profissional */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Courier+Prime&display=swap');
+
+/* ====================================================== */
+/* 🎨 PALETA FINAL: TEMA CLÁSSICO ICEGURT (Clean & Pro) */
+/* ====================================================== */
 :root {
-  --icegurt-dark-blue: #001f3f; /* Azul escuro quase preto */
-  --icegurt-light-blue: #2c3e50; /* Cinza escuro suave */
-  --icegurt-red: #ff4136; /* Vermelho neon/clássico */
-  --icegurt-white: #e9ff70; /* Texto/Neon Verde-Amarelado */
-  --icegurt-gray: #7f8c8d; /* Cinza de fundo */
-  --icegurt-text-dark: #e9ff70; /* Texto principal (Neon) */
-  --icegurt-bg-color: #1a1a1a; /* Fundo principal */
+  /* Cores da Marca */
+  --icegurt-dark-blue: #004AAD; /* Azul Royal forte (Identidade) */
+  --icegurt-light-blue: #E6F2FF; /* Azul bebê suave para fundos */
+  --icegurt-red: #E60000; /* Vermelho vibrante para destaque */
+  --icegurt-white: #FFFFFF; /* Branco puro */
+  --icegurt-gray: #ECF0F1; /* Cinza neutro */
+  
+  /* Cores de Texto e Layout */
+  --icegurt-text-dark: #002B5C; /* Azul marinho (Leitura fácil) */
+  --icegurt-bg-color: #F4F9FF; /* Fundo geral (quase branco) */
 }
 
-/* Base e Estilos Globais */
+/* ========================== */
+/* ⚙️ BASE & GLOBAIS */
+/* ========================== */
 * {
   margin: 0;
   padding: 0;
@@ -17,23 +27,39 @@
 }
 
 body {
-  font-family: 'Courier New', monospace;
-  background: var(--icegurt-bg-color); /* Fundo preto/escuro */
+  font-family: 'Poppins', sans-serif; /* Fonte moderna para o site */
+  background: var(--icegurt-bg-color);
   color: var(--icegurt-text-dark);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  line-height: 1.6;
 }
 
-/* Base de texto com efeito de terminal/glow */
+/* Reset de sombras e glows antigos */
 p, a, span, h1, h2, h3, h4, .form-input {
-  text-shadow: 0 0 5px var(--icegurt-white); /* Efeito Glow */
-}
-.form-input {
-    text-shadow: none; /* Remove glow do input para leitura */
+  text-shadow: none; 
 }
 
-/* ESTRUTURA DE TELAS */
+/* Títulos */
+h1, h2, h3, h4 {
+    font-weight: 700;
+    color: var(--icegurt-dark-blue);
+}
+
+/* Links */
+a {
+    text-decoration: none;
+    color: var(--icegurt-red);
+    transition: color 0.2s;
+}
+a:hover {
+    color: var(--icegurt-dark-blue);
+}
+
+/* ========================== */
+/* 🏗️ ESTRUTURA DE TELAS */
+/* ========================== */
 .screen {
   display: none;
   min-height: 100vh;
@@ -52,159 +78,170 @@ p, a, span, h1, h2, h3, h4, .form-input {
   flex-direction: column;
   min-height: 100vh;
   padding: 0;
+  justify-content: flex-start; /* Garante que comece do topo */
 }
 
-#gameScreen.active {
-  display: flex;
-}
-
-/* PAINÉIS E BOTÕES */
+/* ========================== */
+/* 🧊 PAINÉIS & CARDS */
+/* ========================== */
 .main-panel {
-  background: var(--icegurt-dark-blue); /* Fundo painel escuro */
-  border: 4px solid var(--icegurt-red); /* Borda Neon Vermelha */
+  background: var(--icegurt-white);
+  border: 2px solid var(--icegurt-dark-blue);
   padding: 40px;
-  border-radius: 0; /* Estilo Terminal: Cantos retos */
-  box-shadow: 0 0 15px rgba(255, 65, 54, 0.5); /* Super Glow Vermelho */
+  border-radius: 16px; /* Cantos arredondados modernos */
+  box-shadow: 0 10px 25px rgba(0, 74, 173, 0.15); /* Sombra azulada suave */
   text-align: center;
   width: 100%;
 }
 
 .main-title {
-  color: var(--icegurt-red);
+  color: var(--icegurt-dark-blue);
   font-size: 2.5em;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  letter-spacing: -1px;
 }
 
 .section-title {
-  color: var(--icegurt-white);
-  font-size: 1.8em;
-  margin-bottom: 25px;
+  color: var(--icegurt-dark-blue);
+  font-size: 2em;
+  margin-bottom: 30px;
   text-align: center;
-  text-shadow: 0 0 10px var(--icegurt-white);
+  position: relative;
+  display: inline-block;
 }
 
+/* Detalhe visual embaixo dos títulos */
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--icegurt-red);
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+
+/* ========================== */
+/* 🔘 BOTÕES & INPUTS */
+/* ========================== */
 .form-input {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   margin: 10px 0;
   background: var(--icegurt-light-blue);
-  border: 2px solid var(--icegurt-white);
+  border: 2px solid #BDD7FF;
   color: var(--icegurt-text-dark);
-  font-family: 'Courier New', monospace;
-  border-radius: 0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
 }
 
-/* BOTÕES PRIMÁRIOS */
+.form-input:focus {
+    outline: none;
+    border-color: var(--icegurt-dark-blue);
+}
+
 .btn-primary {
   width: 100%;
   padding: 14px;
   background: var(--icegurt-red);
-  color: var(--icegurt-dark-blue); /* Texto Escuro no Fundo Neon */
+  color: var(--icegurt-white);
   border: none;
-  font-weight: bold;
-  border-radius: 0;
+  font-weight: 700;
+  border-radius: 8px;
   cursor: pointer;
   margin: 10px 0;
-  box-shadow: 0 4px 0 var(--icegurt-white); /* Sombra 3D Verde */
-  transition: all 0.1s ease-in-out;
-  font-size: 1em;
-  text-shadow: none;
+  box-shadow: 0 4px 0 #B30000; /* Sombra 3D sutil */
+  transition: transform 0.1s, box-shadow 0.1s;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .btn-primary:hover {
-  background: #ff7871;
+  background: #FF1A1A;
   transform: translateY(-2px);
-  box-shadow: 0 6px 0 var(--icegurt-white);
+  box-shadow: 0 6px 0 #B30000;
 }
 
 .btn-primary:active {
   transform: translateY(2px);
-  box-shadow: 0 2px 0 var(--icegurt-white);
+  box-shadow: 0 2px 0 #B30000;
 }
 
 .btn-primary:disabled {
   background: var(--icegurt-gray);
   cursor: not-allowed;
-  box-shadow: 0 4px 0 #888;
+  box-shadow: none;
+  color: #999;
 }
 
-/* BOTÕES SECUNDÁRIOS */
+/* Botões Pequenos (Header) */
 .btn-small {
-  background: var(--icegurt-light-blue);
-  color: var(--icegurt-text-dark);
-  border: 2px solid var(--icegurt-text-dark);
-  padding: 5px 12px;
-  border-radius: 0;
-  font-weight: bold;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--icegurt-white);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  white-space: nowrap;
-  text-shadow: none;
+  font-size: 0.9em;
 }
 
 .btn-small:hover {
-  background: var(--icegurt-gray);
+  background: var(--icegurt-white);
+  color: var(--icegurt-dark-blue);
 }
 
+/* Botões Secundários (Voltar, Atualizar) */
 .btn-secondary {
-  padding: 12px 20px;
-  background: var(--icegurt-white); /* Fundo Neon Verde */
-  color: var(--icegurt-dark-blue); /* Texto Escuro */
-  border: none;
-  font-weight: bold;
-  border-radius: 0;
+  padding: 12px 24px;
+  background: var(--icegurt-white);
+  color: var(--icegurt-dark-blue);
+  border: 2px solid var(--icegurt-dark-blue);
+  font-weight: 700;
+  border-radius: 8px;
   cursor: pointer;
   margin-top: 10px;
-  box-shadow: 0 4px 0 var(--icegurt-red);
-  transition: all 0.1s ease-in-out;
-  text-shadow: none;
+  transition: all 0.2s;
 }
 
 .btn-secondary:hover {
-  background: #cff09e; /* Neon mais claro no hover */
+  background: var(--icegurt-light-blue);
   transform: translateY(-2px);
-  box-shadow: 0 6px 0 var(--icegurt-red);
 }
 
-.btn-secondary:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 var(--icegurt-red);
-}
-
-/* NOVO: Estilo para alinhar ícone/seta dentro de botões */
 .btn-with-icon {
     display: flex;
     align-items: center;
-    justify-content: center; /* Centraliza horizontalmente */
-    gap: 8px; /* Espaçamento entre a seta e o texto */
+    justify-content: center;
+    gap: 8px;
 }
-
-/* NOVO: Garante que a seta Unicode tenha o estilo de texto */
 .btn-with-icon::first-letter {
-    font-size: 1.2em; /* Aumenta um pouco o tamanho da seta */
-    font-weight: bold;
+    font-size: 1.3em;
 }
 
-/* ============================ */
-/* ===== TELA AUTH (FLIP) ===== */
-/* ============================ */
-
+/* ========================== */
+/* 🔐 TELA AUTH (FLIP CARD) */
+/* ========================== */
 #authScreen.active {
   padding: 20px;
+  background: linear-gradient(135deg, var(--icegurt-light-blue) 0%, #FFFFFF 100%);
 }
 
 .auth-container {
   perspective: 1000px;
   width: 100%;
-  max-width: 500px;
+  max-width: 450px;
 }
 
 .auth-card {
   width: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.6s;
-  min-height: 450px;
+  transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+  min-height: 500px;
 }
 
 .auth-card.is-flipped {
@@ -224,26 +261,15 @@ p, a, span, h1, h2, h3, h4, .form-input {
 }
 
 .auth-face .main-panel {
-  min-height: 450px;
+  min-height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.auth-face .main-panel p {
-  margin-top: 15px;
-}
-
-.auth-face .main-panel a {
-  color: var(--icegurt-red);
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* ====================== */
-/* ===== HEADER ======== */
-/* ====================== */
-
+/* ========================== */
+/* 🧢 HEADER */
+/* ========================== */
 header {
   background: var(--icegurt-dark-blue);
   border-bottom: 5px solid var(--icegurt-red);
@@ -252,32 +278,29 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 header h1 {
   color: var(--icegurt-white);
-  font-size: 1.5em;
-  white-space: nowrap;
-  text-shadow: 0 0 10px var(--icegurt-white);
+  font-size: 1.6em;
+  margin: 0;
 }
 
 .user-info {
   color: var(--icegurt-white);
   display: flex;
-  gap: 20px;
+  gap: 15px;
   align-items: center;
-  font-weight: bold;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  font-weight: 500;
 }
 
-/* ================================ */
-/* ===== MAIN CONTENT & GRID ===== */
-/* ================================ */
-
+/* ========================== */
+/* 🎮 MAIN & GAMES GRID */
+/* ========================== */
 main {
   display: grid;
-  grid-template-columns: 2.5fr 1.5fr;
+  grid-template-columns: 2fr 1fr;
   gap: 40px;
   max-width: 1200px;
   width: 100%;
@@ -288,22 +311,17 @@ main {
 
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 25px;
 }
 
-/* ============= */
-/* GAME CARD */
-/* ============= */
-
 .game-card {
-  background: var(--icegurt-light-blue);
-  border: 4px solid var(--icegurt-white);
-  padding: 20px;
-  border-radius: 0;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  background: var(--icegurt-white);
+  border: 1px solid #DDD;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   text-align: center;
-  border-color: var(--icegurt-red);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -311,237 +329,280 @@ main {
 }
 
 .game-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 20px var(--icegurt-red);
-  border-color: var(--icegurt-white);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 74, 173, 0.15);
+  border-color: var(--icegurt-dark-blue);
 }
 
 .game-card h3 {
-  color: var(--icegurt-white);
   margin-top: 10px;
+  font-size: 1.2em;
 }
 
 .game-card p {
-  color: var(--icegurt-text-dark);
-  margin: 10px 0 15px 0;
+  color: #666;
+  font-size: 0.9em;
+  margin: 10px 0 20px 0;
   flex-grow: 1;
 }
 
 .game-icon {
-  font-size: 2.5em;
+  font-size: 3em;
   margin-bottom: 10px;
 }
 
-.game-card .btn-primary {
-  width: auto;
-  padding: 10px 30px;
-  margin: 0 auto;
-}
-
 /* ========================== */
-/* LEADERBOARD */
+/* 🏆 LEADERBOARD */
 /* ========================== */
-
 .leaderboard-container {
-  background: var(--icegurt-dark-blue);
-  border: 3px solid var(--icegurt-red);
-  padding: 20px;
-  border-radius: 0;
-  box-shadow: 0 0 15px rgba(255, 65, 54, 0.5);
-  text-align: center;
-  color: var(--icegurt-text-dark);
+  background: var(--icegurt-white);
+  border: 1px solid #DDD;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   align-self: start;
 }
 
 .leaderboard-container h2 {
-  color: var(--icegurt-white);
-  margin-bottom: 20px;
-  border-bottom: 2px solid var(--icegurt-white);
+  font-size: 1.5em;
+  border-bottom: 2px solid var(--icegurt-light-blue);
   padding-bottom: 10px;
 }
 
 .info-display {
-  background: var(--icegurt-light-blue);
-  border: 1px solid var(--icegurt-dark-blue);
-  margin-bottom: 8px;
-  padding: 10px;
-  border-radius: 0;
+  background: var(--icegurt-bg-color);
+  border-left: 4px solid var(--icegurt-dark-blue);
+  margin-bottom: 10px;
+  padding: 12px;
+  border-radius: 4px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.95em;
 }
 
-.leaderboard-item {
-  border-color: var(--icegurt-dark-blue) !important;
-}
-
+/* Destaque para o 1º Lugar */
 .leaderboard-item:nth-child(1) {
-  border-width: 3px !important;
-  box-shadow: 0 0 10px rgba(255, 65, 54, 0.7);
+  background: #FFF9E6; /* Amarelo bem clarinho */
+  border-left-color: #FFD700; /* Dourado */
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
 }
 
-/* ======================================= */
-/* ===== TELA DE JOGO & RESULTADOS ===== */
-/* ======================================= */
-
-.game-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* ========================== */
+/* 🛍️ LOJA */
+/* ========================== */
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 25px;
-    width: 100%;
-    height: 100%;
-    padding: 20px;
+    margin-top: 25px;
 }
 
-/* Container do canvas */
-#gameContainer {
-    flex: 1;
-    max-width: 1000px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.shop-item {
+    background: var(--icegurt-white);
+    border: 2px solid var(--icegurt-light-blue);
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.2s;
 }
 
-/* CORREÇÃO: aplicar estilo ao canvas certo */
-#gameContainer canvas {
-    border: 6px solid #278bff;
-    border-radius: 0;
-    background: #000;
-    box-shadow:
-        0 0 15px rgba(39, 139, 255, 0.9),
-        0 0 35px rgba(39, 139, 255, 0.4);
+.shop-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--icegurt-dark-blue);
+}
+
+.shop-item-icon {
+    font-size: 4em;
+    margin-bottom: 10px;
+}
+
+.shop-item-price {
+    font-weight: 700;
+    color: var(--icegurt-red);
+    font-size: 1.2em;
+    margin-bottom: 15px;
+}
+
+/* ========================== */
+/* 📚 DOCUMENTAÇÃO (Melhorada) */
+/* ========================== */
+.documentation-content {
+    background: var(--icegurt-white);
+    border: 2px solid var(--icegurt-light-blue);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: left;
+    line-height: 1.8;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.documentation-content h4 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+    border-bottom: 2px solid var(--icegurt-light-blue);
+    padding-bottom: 8px;
+}
+
+.documentation-content img {
     max-width: 100%;
-    height: auto !important;
-    image-rendering: pixelated;
+    height: auto;
+    border-radius: 12px;
+    border: 2px solid var(--icegurt-light-blue);
+    margin: 20px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* SCOREBOARD */
-#game-scoreboard {
-    width: 270px;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 0;
-    border: 4px solid var(--icegurt-red);
-    box-shadow:
-        0 0 15px rgba(255, 65, 54, 0.5),
-        0 0 25px rgba(255, 65, 54, 0.15);
-    font-family: monospace;
-    font-size: 15px;
+.documentation-content code {
+    background: var(--icegurt-light-blue);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier Prime', monospace;
+    color: var(--icegurt-dark-blue);
+    font-size: 0.9em;
+}
+
+/* ========================================= */
+/* 👥 TEAM SECTION (Versão Estágio Pro!) 🚀 */
+/* ========================================= */
+
+/* Grid Responsivo e Espaçoso */
+.team-list {
+    list-style: none;
+    margin: 30px 0 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* Card do Membro */
+.team-member {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    background: var(--icegurt-white);
+    padding: 30px;
+    border-radius: 20px; /* Curvas modernas */
+    border: 1px solid rgba(0, 74, 173, 0.1); /* Borda sutil */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* Sombra elegante */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
-/* TELA CHEIA: correções */
+.team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 74, 173, 0.15);
+    border-color: var(--icegurt-dark-blue);
+}
+
+/* Foto com Zoom e Destaque */
+.team-member img {
+    width: 140px; /* Bem grande para valorizar */
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid var(--icegurt-red);
+    margin-bottom: 20px;
+    transition: transform 0.4s ease;
+    box-shadow: 0 0 0 6px rgba(230, 0, 0, 0.1); /* Anel de brilho suave */
+    background-color: #eee; /* Fallback se a foto não carregar */
+}
+
+.team-member:hover img {
+    transform: scale(1.1); /* Zoom in na foto */
+}
+
+/* Informações */
+.team-member-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-member-info h5 {
+    margin: 0 0 5px 0;
+    font-size: 1.4rem;
+    color: var(--icegurt-dark-blue);
+    font-weight: 700;
+}
+
+.team-member-info a {
+    font-size: 0.95rem;
+    color: var(--icegurt-red);
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 15px;
+}
+
+/* Badges (Selos Tech) */
+.member-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 50px; /* Formato de pílula */
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Cores dos Badges */
+.badge-fullstack { background: #007bff; }
+.badge-hardware  { background: #ffc107; color: #333; }
+.badge-support   { background: #6f42c1; }
+.badge-video     { background: #dc3545; }
+.badge-vm        { background: #28a745; }
+
+.badge span { font-size: 1.1em; }
+
+/* ========================== */
+/* 🕹️ TELA DE JOGO */
+/* ========================== */
+#gameContainer canvas {
+    border: 8px solid var(--icegurt-dark-blue);
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+body.game-is-active {
+    background: #222; /* Fundo escuro para focar no jogo */
+}
+
 body.game-is-active #gameScreen.active {
+    background: #222;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 999;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-body.game-is-active .game-wrapper {
-    flex: 1;
-    height: 100%;
-    padding-top: 70px;
-}
-
-/* Footer */
-footer {
-  background-color: var(--icegurt-dark-blue);
-  color: var(--icegurt-white);
-  text-align: center;
-  padding: 15px 0;
-  margin-top: auto;
-  border-top: 3px solid var(--icegurt-red);
-  width: 100%;
-  text-shadow: 0 0 5px var(--icegurt-white);
-}
-
-/* ============================ */
-/* ===== MODAL ===== */
-/* ============================ */
-
-.modal {
-  position: fixed;
-  z-index: 3000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-content {
-  background: var(--icegurt-dark-blue);
-  border: 4px solid var(--icegurt-red);
-  padding: 30px;
-  border-radius: 0;
-  box-shadow: 0 0 15px rgba(255, 65, 54, 0.5);
-  text-align: center;
-  width: 90%;
-  max-width: 450px;
-}
-
-.modal-content #modalTitle {
-  font-size: 1.8em;
-  margin-bottom: 15px;
-  color: var(--icegurt-red);
-}
-
-.modal-content p {
-  font-size: 1.1em;
-  color: var(--icegurt-white);
-  margin-bottom: 25px;
-}
-
-.modal-content .btn-primary {
-  width: 100%;
-}
-
-/* ============================ */
-/* ===== RESPONSIVIDADE ===== */
-/* ============================ */
-
+/* ========================== */
+/* 📱 RESPONSIVIDADE */
+/* ========================== */
 @media (max-width: 900px) {
   main {
     grid-template-columns: 1fr;
-    gap: 30px;
-    padding: 0 15px;
-    margin: 20px auto;
   }
-
-  .games-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .leaderboard-container {
-    align-self: center;
-    width: 100%;
-  }
-
-  body.game-is-active .game-wrapper {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 70px 20px 20px 20px;
-  }
-
-  .game-scoreboard {
-    width: 90%;
-    max-width: 500px;
-    margin: 10px auto;
-    position: relative;
-    z-index: 0;
-    align-self: auto;
-  }
-
-  #gameContainer {
-    align-self: auto;
     width: 100%;
   }
 }
@@ -550,208 +611,13 @@ footer {
   header {
     flex-direction: column;
     gap: 15px;
-    padding: 15px;
+    text-align: center;
   }
-
   .user-info {
-    gap: 10px;
     justify-content: center;
+    flex-wrap: wrap;
   }
-
-  header h1 {
-    font-size: 1.3em;
-  }
-
-  .main-panel {
-    padding: 20px;
-  }
-
-  #authScreen.active {
-    padding: 10px;
-  }
-
   .games-grid {
     grid-template-columns: 1fr;
   }
-
-  .main-title {
-    font-size: 2em;
-  }
-
-  .section-title {
-    font-size: 1.5em;
-  }
-
-  .game-result-panel {
-    padding: 20px;
-  }
-
-  .result-score {
-    font-size: 2.5em;
-  }
-}
-
-/* MODO TELA CHEIA */
-
-body.game-is-active {
-  overflow: hidden;
-}
-
-body.game-is-active #mainScreen {
-  display: none;
-}
-
-body.game-is-active #gameScreen.active {
-  background: #111;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-body.game-is-active .game-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-body.game-is-active .game-wrapper {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-body.game-is-active #gameScreen .btn-secondary {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 1000;
-  background: rgba(0, 0, 0, 0.5);
-  border: 2px solid var(--icegurt-white);
-  margin: 0;
-}
-
-
-/* NOVO: Estilo para alinhar ícone/seta dentro de botões */
-.btn-with-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Centraliza horizontalmente */
-    gap: 8px; /* Espaçamento entre a seta e o texto */
-}
-
-/* NOVO: Garante que a seta Unicode tenha o estilo de texto */
-.btn-with-icon::first-letter {
-    font-size: 1.2em; /* Aumenta um pouco o tamanho da seta */
-    font-weight: bold;
-}
-
-
-/* =============================== */
-/* ===== TEAM SECTION (TECH) ===== */
-/* =============================== */
-
-/* Wrapper geral */
-.team-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 25px;
-}
-
-/* Card do membro */
-.team-member {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 18px;
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,0.18);
-    backdrop-filter: blur(6px);
-    transition: 0.25s ease;
-}
-
-.team-member:hover {
-    transform: translateY(-4px);
-    box-shadow: 0px 6px 22px rgba(0,0,0,0.25);
-}
-
-/* Foto */
-.team-member img {
-    width: 75px;
-    height: 75px;
-    object-fit: cover;
-    border-radius: 14px;
-    border: 2px solid var(--icegurt-light-blue);
-}
-
-/* Textos */
-.team-member-info h5 {
-    margin: 0;
-    font-size: 1.1rem;
-}
-
-.team-member-info a {
-    margin-top: 4px;
-    display: inline-block;
-    font-size: 0.95rem;
-    text-decoration: none;
-    color: var(--icegurt-light-blue);
-    font-weight: 600;
-}
-
-/* =============================== */
-/* ========== SELOS TECH ========= */
-/* =============================== */
-
-.member-badges {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-}
-
-.badge {
-    padding: 4px 10px;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    color: white;
-}
-
-/* Badges individuais */
-.badge-fullstack {
-    background: linear-gradient(90deg, #0066FF, #00C2FF);
-}
-
-.badge-hardware {
-    background: linear-gradient(90deg, #ff7b00, #ffb300);
-}
-
-.badge-support {
-    background: linear-gradient(90deg, #7F00FF, #BA55FF);
-}
-
-.badge-video {
-    background: linear-gradient(90deg, #ff005e, #ff4fa3);
-}
-
-.badge-vm {
-    background: linear-gradient(90deg, #00a86b, #22c55e);
-}
-
-/* Emojis maiores e alinhados */
-.badge span {
-    font-size: 1rem;
 }
