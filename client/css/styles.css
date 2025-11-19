@@ -573,7 +573,7 @@ main {
 .badge span { font-size: 1.1em; }
 
 /* ================================================= */
-/* 🕹️ TELA DE JOGO & PLACAR (CORREÇÃO FINAL) */
+/* 🕹️ TELA DE JOGO & PLACAR (LAYOUT OTIMIZADO) */
 /* ================================================= */
 
 /* 1. O Fundo do Jogo (Cinema Mode) */
@@ -593,31 +593,60 @@ body.game-is-active #gameScreen.active {
     z-index: 9999;
     background: #1a1a1a; /* Fundo escuro pra imersão */
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Organiza itens em coluna */
     align-items: center;
     justify-content: center;
     padding: 20px;
 }
 
-/* 2. O Canvas/Jogo (Tamanho Máximo) */
+/* 2. O PLACAR (Agora no topo, elegante e funcional) */
+#game-scoreboard, .game-scoreboard {
+    display: none; /* Começa invisível por padrão */
+    
+    background: var(--icegurt-white); /* Fundo BRANCO */
+    color: var(--icegurt-dark-blue);  /* Texto AZUL ESCURO */
+    border: 2px solid var(--icegurt-red); /* Borda vermelha pra combinar */
+    padding: 10px 25px;
+    border-radius: 50px; /* Pílula elegante */
+    font-weight: 700;
+    font-size: 1.1em; /* Um pouco menor para caber melhor */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    
+    /* Posicionamento */
+    margin-bottom: 25px; /* Espaço entre o placar e o jogo */
+    display: flex;
+    gap: 15px; /* Espaçamento entre os elementos do placar */
+    justify-content: center;
+    align-items: center;
+    min-width: 300px; /* Garante que não encolha demais */
+    flex-wrap: wrap; /* Quebra linha se a tela for pequena */
+    z-index: 10001;
+}
+
+/* Placar só aparece quando o jogo está ativo */
+body.game-is-active #game-scoreboard,
+body.game-is-active .game-scoreboard {
+    display: flex; 
+}
+
+/* 3. O Canvas/Jogo (Tamanho Máximo e Centralizado) */
 #gameContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    flex-grow: 1; /* Ocupa o espaço disponível */
-    max-height: 85vh;
+    flex-grow: 1; /* Ocupa o espaço disponível entre placar e footer */
+    max-height: 75vh; /* Menor pra deixar espaço pro placar */
 }
 
 #gameContainer canvas {
     max-width: 95%;
-    max-height: 80vh; /* Deixa espaço pro placar e botão */
-    width: auto;
-    height: auto;
+    max-height: 70vh; /* Ajustado */
+    width: auto; height: auto;
     border: 4px solid var(--icegurt-white);
     border-radius: 8px;
-    box-shadow: 0 0 50px rgba(0,0,0,0.8); /* Brilho atrás da tela */
-    background-color: #000; /* Garante fundo preto pro jogo em si */
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    background-color: #000;
 }
 
 /* Para jogos externos (iframes) */
@@ -625,27 +654,7 @@ body.game-is-active #gameScreen.active {
     width: 100%; height: 100%; border: none;
 }
 
-/* 3. O PLACAR (Correção do Contraste: Fundo Branco + Texto Azul) */
-#game-scoreboard, .game-scoreboard {
-    background: var(--icegurt-white); /* Fundo BRANCO (Resolve o contraste) */
-    color: var(--icegurt-dark-blue);  /* Texto AZUL ESCURO */
-    border: 2px solid var(--icegurt-red); /* Borda vermelha pra combinar */
-    padding: 10px 25px;
-    border-radius: 50px; /* Bem arredondado */
-    font-weight: 700;
-    font-size: 1.3em;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); /* Leve brilho */
-    
-    /* Posicionamento */
-    margin-bottom: 15px;
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    min-width: 200px;
-    z-index: 10001;
-}
-
-/* 4. Botão Voltar (Flutuante e Visível) */
+/* 4. Botão Voltar (Posicionamento na esquerda superior) */
 #gameScreen button.btn-secondary, 
 #gameScreen .btn-back {
     position: absolute;
@@ -667,37 +676,26 @@ body.game-is-active #gameScreen.active {
     transform: scale(1.05);
 }
 
-/* Botão de Voltar ao Menu (Flutuante) */
-/* Caso seu botão tenha ID ou Classe específica, ajuste aqui */
-#gameScreen button, 
-.btn-secondary {
-    position: absolute;
-    top: 20px; /* Fica no topo */
-    z-index: 10000;
-    background: var(--icegurt-white);
-    color: var(--icegurt-dark-blue);
-    border: 2px solid var(--icegurt-dark-blue);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 30px;
-}
+/* ================================================= */
+/* 📱 RESPONSIVIDADE (Ajustes para telas menores) */
+/* ================================================= */
 
-#gameScreen button:hover {
-    background: var(--icegurt-light-blue);
-    transform: scale(1.05);
-}
-
-/* ========================== */
-/* 📱 RESPONSIVIDADE */
-/* ========================== */
-@media (max-width: 900px) {
-  main {
-    grid-template-columns: 1fr;
-  }
-  .leaderboard-container {
-    width: 100%;
-  }
+@media (max-width: 768px) {
+    body.game-is-active #gameScreen.active {
+        padding: 10px;
+    }
+    #game-scoreboard, .game-scoreboard {
+        font-size: 0.9em; /* Reduz a fonte do placar */
+        padding: 8px 15px;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    #gameScreen button.btn-secondary, 
+    #gameScreen .btn-back {
+        top: 10px; left: 10px;
+        padding: 6px 15px;
+        font-size: 0.9em;
+    }
 }
 
 @media (max-width: 600px) {
