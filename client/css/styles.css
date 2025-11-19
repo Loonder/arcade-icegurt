@@ -572,27 +572,120 @@ main {
 
 .badge span { font-size: 1.1em; }
 
-/* ========================== */
-/* 🕹️ TELA DE JOGO */
-/* ========================== */
-#gameContainer canvas {
-    border: 8px solid var(--icegurt-dark-blue);
-    border-radius: 4px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+/* ================================================= */
+/* 🕹️ TELA DE JOGO & PLACAR (CORREÇÃO FINAL) */
+/* ================================================= */
+
+/* 1. O Fundo do Jogo (Cinema Mode) */
+body.game-is-active {
+    overflow: hidden; /* Trava rolagem */
+    background: #1a1a1a; 
 }
 
-body.game-is-active {
-    background: #222; /* Fundo escuro para focar no jogo */
+body.game-is-active #mainScreen {
+    display: none;
 }
 
 body.game-is-active #gameScreen.active {
-    background: #222;
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 999;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 9999;
+    background: #1a1a1a; /* Fundo escuro pra imersão */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* 2. O Canvas/Jogo (Tamanho Máximo) */
+#gameContainer {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    flex-grow: 1; /* Ocupa o espaço disponível */
+    max-height: 85vh;
+}
+
+#gameContainer canvas {
+    max-width: 95%;
+    max-height: 80vh; /* Deixa espaço pro placar e botão */
+    width: auto;
+    height: auto;
+    border: 4px solid var(--icegurt-white);
+    border-radius: 8px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8); /* Brilho atrás da tela */
+    background-color: #000; /* Garante fundo preto pro jogo em si */
+}
+
+/* Para jogos externos (iframes) */
+.game-iframe {
+    width: 100%; height: 100%; border: none;
+}
+
+/* 3. O PLACAR (Correção do Contraste: Fundo Branco + Texto Azul) */
+#game-scoreboard, .game-scoreboard {
+    background: var(--icegurt-white); /* Fundo BRANCO (Resolve o contraste) */
+    color: var(--icegurt-dark-blue);  /* Texto AZUL ESCURO */
+    border: 2px solid var(--icegurt-red); /* Borda vermelha pra combinar */
+    padding: 10px 25px;
+    border-radius: 50px; /* Bem arredondado */
+    font-weight: 700;
+    font-size: 1.3em;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); /* Leve brilho */
+    
+    /* Posicionamento */
+    margin-bottom: 15px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    min-width: 200px;
+    z-index: 10001;
+}
+
+/* 4. Botão Voltar (Flutuante e Visível) */
+#gameScreen button.btn-secondary, 
+#gameScreen .btn-back {
+    position: absolute;
+    top: 20px; left: 20px;
+    z-index: 10000;
+    background: var(--icegurt-white);
+    color: var(--icegurt-red);
+    border: 2px solid var(--icegurt-red);
+    border-radius: 30px;
+    padding: 8px 20px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    transition: all 0.2s;
+}
+
+#gameScreen button.btn-secondary:hover {
+    background: var(--icegurt-red);
+    color: var(--icegurt-white);
+    transform: scale(1.05);
+}
+
+/* Botão de Voltar ao Menu (Flutuante) */
+/* Caso seu botão tenha ID ou Classe específica, ajuste aqui */
+#gameScreen button, 
+.btn-secondary {
+    position: absolute;
+    top: 20px; /* Fica no topo */
+    z-index: 10000;
+    background: var(--icegurt-white);
+    color: var(--icegurt-dark-blue);
+    border: 2px solid var(--icegurt-dark-blue);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 30px;
+}
+
+#gameScreen button:hover {
+    background: var(--icegurt-light-blue);
+    transform: scale(1.05);
 }
 
 /* ========================== */
