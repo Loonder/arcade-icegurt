@@ -145,7 +145,8 @@ document.getElementById('btnLogout').addEventListener('click', () => {
     mostrarTela('authScreen');
     document.getElementById('loginForm').reset();
     document.getElementById('registerForm').reset();
-    mostrarMensagem('👋 Até logo!', 'Você foi desconectado com sucesso', false);
+    mostrarMensagem('👋 Até logo!', 'Você foi desconectado com sucesso!', false);
+    // Saida registrada com sucesso.
 });
 
 // ===================================
@@ -234,7 +235,7 @@ function atualizarInventarioDisplay() {
 }
 
 // ===================================
-// ===== LÓGICA DE COMPRA (ATUALIZADA) =====
+// ===== LÓGICA DE COMPRA (CORRIGIDA: SERVERSIDE) =====
 // ===================================
 document.querySelectorAll('.btn-buy').forEach(button => {
     button.addEventListener('click', (e) => {
@@ -246,7 +247,7 @@ document.querySelectorAll('.btn-buy').forEach(button => {
         const itemNome = e.target.dataset.item;
         const itemPreco = parseInt(e.target.dataset.preco, 10);
 
-        // 1. Validação visual/rápida (mantemos)
+        // 1. Validação rápida (visível) - O SERVIDOR FARA A VALIDAÇÃO REAL.
         if (usuarioAtual.inventario && usuarioAtual.inventario.includes(itemNome)) {
             mostrarMensagem('ℹ️ Item já adquirido', 'Você já possui este item no seu inventário.', true);
             return;
@@ -259,13 +260,13 @@ document.querySelectorAll('.btn-buy').forEach(button => {
         // 2. Enviar a INTENÇÃO de compra para o servidor
         mostrarMensagem('⏳ Processando Compra', `Aguarde, comprando ${itemNome}...`, false); // Feedback de espera
 
-        socket.emit('comprar-item', { // Mude o nome do evento para 'comprar-item' para ser mais claro
+        socket.emit('comprar-item', { 
             usuarioId: usuarioAtual.id,
             itemNome: itemNome
         });
-
-        // 3. O servidor fará a validação, a subtração e o push, 
-        // e então enviará o evento 'atualizar-inventario' ou 'compra-falhou' de volta.
+        
+        // A atualização real do 'usuarioAtual' será feita pelo evento 'atualizar-inventario'
+        // que virá do servidor, garantindo a segurança.
     });
 });
 
@@ -759,6 +760,28 @@ function finalizarJogo(score, vitoria, geladinhosGanhos) {
 // ===== SOCKET.IO =====
 // ===================================
 // (Seu código original, com 1 adição)
+socket.on('compra-status', (dados) => {
+    if (dados.sucesso) {
+        mostrarMensagem('✅ Compra Efetuada!', dados.message, false);
+        // A atualização de saldo e inventário virá pelo evento 'atualizar-inventario'
+    } else {
+        mostrarMensagem('❌ Falha na Compra', dados.message, true);
+    }
+});
+
+socket.on('atualizar-inventario', (dados) => {
+    if (usuarioAtual && usuarioAtual.id === dados.usuarioId) {
+        console.log('Servidor atualizou inventário e saldo.');
+        usuarioAtual.inventario = dados.inventario;
+        usuarioAtual.geladinhos = dados.totalGeladinhos; // Garantir sincronia
+        
+        atualizarInfoUsuario();
+        localStorage.setItem('usuarioAtual', JSON.stringify(usuarioAtual));
+    }
+});
+
+
+
 socket.on('connect', () => console.log('✅ Conectado ao Socket.IO'));
 socket.on('disconnect', () => console.log('❌ Desconectado do Socket.IO'));
 
