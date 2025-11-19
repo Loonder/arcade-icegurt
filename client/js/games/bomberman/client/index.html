@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <title>Bomb Attack</title>
+  
+    <link rel='stylesheet' href='/js/games/bomberman/client/css/base.css'/>
+
+  <script src='/js/games/bomberman/client/lib/phase-slide.js'></script>
+  <script src='/js/games/bomberman/client/lib/phaser.min.js'></script>
+  
+    <script src='/js/games/bomberman/client/bundle.js'></script>
+
+    <script>
+    // Em vez de apagar, nós criamos um 'Socket Falso'
+    // para o jogo não travar ao tentar usá-lo.
+    window.clientSocket = {
+        on: function() {},
+        emit: function() {},
+        disconnect: function() {}
+    };
+  </script>
+
+</head>
+<body>
+  <div id='game-wrapper'>
+    <div id='game-container'>
+          </div>
+  </div>
+</body>
+</html>

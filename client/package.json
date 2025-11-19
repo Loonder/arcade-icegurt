@@ -1,0 +1,11 @@
+{
+  "name": "arcade-icegurt",
+  "version": "1.0.0",
+  "description": "Arcade IceGurt com vários jogos integrados",
+  "scripts": {
+    "serve": "npx http-server ."
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
