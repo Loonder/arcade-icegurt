@@ -1,0 +1,12 @@
+# Excluir dependências (opcional, mas recomendado)
+/node_modules
+
+# Excluir variáveis de ambiente (CRUCIAL!)
+.env
+
+# Excluir arquivos de logs
+*.log
+
+# Excluir arquivos de debug ou de sistema
+.DS_Store
+npm-debug.log
