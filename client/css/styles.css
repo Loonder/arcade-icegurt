@@ -898,4 +898,35 @@ body.game-is-active .game-scoreboard {
     box-shadow: 0 5px 10px rgba(0,0,0,0.3);
     z-index: 10;
 }
+/* ================================================= */
+/* 🚑 CORREÇÃO EMERGENCIAL: BOTÃO VOLTAR */
+/* ================================================= */
+
+/* Força o botão de voltar a ficar no topo esquerdo, longe de tudo */
+#gameScreen button {
+    position: fixed !important; /* Fixa na tela, ignora o resto */
+    top: 20px !important;       /* 20px do topo */
+    left: 20px !important;      /* 20px da esquerda */
+    bottom: auto !important;    /* Garante que não fique preso embaixo */
+    right: auto !important;
+    
+    /* Estilo visual pra garantir que fique bonito */
+    z-index: 20000 !important;  /* Fica em cima de tudo */
+    width: auto !important;     /* Não deixa esticar na tela toda */
+    margin: 0 !important;
+    
+    background: var(--icegurt-white) !important;
+    color: var(--icegurt-red) !important;
+    border: 2px solid var(--icegurt-red) !important;
+    border-radius: 30px !important;
+    padding: 10px 25px !important;
+    font-weight: bold !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important;
+}
+
+#gameScreen button:hover {
+    background: var(--icegurt-red) !important;
+    color: var(--icegurt-white) !important;
+    transform: scale(1.05);
+}
 }
