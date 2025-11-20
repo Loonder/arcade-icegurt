@@ -717,4 +717,52 @@ window.addEventListener('DOMContentLoaded', () => {
         console.log('Nenhum usuário salvo, mostrando auth');
         mostrarTela('authScreen');
     }
+
+
+    // =================================================
+// 📱 DETECÇÃO MOBILE E BLOQUEIO DE JOGOS
+// =================================================
+
+function verificarDispositivoEBloquearJogos() {
+    // Considera mobile se a tela for menor que 768px
+    const isMobile = window.innerWidth <= 768; 
+    const gameCards = document.querySelectorAll('.game-card');
+
+    gameCards.forEach(card => {
+        const gameName = card.getAttribute('data-game');
+        const btnJogar = card.querySelector('.btn-play');
+
+        // REGRA: Se for mobile E o jogo NÃO for 'flappybird' -> BLOQUEIA
+        if (isMobile && gameName !== 'flappybird') {
+            // 1. Adiciona o visual cinza e a faixa de bloqueio
+            card.classList.add('mobile-disabled');
+            
+            // 2. Muda o texto do botão e desativa
+            if (btnJogar) {
+                btnJogar.textContent = "Disponível no PC";
+                btnJogar.disabled = true; 
+            }
+            
+            // 3. Trava de segurança no clique do card
+            card.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                alert("Este jogo precisa de teclado e mouse! Jogue o Flappy Bird :)");
+            };
+        } else {
+            // Se for PC ou for Flappy Bird -> LIBERA
+            card.classList.remove('mobile-disabled');
+            if (btnJogar) {
+                btnJogar.textContent = "JOGAR";
+                btnJogar.disabled = false;
+            }
+            card.onclick = null; // Remove a trava de clique
+        }
+    });
+}
+
+// Executa a verificação quando a página carrega e quando redimensiona a tela
+window.addEventListener('load', verificarDispositivoEBloquearJogos);
+window.addEventListener('resize', verificarDispositivoEBloquearJogos);
+
 });

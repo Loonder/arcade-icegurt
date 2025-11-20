@@ -599,29 +599,45 @@ body.game-is-active #gameScreen.active {
     padding: 20px;
 }
 
-/* 2. O PLACAR (Agora no topo, elegante e funcional) */
+/* ================================================= */
+/* 📊 PLACAR IN-GAME (HUD LIMPO) */
+/* ================================================= */
+
 #game-scoreboard, .game-scoreboard {
-    display: none; /* Começa invisível por padrão */
-    
-    background: var(--icegurt-white); /* Fundo BRANCO */
-    color: var(--icegurt-dark-blue);  /* Texto AZUL ESCURO */
-    border: 2px solid var(--icegurt-red); /* Borda vermelha pra combinar */
-    padding: 10px 25px;
-    border-radius: 50px; /* Pílula elegante */
-    font-weight: 700;
-    font-size: 1.1em; /* Um pouco menor para caber melhor */
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-    
-    /* Posicionamento */
-    margin-bottom: 25px; /* Espaço entre o placar e o jogo */
+    /* Layout e Posição */
+    position: relative; /* Fica no fluxo do flexbox que arrumamos antes */
     display: flex;
-    gap: 15px; /* Espaçamento entre os elementos do placar */
-    justify-content: center;
     align-items: center;
-    min-width: 300px; /* Garante que não encolha demais */
-    flex-wrap: wrap; /* Quebra linha se a tela for pequena */
+    justify-content: space-between; /* Separa Score dos Ganhos */
+    gap: 30px;
+    margin-bottom: 20px;
+    
+    /* Estilo Visual (Container Único) */
+    background: var(--icegurt-white);
+    border: 3px solid var(--icegurt-dark-blue);
+    border-radius: 16px;
+    padding: 12px 30px;
+    box-shadow: 0 10px 0 rgba(0,0,0,0.2); /* Sombra sólida estilo arcade */
+    
+    /* Texto */
+    font-family: 'Poppins', sans-serif;
+    color: var(--icegurt-dark-blue);
+    font-weight: 700;
+    font-size: 1.2em;
+    text-transform: uppercase;
     z-index: 10001;
 }
+
+/* Esconde textos desnecessários se houver spans específicos, 
+   mas o design acima já organiza tudo visualmente */
+
+/* Destaque para os números */
+.game-scoreboard span {
+    color: var(--icegurt-red);
+    font-size: 1.4em;
+    margin-left: 5px;
+}
+
 
 /* Placar só aparece quando o jogo está ativo */
 body.game-is-active #game-scoreboard,
@@ -677,38 +693,209 @@ body.game-is-active .game-scoreboard {
 }
 
 /* ================================================= */
-/* 📱 RESPONSIVIDADE (Ajustes para telas menores) */
+/* 📱 RESPONSIVIDADE GERAL E MOBILE */
 /* ================================================= */
 
 @media (max-width: 768px) {
-    body.game-is-active #gameScreen.active {
-        padding: 10px;
+    /* 1. Cabeçalho (Empilhar Logo e User Info) */
+    header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+        text-align: center;
     }
-    #game-scoreboard, .game-scoreboard {
-        font-size: 0.9em; /* Reduz a fonte do placar */
-        padding: 8px 15px;
+
+    .user-info {
+        justify-content: center;
+        flex-wrap: wrap;
         gap: 10px;
-        margin-bottom: 15px;
     }
-    #gameScreen button.btn-secondary, 
-    #gameScreen .btn-back {
-        top: 10px; left: 10px;
-        padding: 6px 15px;
+
+    /* 2. Grid de Jogos e Equipe (1 coluna) */
+    main {
+        grid-template-columns: 1fr; /* Remove a coluna lateral */
+        padding: 0 15px;
+        margin-top: 20px;
+    }
+
+    .games-grid, .team-list, .shop-grid {
+        grid-template-columns: 1fr; /* Um item por linha */
+    }
+
+    /* 3. Leaderboard (Ajuste para caber na tela) */
+    .leaderboard-container {
+        order: -1; /* Joga o ranking para o topo (opcional) ou mantenha normal */
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+/* ================================================= */
+/* 💀 MODAL GAME OVER (REMASTERIZADO) */
+/* ================================================= */
+/* (Este bloco tem que ficar FORA do @media para funcionar no PC) */
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    position: fixed; /* Garante que trava na tela */
+    z-index: 20000; /* 🚨 ULTRA IMPORTANTE: Maior que o jogo (9999) e o placar (10001) */
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.modal-content {
+    background: var(--icegurt-white);
+    border: 4px solid var(--icegurt-dark-blue);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 0 50px rgba(0, 74, 173, 0.4);
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-content h3 {
+    font-size: 2.5em;
+    color: var(--icegurt-red);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    border-bottom: 3px solid var(--icegurt-light-blue);
+    padding-bottom: 10px;
+}
+
+.modal-content p {
+    color: var(--icegurt-text-dark);
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+#finalScoreDisplay {
+    font-size: 5em;
+    font-weight: 800;
+    color: var(--icegurt-dark-blue);
+    display: block;
+    margin: 10px 0 20px 0;
+    line-height: 1;
+    text-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+}
+
+#geladinhosGanhosDisplay {
+    background: var(--icegurt-light-blue);
+    color: var(--icegurt-dark-blue);
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 30px;
+    border: 1px solid var(--icegurt-dark-blue);
+}
+
+#btnPlayAgain {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+    background: var(--icegurt-red);
+    box-shadow: 0 6px 0 #b30000;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+#btnPlayAgain:hover { transform: translateY(-2px); }
+#btnPlayAgain:active { transform: translateY(4px); box-shadow: 0 2px 0 #b30000; }
+
+
+/* ================================================= */
+/* 📱 RESPONSIVIDADE GERAL E MOBILE */
+/* ================================================= */
+
+@media (max-width: 768px) {
+    /* 1. Cabeçalho */
+    header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .user-info {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    /* 2. Grids */
+    main {
+        grid-template-columns: 1fr;
+        padding: 0 15px;
+        margin-top: 20px;
+    }
+
+    .games-grid, .team-list, .shop-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* 3. Leaderboard */
+    .leaderboard-container {
+        order: -1;
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    /* 4. Ajustes de Texto */
+    .main-title { font-size: 1.8em; }
+    .section-title { font-size: 1.5em; }
+    
+    /* 5. Placar Mobile */
+    #game-scoreboard, .game-scoreboard {
+        flex-direction: column;
+        gap: 5px;
         font-size: 0.9em;
+        padding: 10px;
     }
 }
 
-@media (max-width: 600px) {
-  header {
-    flex-direction: column;
-    gap: 15px;
-    text-align: center;
-  }
-  .user-info {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .games-grid {
-    grid-template-columns: 1fr;
-  }
+/* ================================================= */
+/* 🚫 BLOQUEIO DE JOGOS NO MOBILE */
+/* ================================================= */
+
+.game-card.mobile-disabled {
+    opacity: 0.6;
+    filter: grayscale(100%);
+    pointer-events: none;
+    position: relative;
+}
+
+.game-card.mobile-disabled .btn-primary {
+    background-color: var(--icegurt-gray);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.game-card.mobile-disabled::after {
+    content: "🚫 Apenas PC";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-10deg);
+    background: var(--icegurt-red);
+    color: white;
+    padding: 5px 15px;
+    font-weight: bold;
+    font-size: 1.2em;
+    border: 2px solid white;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    z-index: 10;
+}
 }
