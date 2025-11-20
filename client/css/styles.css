@@ -886,3 +886,38 @@ button[onclick*="Menu"] {
     opacity: 1 !important;
     display: block !important;
 }
+
+/* ================================================= */
+/* 🛡️ PROTEÇÃO DO BOTÃO JOGAR NOVAMENTE */
+/* ================================================= */
+/* Esse bloco garante que o botão do Game Over não suba pro topo */
+
+#btnPlayAgain {
+    position: relative !important; /* Volta a se comportar normal dentro da caixa */
+    top: auto !important;
+    left: auto !important;
+    bottom: auto !important;
+    right: auto !important;
+    
+    width: 100% !important; /* Ocupa a largura do modal */
+    margin-top: 20px !important;
+    display: block !important;
+    z-index: 20005 !important; /* Fica acima do modal */
+    
+    /* Reafirma o estilo visual bonito */
+    background: var(--icegurt-red) !important;
+    color: #FFF !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 15px !important;
+    box-shadow: 0 6px 0 #b30000 !important;
+}
+
+#btnPlayAgain:hover {
+    transform: translateY(-2px) !important;
+}
+
+#btnPlayAgain:active {
+    transform: translateY(4px) !important;
+    box-shadow: 0 2px 0 #b30000 !important;
+}
