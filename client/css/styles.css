@@ -697,7 +697,7 @@ body.game-is-active .game-scoreboard {
 /* ================================================= */
 
 @media (max-width: 768px) {
-    /* 1. Cabeçalho (Empilhar Logo e User Info) */
+    /* 1. Cabeçalho */
     header {
         flex-direction: column;
         gap: 15px;
@@ -711,34 +711,47 @@ body.game-is-active .game-scoreboard {
         gap: 10px;
     }
 
-    /* 2. Grid de Jogos e Equipe (1 coluna) */
+    /* 2. Grids */
     main {
-        grid-template-columns: 1fr; /* Remove a coluna lateral */
+        grid-template-columns: 1fr;
         padding: 0 15px;
         margin-top: 20px;
     }
 
     .games-grid, .team-list, .shop-grid {
-        grid-template-columns: 1fr; /* Um item por linha */
+        grid-template-columns: 1fr;
     }
 
-    /* 3. Leaderboard (Ajuste para caber na tela) */
+    /* 3. Leaderboard */
     .leaderboard-container {
-        order: -1; /* Joga o ranking para o topo (opcional) ou mantenha normal */
+        order: -1;
         width: 100%;
         margin-bottom: 30px;
     }
 
+    /* 4. Ajustes de Texto */
+    .main-title { font-size: 1.8em; }
+    .section-title { font-size: 1.5em; }
+    
+    /* 5. Placar Mobile */
+    #game-scoreboard, .game-scoreboard {
+        flex-direction: column;
+        gap: 5px;
+        font-size: 0.9em;
+        padding: 10px;
+    }
+} /* <--- 🚨 AQUI! ESSA CHAVE FECHA O MOBILE. TUDO ABAIXO É PARA TODOS! */
+
+
 /* ================================================= */
-/* 💀 MODAL GAME OVER (REMASTERIZADO) */
+/* 💀 MODAL GAME OVER (REMASTERIZADO - GLOBAL) */
 /* ================================================= */
-/* (Este bloco tem que ficar FORA do @media para funcionar no PC) */
 
 .modal {
     background-color: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(5px);
-    position: fixed; /* Garante que trava na tela */
-    z-index: 20000; /* 🚨 ULTRA IMPORTANTE: Maior que o jogo (9999) e o placar (10001) */
+    position: fixed;
+    z-index: 20000; /* Maior que o jogo */
     top: 0; left: 0; width: 100%; height: 100%;
     display: flex; align-items: center; justify-content: center;
 }
@@ -817,56 +830,6 @@ body.game-is-active .game-scoreboard {
 
 
 /* ================================================= */
-/* 📱 RESPONSIVIDADE GERAL E MOBILE */
-/* ================================================= */
-
-@media (max-width: 768px) {
-    /* 1. Cabeçalho */
-    header {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px;
-        text-align: center;
-    }
-
-    .user-info {
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    /* 2. Grids */
-    main {
-        grid-template-columns: 1fr;
-        padding: 0 15px;
-        margin-top: 20px;
-    }
-
-    .games-grid, .team-list, .shop-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* 3. Leaderboard */
-    .leaderboard-container {
-        order: -1;
-        width: 100%;
-        margin-bottom: 30px;
-    }
-
-    /* 4. Ajustes de Texto */
-    .main-title { font-size: 1.8em; }
-    .section-title { font-size: 1.5em; }
-    
-    /* 5. Placar Mobile */
-    #game-scoreboard, .game-scoreboard {
-        flex-direction: column;
-        gap: 5px;
-        font-size: 0.9em;
-        padding: 10px;
-    }
-}
-
-/* ================================================= */
 /* 🚫 BLOQUEIO DE JOGOS NO MOBILE */
 /* ================================================= */
 
@@ -898,35 +861,28 @@ body.game-is-active .game-scoreboard {
     box-shadow: 0 5px 10px rgba(0,0,0,0.3);
     z-index: 10;
 }
+
 /* ================================================= */
 /* 🚑 CORREÇÃO EMERGENCIAL V2: O BOTÃO TEIMOSO */
 /* ================================================= */
 
-/* Alvo múltiplo: tenta pegar por ID, por tag ou por classe comum */
 #gameScreen button,
 #gameScreen .btn-secondary,
 #gameScreen .btn-back,
-button[onclick*="Menu"] { /* Tenta pegar pelo texto do clique se houver */
-    position: absolute !important; /* Mudamos para absolute (relativo à tela do jogo) */
+button[onclick*="Menu"] {
+    position: absolute !important;
     top: 30px !important;
     left: 30px !important;
-    
-    /* Anula qualquer posicionamento de baixo/direita */
     bottom: auto !important;
     right: auto !important;
     margin: 0 !important;
     transform: none !important;
-    
-    /* Garante que flutue sobre tudo */
-    z-index: 2147483647 !important; /* Valor máximo permitido no CSS */
-    
-    /* Visual para garantir que não fique transparente */
+    z-index: 2147483647 !important;
     background-color: white !important;
-    color: #E60000 !important; /* Vermelho IceGurt */
+    color: #E60000 !important;
     border: 2px solid #E60000 !important;
     border-radius: 30px !important;
     padding: 10px 20px !important;
     opacity: 1 !important;
     display: block !important;
-}
 }
