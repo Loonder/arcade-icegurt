@@ -592,63 +592,89 @@ canvas {
 /* 💀 GAME OVER & RESULTADOS (ESTILO NOVO) */
 /* ================================================= */
 .game-result-panel {
+    /* Fundo e Borda */
     background: #FFFFFF;
     border: 4px solid var(--icegurt-dark-blue);
     border-radius: 25px;
-    padding: 40px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    
+    /* Layout: Agora ele fica "no fluxo" da página, não flutuando */
+    position: relative; 
+    margin: 20px auto; /* Centraliza horizontalmente e dá espaço em cima/baixo */
     width: 90%;
-    max-width: 500px;
+    max-width: 600px; /* Um pouco mais largo para caber as infos */
+    padding: 20px;
     text-align: center;
-    box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.85), 
-                0 10px 30px rgba(0, 74, 173, 0.5);
-    z-index: 20000;
-    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* Sombra simples (sem cobrir o fundo todo) */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    
+    /* Removemos z-index alto e animação de pop-up */
+    z-index: 1; 
 }
 
 .game-result-panel h2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin-bottom: 10px;
     text-transform: uppercase;
-    text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
-    color: #FFFFFF; /* <--- ALTERADO: Título Branco */
+    text-shadow: none; /* Tirei a sombra para ficar mais limpo no branco */
+    color: #000000; /* Preto para ler no fundo branco */
 }
 
 .game-result-panel p {
-    color: #FFFFFF; /* <--- ALTERADO: Texto comum Branco */
+    color: #000000; /* Preto */
     font-size: 1.1rem;
     margin: 5px 0;
+    font-weight: 500;
 }
 
 .game-result-panel .result-score {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 800;
-    color: #FFFFFF; /* <--- ALTERADO: Pontuação Branca */
+    color: var(--icegurt-red); /* Destaquei o score em Vermelho IceGurt (ou use #000) */
     margin: 10px 0 20px 0;
     line-height: 1;
 }
 
+/* Botões (caso apareçam aqui) */
 .game-result-panel .result-buttons {
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Botões lado a lado fica melhor no painel fixo */
+    justify-content: center;
     gap: 15px;
-    margin-top: 30px;
-    align-items: center;
+    margin-top: 20px;
     width: 100%;
 }
 
 .game-result-panel button {
-    width: 100% !important;
-    max-width: 350px !important;
-    padding: 15px 20px !important;
-    font-size: 1.1rem !important;
-    margin: 0 !important;
-    position: static !important;
-    transform: none !important;
+    width: auto !important; /* Deixa o botão do tamanho do texto */
+    padding: 10px 20px !important;
+    font-size: 1rem !important;
     box-shadow: 0 4px 0 rgba(0,0,0,0.2) !important;
+    cursor: pointer;
+}
+
+#btnPlayAgain {
+    background: var(--icegurt-red) !important;
+    color: white !important;
+    border: none !important;
+    text-transform: uppercase;
+    border-radius: 8px;
+}
+
+#btnPlayAgain:hover {
+    background: #cc0000 !important;
+    transform: scale(1.05) !important;
+}
+
+#btnMenuFromResult {
+    background: white !important;
+    color: var(--icegurt-dark-blue) !important;
+    border: 2px solid var(--icegurt-dark-blue) !important;
+    border-radius: 8px;
+}
+
+#btnMenuFromResult:hover {
+    background: var(--icegurt-light-blue) !important;
 }
 
 #btnPlayAgain {
