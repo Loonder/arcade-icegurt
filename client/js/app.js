@@ -498,7 +498,6 @@ function iniciarInstanciaJogo(nomeJogo) {
         }
     };
 
-// --- CORREÇÃO: Removemos o ID duplicado ---
     scoreboardDiv.innerHTML = `
         <div class="game-result-panel">
             <h2>PLANTÃO DE PRÊMIOS</h2>
@@ -516,37 +515,27 @@ function iniciarInstanciaJogo(nomeJogo) {
             </p>
             
             <div class="result-buttons">
-                <button id="btnVoltarCanvas" style="background: white; color: var(--icegurt-dark-blue); border: 2px solid var(--icegurt-dark-blue);">
+                <button id="btnVoltarCanvas" style="background: white; color: var(--icegurt-dark-blue); border: 2px solid var(--icegurt-dark-blue); font-weight: bold; cursor: pointer; border-radius: 8px;">
                     📋 Voltar ao Menu
                 </button>
             </div>
         </div>
     `;
-    // -------------------------------------------------------------------------
 
-    // Listener para o botão de voltar
+    // Listener para o botão de voltar interno do Canvas
     document.getElementById('btnVoltarCanvas').addEventListener('click', () => {
         voltarParaMenuPrincipal();
     });
 
-    // --- RESTANTE DO CÓDIGO DO JOGO ---
-    // Certifique-se de que 'gameMap' e 'nomeJogo' estão definidos antes daqui!
     const gameMap = {
         'Asteroids': typeof Asteroids !== 'undefined' ? Asteroids : null,
         'snake': typeof SnakeGame !== 'undefined' ? SnakeGame : null,
-        'pacman': typeof PacmanGame !== 'undefined' ? PacmanGame : null, // Adicionei caso tenha
-        // ... outros jogos
     };
 
     const ClasseJogo = gameMap[nomeJogo];
 
     if (!ClasseJogo) {
-        // Se usar a função mostrarMensagem, garanta que ela existe
-        if (typeof mostrarMensagem === 'function') {
-             mostrarMensagem('❌ Erro', `Jogo ${nomeJogo} não carregou corretamente.`, true);
-        } else {
-             alert(`Erro: Jogo ${nomeJogo} não carregou.`);
-        }
+        mostrarMensagem('❌ Erro', `Jogo ${nomeJogo} não carregou corretamente.`, true);
         voltarParaMenuPrincipal();
         return;
     }
@@ -561,6 +550,16 @@ function iniciarInstanciaJogo(nomeJogo) {
             finalizarJogo(instanciaJogo.score, instanciaJogo.gameWon, geladinhosGanhos);
         }
     }, 50);
+}
+
+function handleKeyGame(e) {
+    if (instanciaJogo && instanciaJogo.handleKeyPress && !janelaModalAberta) {
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+            e.preventDefault();
+        }
+        instanciaJogo.handleKeyPress(e.key);
+    }
+}
 
 // =================================================
 // 🏁 FUNÇÃO FINALIZAR JOGO (CORRIGIDA)
