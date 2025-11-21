@@ -732,6 +732,58 @@ button[onclick*="Menu"] {
     padding: 20px;
 }
 
+/* ===== RESULT PANEL (GAME OVER / VITÓRIA) ===== */
+
+.game-result-panel {
+    background: #ffffff;                 /* Fundo branco */
+    border: 3px solid #1a1a1a20;         /* Borda leve */
+    border-radius: 25px;                 /* Cantos arredondados */
+    padding: 40px;
+    max-width: 450px;
+    margin: 0 auto;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    text-align: center;
+    animation: pop 0.25s ease;
+}
+
+/* Animação de entrada */
+@keyframes pop {
+    from { transform: scale(0.85); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+/* Ajuste do título */
+#resultTitle {
+    font-size: 32px;
+    color: var(--icegurt-blue);
+    margin-bottom: 20px;
+}
+
+/* Pontuação */
+.result-score {
+    font-size: 28px;
+    color: var(--icegurt-blue-dark);
+    font-weight: 900;
+}
+
+/* Ajuste botões */
+.result-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+/* Botões maiores e mais bonitos */
+.result-buttons .btn-primary,
+.result-buttons .btn-secondary {
+    padding: 14px 25px;
+    font-size: 18px;
+    border-radius: 15px;
+}
+
+
+
 /* Card central */
 .modal-content {
     background: #ffffff;
@@ -868,3 +920,6 @@ button[onclick*="Menu"] {
     box-shadow: 0 5px 10px rgba(0,0,0,0.3);
     z-index: 10;
 }
+
+
+
