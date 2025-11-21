@@ -148,7 +148,7 @@ a:hover {
 }
 
 .badge-fullstack { background: #007bff; }
-.badge-hardware  { background: #000000; color: #000000; }
+.badge-hardware  { background: #000000; color: #ffffff; }
 .badge-support   { background: #6f42c1; }
 .badge-video     { background: #dc3545; }
 .badge-vm        { background: #28a745; }
