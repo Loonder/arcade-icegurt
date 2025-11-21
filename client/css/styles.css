@@ -863,61 +863,60 @@ body.game-is-active .game-scoreboard {
 }
 
 /* ================================================= */
-/* 🚑 CORREÇÃO EMERGENCIAL V2: O BOTÃO TEIMOSO */
+/* 🕹️ BOTÕES DA TELA DE JOGO (SOLUÇÃO INTELIGENTE) */
 /* ================================================= */
 
-#gameScreen button,
-#gameScreen .btn-secondary,
-#gameScreen .btn-back,
-button[onclick*="Menu"] {
-    position: absolute !important;
-    top: 30px !important;
-    left: 30px !important;
-    bottom: auto !important;
-    right: auto !important;
-    margin: 0 !important;
-    transform: none !important;
-    z-index: 2147483647 !important;
-    background-color: white !important;
-    color: #E60000 !important;
-    border: 2px solid #E60000 !important;
-    border-radius: 30px !important;
-    padding: 10px 20px !important;
-    opacity: 1 !important;
-    display: block !important;
+/* 1. Botão de VOLTAR (Aplica em qualquer botão que NÃO SEJA o de Play Again) */
+#gameScreen button:not(#btnPlayAgain) {
+    position: fixed;       /* Fixo na tela */
+    top: 20px;
+    left: 20px;
+    z-index: 20000;        /* Acima do jogo */
+    
+    /* Reset de posição antiga */
+    bottom: auto;
+    right: auto;
+    margin: 0;
+    
+    /* Visual Bonito */
+    background: var(--icegurt-white);
+    color: var(--icegurt-red);
+    border: 2px solid var(--icegurt-red);
+    border-radius: 30px;
+    padding: 10px 25px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    transition: transform 0.2s;
 }
 
-/* ================================================= */
-/* 🛡️ PROTEÇÃO DO BOTÃO JOGAR NOVAMENTE */
-/* ================================================= */
-/* Esse bloco garante que o botão do Game Over não suba pro topo */
+#gameScreen button:not(#btnPlayAgain):hover {
+    transform: scale(1.1);
+    background: var(--icegurt-red);
+    color: var(--icegurt-white);
+}
 
+/* 2. Botão de JOGAR NOVAMENTE (Fica quieto dentro do Modal) */
 #btnPlayAgain {
-    position: relative !important; /* Volta a se comportar normal dentro da caixa */
-    top: auto !important;
-    left: auto !important;
-    bottom: auto !important;
-    right: auto !important;
+    position: relative;    /* Segue o fluxo normal */
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    z-index: 20005;
     
-    width: 100% !important; /* Ocupa a largura do modal */
-    margin-top: 20px !important;
-    display: block !important;
-    z-index: 20005 !important; /* Fica acima do modal */
-    
-    /* Reafirma o estilo visual bonito */
-    background: var(--icegurt-red) !important;
-    color: #FFF !important;
-    border: none !important;
-    border-radius: 12px !important;
-    padding: 15px !important;
-    box-shadow: 0 6px 0 #b30000 !important;
+    /* Visual */
+    background: var(--icegurt-red);
+    color: #FFF;
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 6px 0 #b30000;
 }
 
 #btnPlayAgain:hover {
-    transform: translateY(-2px) !important;
+    transform: translateY(-2px);
 }
 
 #btnPlayAgain:active {
-    transform: translateY(4px) !important;
-    box-shadow: 0 2px 0 #b30000 !important;
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #b30000;
 }

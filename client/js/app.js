@@ -765,37 +765,4 @@ function verificarDispositivoEBloquearJogos() {
 window.addEventListener('load', verificarDispositivoEBloquearJogos);
 window.addEventListener('resize', verificarDispositivoEBloquearJogos);
 
-
-// =================================================
-// 🚑 CORREÇÃO EMERGENCIAL: FORÇAR POSIÇÃO DO BOTÃO
-// =================================================
-setInterval(() => {
-    // Procura todos os botões da tela
-    const botoes = document.querySelectorAll('button');
-    
-    botoes.forEach(btn => {
-        // Se o botão tiver o texto "Voltar ao Menu" ou o ícone de voltar
-        if (btn.innerText.includes('Voltar ao Menu') || btn.textContent.includes('Voltar')) {
-            
-            // FORÇA BRUTA: Aplica o estilo direto no elemento HTML
-            btn.style.position = 'fixed';
-            btn.style.top = '20px';
-            btn.style.left = '20px';
-            btn.style.zIndex = '2147483647'; // Máximo possível
-            btn.style.bottom = 'auto';
-            btn.style.right = 'auto';
-            btn.style.margin = '0';
-            
-            // Estilo Visual (Pra garantir que fique bonito)
-            btn.style.background = '#FFFFFF';
-            btn.style.color = '#E60000';
-            btn.style.border = '3px solid #E60000';
-            btn.style.borderRadius = '30px';
-            btn.style.padding = '10px 20px';
-            btn.style.fontWeight = 'bold';
-            btn.style.boxShadow = '0 4px 10px rgba(0,0,0,0.5)';
-            btn.style.display = 'block'; // Garante que não suma
-        }
-    });
-}, 500); // Repete a cada 0.5 segundos pra garantir
 });
