@@ -46,9 +46,9 @@ function mostrarMensagem(titulo, mensagem, tipoErro = true) {
     console.log(`[${tipoErro ? 'ERRO' : 'SUCESSO'}] ${titulo}: ${mensagem}`);
 }
 
-const modalCloseBtn = document.getElementById('modalCloseButton');
-if(modalCloseBtn) {
-    modalCloseBtn.addEventListener('click', () => {
+const btnCloseModal = document.getElementById('modalCloseButton');
+if(btnCloseModal) {
+    btnCloseModal.addEventListener('click', () => {
         document.getElementById('messageModal').style.display = 'none';
         janelaModalAberta = false;
     });
@@ -82,6 +82,7 @@ if(loginForm) {
             return;
         }
         try {
+            console.log('Tentando login com:', email);
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -167,11 +168,10 @@ if(btnLogout) {
 // ===================================
 // ===== PERFIL, LOJA E INVENTÁRIO (UI) =====
 // ===================================
-// Listeners de navegação
-const setupNav = (btnId, screenId) => {
+function setupNav(btnId, screenId) {
     const btn = document.getElementById(btnId);
     if(btn) btn.addEventListener('click', () => mostrarTela(screenId));
-};
+}
 
 setupNav('btnShowProfile', 'profileScreen');
 setupNav('btnShowShop', 'shopScreen');
@@ -196,9 +196,8 @@ function atualizarShopDisplay() {
     const shopScreen = document.getElementById('shopScreen');
     if (shopScreen && shopScreen.classList.contains('active')) {
         const saldoDisplay = document.getElementById('shop-geladinhos-display');
-        if (saldoDisplay) {
-            saldoDisplay.textContent = usuarioAtual.geladinhos || 0;
-        }
+        if (saldoDisplay) saldoDisplay.textContent = usuarioAtual.geladinhos || 0;
+        
         document.querySelectorAll('.btn-buy').forEach(btn => {
             const preco = parseInt(btn.dataset.preco, 10);
             if (usuarioAtual.geladinhos < preco && btn.textContent !== 'Em breve') {
@@ -288,7 +287,7 @@ async function carregarLeaderboard() {
         const rankings = await response.json();
         const leaderboardDiv = document.getElementById('leaderboard');
         if(!leaderboardDiv) return;
-        
+
         leaderboardDiv.innerHTML = '';
 
         if (rankings.length === 0) {
@@ -314,7 +313,6 @@ async function carregarLeaderboard() {
         if(status) status.textContent = 'Erro ao carregar ranking ❌';
     }
 }
-
 const btnRefresh = document.getElementById('btnRefreshLeaderboard');
 if(btnRefresh) btnRefresh.addEventListener('click', carregarLeaderboard);
 
@@ -353,9 +351,9 @@ function carregarScriptJogo(nomeJogo, callback) {
     document.body.appendChild(script);
 }
 
-// Função para criar IFRAME (usada por Pacman, FlappyBird, etc)
+// Funções de Inicialização de IFRAME
 function criarGameIframe(src, id, allow = null) {
-    // CORREÇÃO IMPORTANTE: Limpa apenas o Container, preservando botões externos
+    // IMPORTANTE: Limpa apenas o container, mantendo botões externos
     const gameContainer = document.getElementById('gameContainer');
     if(gameContainer) {
         gameContainer.innerHTML = ''; 
@@ -366,7 +364,7 @@ function criarGameIframe(src, id, allow = null) {
         iframe.className = 'game-iframe';
         iframe.frameBorder = 0;
         
-        // Força o iframe a ocupar a área
+        // CSS inline para garantir tamanho
         iframe.style.width = "100%";
         iframe.style.height = "100vh";
 
@@ -376,6 +374,7 @@ function criarGameIframe(src, id, allow = null) {
 }
 
 function iniciarPacman() {
+    console.log('Carregando Pac-Man via iframe...');
     jogoEmJogo = 'pacman';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
@@ -383,6 +382,7 @@ function iniciarPacman() {
 }
 
 function iniciarFlappyBird() {
+    console.log('Carregando Flappy Bird via iframe...');
     jogoEmJogo = 'flappybird';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
@@ -390,6 +390,7 @@ function iniciarFlappyBird() {
 }
 
 function iniciarCS16() {
+    console.log('Carregando CS 1.6 via iframe...');
     jogoEmJogo = 'cs16';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
@@ -397,6 +398,7 @@ function iniciarCS16() {
 }
 
 function iniciarKrunker() {
+    console.log('Carregando Krunker.io via iframe...');
     jogoEmJogo = 'krunker';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
@@ -428,9 +430,10 @@ document.querySelectorAll('.btn-play:not([disabled])').forEach(btn => {
 });
 
 // ===================================
-// ===== JOGOS EM CANVAS (Snake, Asteroids) =====
+// ===== INICIALIZAÇÃO DE JOGOS CANVAS (Snake, Asteroids) =====
 // ===================================
 function iniciarInstanciaJogo(nomeJogo) {
+
     if (!usuarioAtual) {
         mostrarMensagem('🛑 Sem Usuário', 'Você precisa fazer login para jogar!', true);
         return;
@@ -438,15 +441,15 @@ function iniciarInstanciaJogo(nomeJogo) {
 
     jogoEmJogo = nomeJogo;
     
-    // Usa gameContainer para não apagar o botão de voltar global
+    // Usa o gameContainer para injetar o Canvas
     const gameContainer = document.getElementById('gameContainer');
-    gameContainer.innerHTML = '';
+    if(gameContainer) gameContainer.innerHTML = '';
 
     const gameWrapper = document.createElement('div');
     gameWrapper.className = 'game-wrapper';
 
     const gameCanvasWrapper = document.createElement('div');
-    gameCanvasWrapper.id = 'gameCanvasContainer'; // ID interno para o jogo
+    gameCanvasWrapper.id = 'gameCanvasContainer'; // ID interno para diferenciar
 
     const scoreboardDiv = document.createElement('div');
     scoreboardDiv.id = 'game-scoreboard';
@@ -462,6 +465,7 @@ function iniciarInstanciaJogo(nomeJogo) {
     gameWrapper.appendChild(scoreboardDiv);
     gameContainer.appendChild(gameWrapper);
 
+    // ---- ATUALIZAÇÃO DE SCORE ----
     let geladinhosGanhos = 0;
 
     let updateScoreDisplay = (score) => {
@@ -477,6 +481,7 @@ function iniciarInstanciaJogo(nomeJogo) {
         }
     };
 
+    // ---- SCOREBOARD HTML ----
     scoreboardDiv.innerHTML = `
         <h2>PLANTÃO DE PRÊMIOS</h2>
         <div class="current-score">
@@ -490,8 +495,17 @@ function iniciarInstanciaJogo(nomeJogo) {
         <span class="icegurt-icon">
             🍦 Ganhos: <span id="geladinhos-ganhos">0</span>
         </span>
+        <button id="btnVoltarCanvas" class="btn-secondary" style="width: 100%; margin-top: 20px;">
+            📋 Voltar ao Menu
+        </button>
     `;
 
+    // Listener para o botão de voltar dentro do Canvas (opcional, já temos o global)
+    document.getElementById('btnVoltarCanvas').addEventListener('click', () => {
+        voltarParaMenuPrincipal();
+    });
+
+    // ===== MAPA DE CLASSES DE JOGO =====
     const gameMap = {
         'Asteroids': typeof Asteroids !== 'undefined' ? Asteroids : null,
         'snake': typeof SnakeGame !== 'undefined' ? SnakeGame : null,
@@ -508,6 +522,7 @@ function iniciarInstanciaJogo(nomeJogo) {
     instanciaJogo = new ClasseJogo(gameCanvasWrapper, updateScoreDisplay); 
     document.addEventListener('keydown', handleKeyGame);
 
+    // Verifica fim do jogo
     const verificarFim = setInterval(() => {
         if (instanciaJogo && instanciaJogo.gameEnded) {
             clearInterval(verificarFim);
@@ -527,8 +542,9 @@ function handleKeyGame(e) {
 }
 
 // =================================================
-// 🏁 FUNÇÃO FINALIZAR JOGO (ÚNICA E CORRIGIDA)
+// 🏁 FUNÇÃO FINALIZAR JOGO (CORRIGIDA)
 // =================================================
+
 function finalizarJogo(score, vitoria, geladinhosGanhos) {
     const gameResultDiv = document.createElement('div');
     gameResultDiv.id = 'gameResult';
@@ -550,42 +566,36 @@ function finalizarJogo(score, vitoria, geladinhosGanhos) {
         </div>
     `;
 
-    // Limpa apenas o container, mantendo o botão fixo
+    // CORREÇÃO CRÍTICA: Limpa o CONTAINER, não a TELA toda.
     const gameContainer = document.getElementById('gameContainer');
     if (gameContainer) {
         gameContainer.innerHTML = ''; 
         gameContainer.appendChild(gameResultDiv);
     }
 
-    // 1. Botão Jogar Novamente
-    const btnPlayAgain = document.getElementById('btnPlayAgain');
-    if (btnPlayAgain) {
-        btnPlayAgain.addEventListener('click', () => {
-            if (jogoEmJogo === 'pacman') {
-                iniciarPacman();
-            } else if (jogoEmJogo === 'flappybird') {
-                iniciarFlappyBird();
-            } else if (jogoEmJogo === 'cs16') {
-                iniciarCS16();
-            } else if (jogoEmJogo === 'krunker') {
-                iniciarKrunker();
-            } else if (jogoEmJogo) {
-                carregarScriptJogo(jogoEmJogo, () => iniciarInstanciaJogo(jogoEmJogo));
-            } else {
-                voltarParaMenuPrincipal();
-            }
-        });
-    }
-    
-    // 2. Botão Voltar ao Menu (Do Placar)
-    const btnMenuResult = document.getElementById('btnMenuFromResult');
-    if (btnMenuResult) {
-        btnMenuResult.addEventListener('click', () => {
+    // Lógica do "Jogar Novamente"
+    document.getElementById('btnPlayAgain').addEventListener('click', () => {
+        if (jogoEmJogo === 'pacman') {
+            iniciarPacman();
+        } else if (jogoEmJogo === 'flappybird') {
+            iniciarFlappyBird();
+        } else if (jogoEmJogo === 'cs16') {
+            iniciarCS16();
+        } else if (jogoEmJogo === 'krunker') {
+            iniciarKrunker();
+        } else if (jogoEmJogo) {
+            carregarScriptJogo(jogoEmJogo, () => iniciarInstanciaJogo(jogoEmJogo));
+        } else {
             voltarParaMenuPrincipal();
-        });
-    }
+        }
+    });
+    
+    // Lógica do botão "Voltar ao Menu" (Placar)
+    document.getElementById('btnMenuFromResult').addEventListener('click', () => {
+        voltarParaMenuPrincipal();
+    });
 
-    // Envia score ao servidor
+    // Envia o score para o servidor
     if (usuarioAtual && score !== undefined) {
         socket.emit('jogo-finalizado', {
             usuarioId: usuarioAtual.id,
@@ -599,14 +609,19 @@ function finalizarJogo(score, vitoria, geladinhosGanhos) {
             atualizarInfoUsuario();
             localStorage.setItem('usuarioAtual', JSON.stringify(usuarioAtual));
         }
-        setTimeout(() => { carregarLeaderboard(); }, 1000);
+        
+        setTimeout(() => {
+            carregarLeaderboard();
+        }, 1000);
     }
+    
     instanciaJogo = null;
 }
 
 // ===================================
 // ===== SOCKET.IO HANDLERS =====
 // ===================================
+
 socket.on('connect', () => console.log('✅ Conectado ao Socket.IO'));
 socket.on('disconnect', () => console.log('❌ Desconectado do Socket.IO'));
 
@@ -636,8 +651,9 @@ socket.on('atualizar-inventario', (dados) => {
 });
 
 // ===================================
-// ===== POST MESSAGE (IFRAME SCORES) =====
+// ===== RECEBE SCORE DO IFRAME (postMessage) =====
 // ===================================
+
 window.addEventListener('message', (event) => {
     const data = event.data;
     let pontos = 0;
@@ -649,78 +665,48 @@ window.addEventListener('message', (event) => {
     } else if (data.tipo === 'FLAPPYBIRD_SCORE') {
         pontos = data.pontos;
         jogoRecebido = 'flappybird';
-    } 
+    } else if (data.tipo === 'ASTEROIDS_SCORE_LIVE') { 
+        pontos = data.pontos;
+        jogoRecebido = 'Asteroids';
+    }
 
     if (jogoRecebido) {
-        console.log(`🏁 Pontuação recebida do ${jogoRecebido}: ${pontos}`);
         const geladinhosGanhos = Math.floor(pontos / PONTOS_POR_GELADINHO);
+        const vitoria = false;
         jogoEmJogo = jogoRecebido;
-        finalizarJogo(pontos, false, geladinhosGanhos);
+        finalizarJogo(pontos, vitoria, geladinhosGanhos);
     }
 });
 
 // =================================================
-// 🔄 FUNÇÃO AUXILIAR: VOLTAR AO MENU
+// 🔄 FUNÇÃO AUXILIAR: VOLTAR AO MENU (GLOBAL)
 // =================================================
 function voltarParaMenuPrincipal() {
     console.log("Voltando ao menu...");
     
+    // 1. Limpa o container do jogo
     const gameContainer = document.getElementById('gameContainer');
     if (gameContainer) gameContainer.innerHTML = ''; 
 
-    document.getElementById('gameScreen').classList.remove('active');
-    document.getElementById('gameScreen').style.display = 'none';
+    // 2. Reseta a tela de jogo (removendo estilo manual)
+    const gameScreen = document.getElementById('gameScreen');
+    gameScreen.classList.remove('active');
+    
     document.body.classList.remove('game-is-active');
 
-    const mainScreen = document.getElementById('mainScreen');
-    if(mainScreen) {
-        mainScreen.classList.add('active');
-        mainScreen.style.display = 'flex'; 
-    }
+    // 3. Reativa a tela principal
+    mostrarTela('mainScreen');
     
+    // 4. Reseta variáveis
     jogoEmJogo = null;
     instanciaJogo = null;
+    
+    // Remove listeners antigos
+    document.removeEventListener('keydown', handleKeyGame);
 }
 
-// ===================================
-// ===== INICIALIZAÇÃO DA PÁGINA =====
-// ===================================
-window.addEventListener('DOMContentLoaded', () => {
-    console.log('Página carregada, inicializando...');
-    
-    // Listener do Botão Fixo (Global)
-    const btnFixo = document.getElementById('btnMenuFromGame');
-    if (btnFixo) {
-        const novoBtn = btnFixo.cloneNode(true);
-        btnFixo.parentNode.replaceChild(novoBtn, btnFixo);
-        novoBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            voltarParaMenuPrincipal();
-        });
-    }
-
-    const usuarioSalvo = localStorage.getItem('usuarioAtual');
-    if (usuarioSalvo) {
-        try {
-            usuarioAtual = JSON.parse(usuarioSalvo);
-            usuarioAtual.inventario = usuarioAtual.inventario || [];
-            
-            console.log('Usuário carregado:', usuarioAtual.username);
-            atualizarInfoUsuario();
-            carregarLeaderboard();
-            mostrarTela('mainScreen');
-        } catch {
-            localStorage.removeItem('usuarioAtual');
-            mostrarTela('authScreen');
-        }
-    } else {
-        console.log('Nenhum usuário salvo, mostrando auth');
-        mostrarTela('authScreen');
-    }
-}); 
-
 // =================================================
-// 📱 DETECÇÃO MOBILE
+// 📱 DETECÇÃO MOBILE E BLOQUEIO DE JOGOS
 // =================================================
 function verificarDispositivoEBloquearJogos() {
     const isMobile = window.innerWidth <= 768; 
@@ -747,10 +733,47 @@ function verificarDispositivoEBloquearJogos() {
                 btnJogar.textContent = "JOGAR";
                 btnJogar.disabled = false;
             }
-            card.onclick = null; 
+            card.onclick = null;
         }
     });
 }
 
+// ===================================
+// ===== INICIALIZAÇÃO DA PÁGINA =====
+// ===================================
+window.addEventListener('DOMContentLoaded', () => {
+    console.log('Página carregada, inicializando...');
+    
+    // Listener do Botão Fixo Global (Topo Esquerdo)
+    const btnFixo = document.getElementById('btnMenuFromGame');
+    if (btnFixo) {
+        const novoBtn = btnFixo.cloneNode(true);
+        btnFixo.parentNode.replaceChild(novoBtn, btnFixo);
+        novoBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            voltarParaMenuPrincipal();
+        });
+    }
+
+    const usuarioSalvo = localStorage.getItem('usuarioAtual');
+    if (usuarioSalvo) {
+        try {
+            usuarioAtual = JSON.parse(usuarioSalvo);
+            usuarioAtual.inventario = usuarioAtual.inventario || [];
+            console.log('Usuário carregado:', usuarioAtual.username);
+            atualizarInfoUsuario();
+            carregarLeaderboard();
+            mostrarTela('mainScreen');
+        } catch {
+            localStorage.removeItem('usuarioAtual');
+            mostrarTela('authScreen');
+        }
+    } else {
+        console.log('Nenhum usuário salvo, mostrando auth');
+        mostrarTela('authScreen');
+    }
+});
+
+// Listeners globais de janela
 window.addEventListener('load', verificarDispositivoEBloquearJogos);
 window.addEventListener('resize', verificarDispositivoEBloquearJogos);
