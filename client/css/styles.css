@@ -683,9 +683,14 @@ body.game-is-active #game-scoreboard {
     }
 }
 
-/* 3. BOTÕES DE CONTROLE (Canto Esquerdo) */
-#gameScreen .btn-back,
-#gameScreen button[onclick*="Menu"] {
+/* 3. BOTÃO VOLTAR AO MENU (Canto Esquerdo - Todos os contextos) */
+.btn-back,
+button[onclick*="Menu"],
+button[onclick*="goBackMenu"],
+button[onclick*="backToMenu"],
+.back-button,
+#backButton,
+#btnBack {
     position: fixed;
     top: 20px;
     left: 20px;
@@ -698,8 +703,124 @@ body.game-is-active #game-scoreboard {
     border-radius: 30px;
     padding: 8px 20px;
     font-weight: bold;
+    font-size: 0.9rem;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
+
+.btn-back:hover,
+button[onclick*="Menu"]:hover,
+button[onclick*="goBackMenu"]:hover,
+button[onclick*="backToMenu"]:hover,
+.back-button:hover,
+#backButton:hover,
+#btnBack:hover {
+    background: var(--icegurt-dark-blue);
+    transform: scale(1.05);
+}
+
+/* 4. BOTÃO JOGAR NOVAMENTE (Centro-Embaixo) */
+#btnPlayAgain {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 21001;
+
+    background: var(--icegurt-red);
+    color: white;
+    border: 2px solid white;
+    border-radius: 30px;
+    padding: 12px 40px;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#btnPlayAgain:hover {
+    background: var(--icegurt-dark-blue);
+    transform: translateX(-50%) scale(1.05);
+}
+
+/* 5. CONTAINER DE PRÊMIOS (Redimensionado) */
+.game-prize-container,
+.prize-container,
+#prizeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Itens de prêmio redimensionados */
+.game-prize-item,
+.prize-item,
+.prize {
+    max-width: 80px;
+    max-height: 80px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Imagens de prêmio redimensionadas */
+.game-prize-item img,
+.prize-item img,
+.prize img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    display: block;
+}
+
+/* Texto de prêmio redimensionado */
+.game-prize-text,
+.prize-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* Ajuste para telas pequenas */
+@media (max-width: 600px) {
+    .game-prize-item,
+    .prize-item,
+    .prize {
+        max-width: 60px;
+        max-height: 60px;
+    }
+
+    .game-prize-text,
+    .prize-text {
+        font-size: 0.7rem;
+    }
+
+    #btnPlayAgain {
+        padding: 10px 30px;
+        font-size: 0.9rem;
+        bottom: 30px;
+    }
+
+    .btn-back,
+    button[onclick*="Menu"],
+    button[onclick*="goBackMenu"],
+    button[onclick*="backToMenu"],
+    .back-button,
+    #backButton,
+    #btnBack {
+        padding: 6px 15px;
+        font-size: 0.8rem;
+    }
+}
+
 
 /* 4. BOTÃO JOGAR NOVAMENTE (Centro da Tela) */
 #btnPlayAgain {
