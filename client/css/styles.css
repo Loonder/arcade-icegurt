@@ -791,4 +791,100 @@ button[onclick*="backToMenu"],
         left: 10px !important;
         opacity: 0.9;
     }
+    /* ================================================= */
+/* 🏆 ESTILO DO PAINEL DE PRÊMIOS (GAME OVER) */
+/* ================================================= */
+
+/* O Container Principal (O Card Branco) */
+.game-result-panel {
+    background-color: var(--icegurt-white) !important; /* Força fundo branco */
+    border: 4px solid var(--icegurt-dark-blue);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    
+    /* Centraliza na tela */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 450px;
+    
+    /* Sombra forte para destacar do fundo do jogo */
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.85), /* Escurece tudo em volta */
+                0 10px 30px rgba(0, 74, 173, 0.4); /* Brilho azul no card */
+    z-index: 20000;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Título: "PLANTÃO DE PRÊMIOS" */
+.game-result-panel h2 {
+    font-family: 'Poppins', sans-serif;
+    color: var(--icegurt-dark-blue);
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--icegurt-light-blue);
+    padding-bottom: 15px;
+    margin-bottom: 10px;
+}
+
+/* Texto do "SCORE: 0" */
+.game-result-panel p {
+    font-family: 'Poppins', sans-serif;
+    color: var(--icegurt-text-dark); /* Garante contraste */
+    font-size: 1.1rem;
+    margin: 5px 0;
+    font-weight: 600;
+}
+
+/* Destaque especial para números ou pontos */
+.game-result-panel p:nth-of-type(1) {
+    font-size: 1.4rem;
+    color: var(--icegurt-dark-blue);
+}
+
+/* Texto explicativo "A CADA 2.000 PONTOS..." */
+.game-result-panel p:nth-of-type(2) {
+    font-size: 0.9rem;
+    background: var(--icegurt-light-blue);
+    padding: 8px;
+    border-radius: 8px;
+    color: var(--icegurt-dark-blue);
+}
+
+/* Texto de Ganhos (Sorvetes) */
+.game-result-panel p:last-of-type {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--icegurt-red); /* Vermelho para destacar o prêmio */
+    margin-top: 10px;
+}
+
+/* Botão "Voltar ao Menu" dentro do modal */
+.game-result-panel button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    background: white;
+    color: var(--icegurt-dark-blue);
+    border: 2px solid var(--icegurt-dark-blue);
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 0 rgba(0, 74, 173, 0.2);
+}
+
+.game-result-panel button:hover {
+    background: var(--icegurt-dark-blue);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 rgba(0, 40, 100, 0.3);
+}
 }
