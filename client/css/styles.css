@@ -637,25 +637,26 @@ body.game-is-active #gameScreen.active {
     top: 20px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
-    
+
     background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(5px);
     border: 2px solid var(--icegurt-dark-blue) !important;
-    border-radius: 50px !important;
-    padding: 10px 30px !important;
-    
+    border-radius: 40px !important;
+    padding: 6px 18px !important;   /* menor */
+
     font-family: 'Poppins', sans-serif;
     color: var(--icegurt-dark-blue) !important;
     font-weight: 700 !important;
-    font-size: 1rem !important;
+    font-size: 0.85rem !important; /* menor */
     white-space: nowrap !important;
     z-index: 21000 !important;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3) !important;
-    
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25) !important;
+
     display: flex;
-    gap: 15px;
+    gap: 8px; /* menor */
     align-items: center;
 }
+
 
 body.game-is-active #game-scoreboard { display: flex !important; }
 .game-scoreboard span { color: var(--icegurt-red); font-size: 1.1em; margin-left: 4px; }
