@@ -10,7 +10,7 @@ let jogoEmJogo = null;
 let instanciaJogo = null;
 let janelaModalAberta = false;
 // Usando o valor mais alto e mais recente do código fornecido
-const PONTOS_POR_GELADINHO = 5000; 
+const PONTOS_POR_GELADINHO = 2000; 
 
 // ===================================
 // ===== CONTROLE DE TELAS =====
