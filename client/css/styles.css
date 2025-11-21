@@ -610,7 +610,7 @@ main {
 /* 1. Configuração da Tela Cheia */
 body.game-is-active {
     overflow: hidden; /* Trava rolagem */
-    background: #1a1a1a; 
+    background: #1a1a1a;
 }
 
 body.game-is-active #mainScreen {
@@ -619,8 +619,10 @@ body.game-is-active #mainScreen {
 
 body.game-is-active #gameScreen.active {
     position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     z-index: 9999;
     background: #1a1a1a;
     display: flex;
@@ -631,69 +633,162 @@ body.game-is-active #gameScreen.active {
 }
 
 /* 2. PLACAR (HUD no Topo - Elegante e Pequeno) */
-#game-scoreboard, .game-scoreboard {
-    position: fixed !important;
-    top: 15px !important; /* Um pouco mais para cima */
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    
-    background: rgba(255, 255, 255, 0.95) !important;
+#game-scoreboard,
+.game-scoreboard {
+    position: fixed;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(5px);
-    border: 2px solid var(--icegurt-dark-blue) !important;
-    border-radius: 50px !important;
-    padding: 8px 25px !important; /* Tamanho equilibrado */
-    
+    border: 2px solid var(--icegurt-dark-blue);
+    border-radius: 50px;
+    padding: 8px 25px;
+
     font-family: 'Poppins', sans-serif;
-    color: var(--icegurt-dark-blue) !important;
-    font-weight: 700 !important;
-    font-size: 0.9rem !important; /* Fonte levemente menor para ficar discreto */
-    white-space: nowrap !important;
-    z-index: 21000 !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
-    
+    color: var(--icegurt-dark-blue);
+    font-weight: 700;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    z-index: 21000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
     display: flex;
     gap: 15px;
     align-items: center;
     justify-content: center;
-    max-width: 90vw; /* Garante que não vaze da tela */
+    max-width: 90vw;
 }
 
 /* Só aparece se o jogo estiver rodando */
-body.game-is-active #game-scoreboard { display: flex !important; }
+body.game-is-active #game-scoreboard {
+    display: flex;
+}
 
 /* Destaque para os números */
-.game-scoreboard span { 
-    color: var(--icegurt-red); 
-    font-size: 1.1em; 
-    margin-left: 4px; 
+.game-scoreboard span {
+    color: var(--icegurt-red);
+    font-size: 1.1em;
+    margin-left: 4px;
 }
 
 /* Ajuste extra para telas muito pequenas */
 @media (max-width: 600px) {
-    #game-scoreboard, .game-scoreboard {
-        font-size: 0.75rem !important;
-        padding: 6px 15px !important;
+    #game-scoreboard,
+    .game-scoreboard {
+        font-size: 0.75rem;
+        padding: 6px 15px;
         gap: 8px;
     }
 }
 
-/* 3. BOTÃO VOLTAR (Canto Esquerdo) */
-#gameScreen button:not(#btnPlayAgain),
+/* 3. BOTÕES DE CONTROLE (Canto Esquerdo) */
 #gameScreen .btn-back,
-button[onclick*="Menu"] {
-    position: fixed !important;
-    top: 20px !important;
-    left: 20px !important;
-    margin: 0 !important;
-    z-index: 21000 !important;
-    
-    background: var(--icegurt-red) !important;
-    color: white !important;
-    border: 2px solid white !important;
-    border-radius: 30px !important;
-    padding: 8px 20px !important;
-    font-weight: bold !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+#gameScreen button[onclick*="Menu"] {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    margin: 0;
+    z-index: 21000;
+
+    background: var(--icegurt-red);
+    color: white;
+    border: 2px solid white;
+    border-radius: 30px;
+    padding: 8px 20px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 4. BOTÃO JOGAR NOVAMENTE (Centro da Tela) */
+#btnPlayAgain {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 21000;
+
+    background: var(--icegurt-red);
+    color: white;
+    border: 2px solid white;
+    border-radius: 30px;
+    padding: 12px 40px;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#btnPlayAgain:hover {
+    background: var(--icegurt-dark-blue);
+    transform: translateX(-50%) scale(1.05);
+}
+
+/* 5. CONTAINER DE PRÊMIOS (Redimensionado) */
+.game-prize-container,
+.prize-container,
+#prizeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Itens de prêmio redimensionados */
+.game-prize-item,
+.prize-item,
+.prize {
+    max-width: 80px;
+    max-height: 80px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Imagens de prêmio redimensionadas */
+.game-prize-item img,
+.prize-item img,
+.prize img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    display: block;
+}
+
+/* Texto de prêmio redimensionado */
+.game-prize-text,
+.prize-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* Ajuste para telas pequenas */
+@media (max-width: 600px) {
+    .game-prize-item,
+    .prize-item,
+    .prize {
+        max-width: 60px;
+        max-height: 60px;
+    }
+
+    .game-prize-text,
+    .prize-text {
+        font-size: 0.7rem;
+    }
+
+    #btnPlayAgain {
+        padding: 10px 30px;
+        font-size: 0.9rem;
+        bottom: 30px;
+    }
 }
 
 /* 4. CORREÇÃO DOS JOGOS ENCOLHIDOS (Canvas) */
