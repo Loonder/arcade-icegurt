@@ -600,99 +600,6 @@ body.game-is-active #gameScreen.active {
 }
 
 /* ================================================= */
-/* 📊 PLACAR IN-GAME (HUD LIMPO) */
-/* ================================================= */
-
-#game-scoreboard, .game-scoreboard {
-    /* Layout e Posição */
-    position: relative; /* Fica no fluxo do flexbox que arrumamos antes */
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Separa Score dos Ganhos */
-    gap: 30px;
-    margin-bottom: 20px;
-    
-    /* Estilo Visual (Container Único) */
-    background: var(--icegurt-white);
-    border: 3px solid var(--icegurt-dark-blue);
-    border-radius: 16px;
-    padding: 12px 30px;
-    box-shadow: 0 10px 0 rgba(0,0,0,0.2); /* Sombra sólida estilo arcade */
-    
-    /* Texto */
-    font-family: 'Poppins', sans-serif;
-    color: var(--icegurt-dark-blue);
-    font-weight: 700;
-    font-size: 1.2em;
-    text-transform: uppercase;
-    z-index: 10001;
-}
-
-/* Esconde textos desnecessários se houver spans específicos, 
-   mas o design acima já organiza tudo visualmente */
-
-/* Destaque para os números */
-.game-scoreboard span {
-    color: var(--icegurt-red);
-    font-size: 1.4em;
-    margin-left: 5px;
-}
-
-
-/* Placar só aparece quando o jogo está ativo */
-body.game-is-active #game-scoreboard,
-body.game-is-active .game-scoreboard {
-    display: flex; 
-}
-
-/* 3. O Canvas/Jogo (Tamanho Máximo e Centralizado) */
-#gameContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    flex-grow: 1; /* Ocupa o espaço disponível entre placar e footer */
-    max-height: 75vh; /* Menor pra deixar espaço pro placar */
-}
-
-#gameContainer canvas {
-    max-width: 95%;
-    max-height: 70vh; /* Ajustado */
-    width: auto; height: auto;
-    border: 4px solid var(--icegurt-white);
-    border-radius: 8px;
-    box-shadow: 0 0 50px rgba(0,0,0,0.8);
-    background-color: #000;
-}
-
-/* Para jogos externos (iframes) */
-.game-iframe {
-    width: 100%; height: 100%; border: none;
-}
-
-/* 4. Botão Voltar (Posicionamento na esquerda superior) */
-#gameScreen button.btn-secondary, 
-#gameScreen .btn-back {
-    position: absolute;
-    top: 20px; left: 20px;
-    z-index: 10000;
-    background: var(--icegurt-white);
-    color: var(--icegurt-red);
-    border: 2px solid var(--icegurt-red);
-    border-radius: 30px;
-    padding: 8px 20px;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    transition: all 0.2s;
-}
-
-#gameScreen button.btn-secondary:hover {
-    background: var(--icegurt-red);
-    color: var(--icegurt-white);
-    transform: scale(1.05);
-}
-
-/* ================================================= */
 /* 📱 RESPONSIVIDADE GERAL E MOBILE */
 /* ================================================= */
 
@@ -740,94 +647,187 @@ body.game-is-active .game-scoreboard {
         font-size: 0.9em;
         padding: 10px;
     }
-} /* <--- 🚨 AQUI! ESSA CHAVE FECHA O MOBILE. TUDO ABAIXO É PARA TODOS! */
+} /* <--- 🚨 AQUI FECHA O MOBILE. TUDO ABAIXO VALE PRA TUDO! */
 
 
 /* ================================================= */
-/* 💀 MODAL GAME OVER (REMASTERIZADO - GLOBAL) */
+/* 📊 PLACAR IN-GAME (HUD MENOR E ELEGANTE) */
+/* ================================================= */
+
+#game-scoreboard, .game-scoreboard {
+    /* Layout */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 15px;
+    
+    /* Visual Discreto e Limpo */
+    background: var(--icegurt-white);
+    border: 2px solid var(--icegurt-dark-blue);
+    border-radius: 50px;
+    padding: 8px 25px; /* Altura reduzida */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    
+    /* Texto */
+    font-family: 'Poppins', sans-serif;
+    color: var(--icegurt-dark-blue);
+    font-weight: 700;
+    font-size: 1em; /* Fonte menor */
+    text-transform: uppercase;
+    white-space: nowrap;
+    z-index: 10001;
+}
+
+.game-scoreboard span {
+    color: var(--icegurt-red);
+    font-size: 1.1em;
+    margin-left: 4px;
+}
+
+/* Só aparece quando o jogo roda */
+body.game-is-active #game-scoreboard,
+body.game-is-active .game-scoreboard {
+    display: flex; 
+}
+
+
+/* ================================================= */
+/* 💀 MODAL GAME OVER (REMASTERIZADO & ATRAENTE) */
 /* ================================================= */
 
 .modal {
-    background-color: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 20, 0.9); /* Fundo escuro azulado */
+    backdrop-filter: blur(8px);
     position: fixed;
-    z-index: 20000; /* Maior que o jogo */
+    z-index: 20000;
     top: 0; left: 0; width: 100%; height: 100%;
     display: flex; align-items: center; justify-content: center;
 }
 
 .modal-content {
     background: var(--icegurt-white);
+    /* Visual Borda Dupla */
     border: 4px solid var(--icegurt-dark-blue);
-    border-radius: 20px;
+    outline: 4px solid var(--icegurt-red);
+    border-radius: 25px;
     padding: 40px;
-    box-shadow: 0 0 50px rgba(0, 74, 173, 0.4);
-    max-width: 500px;
+    box-shadow: 0 0 60px rgba(230, 0, 0, 0.3); /* Glow forte */
+    max-width: 450px;
     width: 90%;
     text-align: center;
     position: relative;
-    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes popIn {
-    from { transform: scale(0.5); opacity: 0; }
+    from { transform: scale(0.7); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
 
 .modal-content h3 {
-    font-size: 2.5em;
+    font-size: 2.2em;
     color: var(--icegurt-red);
     text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-    border-bottom: 3px solid var(--icegurt-light-blue);
-    padding-bottom: 10px;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    text-shadow: 2px 2px 0px var(--icegurt-dark-blue);
 }
 
 .modal-content p {
     color: var(--icegurt-text-dark);
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: 600;
-    margin-bottom: 5px;
+    margin: 10px 0;
 }
 
+/* SCORE GIGANTE */
 #finalScoreDisplay {
-    font-size: 5em;
-    font-weight: 800;
+    font-size: 5.5em;
+    font-weight: 900;
     color: var(--icegurt-dark-blue);
     display: block;
-    margin: 10px 0 20px 0;
-    line-height: 1;
-    text-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+    margin: 5px 0 25px 0;
+    line-height: 0.9;
+    text-shadow: 5px 5px 0px var(--icegurt-light-blue);
 }
 
+/* CAIXA DE GELADINHOS */
 #geladinhosGanhosDisplay {
-    background: var(--icegurt-light-blue);
-    color: var(--icegurt-dark-blue);
-    padding: 10px 20px;
+    background: var(--icegurt-red);
+    color: var(--icegurt-white);
+    padding: 12px 30px;
     border-radius: 50px;
     display: inline-block;
-    font-weight: bold;
-    margin-bottom: 30px;
-    border: 1px solid var(--icegurt-dark-blue);
+    font-weight: 800;
+    font-size: 1.1em;
+    margin-bottom: 25px;
+    border: 3px solid var(--icegurt-dark-blue);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
+
+/* ================================================= */
+/* 🕹️ CORREÇÃO DEFINITIVA DOS BOTÕES (SEPARADOS) */
+/* ================================================= */
+
+/* 1. Botão "Voltar ao Menu" (FIXO NO TOPO ESQUERDO) */
+#gameScreen > button:not(#btnPlayAgain),
+#gameScreen > .btn-back {
+    position: fixed !important;
+    top: 25px !important;
+    left: 25px !important;
+    z-index: 21000 !important; /* Acima de tudo */
+    
+    /* Reset */
+    bottom: auto !important; right: auto !important; margin: 0 !important;
+    
+    /* Visual */
+    background: var(--icegurt-white) !important;
+    color: var(--icegurt-red) !important;
+    border: 2px solid var(--icegurt-red) !important;
+    border-radius: 30px !important;
+    padding: 10px 25px !important;
+    font-weight: bold !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+    transition: transform 0.2s !important;
+}
+#gameScreen > button:not(#btnPlayAgain):hover {
+    transform: scale(1.1) !important;
+}
+
+/* 2. Botão "JOGAR NOVAMENTE" (DENTRO DO MODAL) */
 #btnPlayAgain {
-    width: 100%;
-    padding: 15px;
-    font-size: 1.2em;
-    background: var(--icegurt-red);
-    box-shadow: 0 6px 0 #b30000;
-    border: none;
-    color: white;
-    font-weight: bold;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.1s;
+    position: relative !important;
+    top: auto !important; left: auto !important;
+    width: 100% !important;
+    margin-top: 20px !important;
+    display: block !important;
+    z-index: 20005 !important;
+    
+    /* Visual */
+    background: var(--icegurt-dark-blue) !important;
+    color: var(--icegurt-white) !important;
+    border: none !important;
+    border-radius: 15px !important;
+    padding: 18px !important;
+    font-size: 1.3em !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 8px 0 rgba(0,0,0,0.3) !important;
+    transition: all 0.1s !important;
 }
-#btnPlayAgain:hover { transform: translateY(-2px); }
-#btnPlayAgain:active { transform: translateY(4px); box-shadow: 0 2px 0 #b30000; }
 
+#btnPlayAgain:hover {
+    background: var(--icegurt-red) !important;
+    transform: translateY(-4px) !important;
+    box-shadow: 0 12px 0 rgba(0,0,0,0.3) !important;
+}
+
+#btnPlayAgain:active {
+    transform: translateY(4px) !important;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.3) !important;
+}
 
 /* ================================================= */
 /* 🚫 BLOQUEIO DE JOGOS NO MOBILE */
@@ -860,63 +860,4 @@ body.game-is-active .game-scoreboard {
     border-radius: 5px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.3);
     z-index: 10;
-}
-
-/* ================================================= */
-/* 🕹️ BOTÕES DA TELA DE JOGO (SOLUÇÃO INTELIGENTE) */
-/* ================================================= */
-
-/* 1. Botão de VOLTAR (Aplica em qualquer botão que NÃO SEJA o de Play Again) */
-#gameScreen button:not(#btnPlayAgain) {
-    position: fixed;       /* Fixo na tela */
-    top: 20px;
-    left: 20px;
-    z-index: 20000;        /* Acima do jogo */
-    
-    /* Reset de posição antiga */
-    bottom: auto;
-    right: auto;
-    margin: 0;
-    
-    /* Visual Bonito */
-    background: var(--icegurt-white);
-    color: var(--icegurt-red);
-    border: 2px solid var(--icegurt-red);
-    border-radius: 30px;
-    padding: 10px 25px;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    transition: transform 0.2s;
-}
-
-#gameScreen button:not(#btnPlayAgain):hover {
-    transform: scale(1.1);
-    background: var(--icegurt-red);
-    color: var(--icegurt-white);
-}
-
-/* 2. Botão de JOGAR NOVAMENTE (Fica quieto dentro do Modal) */
-#btnPlayAgain {
-    position: relative;    /* Segue o fluxo normal */
-    display: block;
-    width: 100%;
-    margin-top: 20px;
-    z-index: 20005;
-    
-    /* Visual */
-    background: var(--icegurt-red);
-    color: #FFF;
-    border: none;
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: 0 6px 0 #b30000;
-}
-
-#btnPlayAgain:hover {
-    transform: translateY(-2px);
-}
-
-#btnPlayAgain:active {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 #b30000;
 }
