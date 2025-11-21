@@ -498,38 +498,55 @@ function iniciarInstanciaJogo(nomeJogo) {
         }
     };
 
+// --- CORREÇÃO: Removemos o ID duplicado ---
     scoreboardDiv.innerHTML = `
-        <h2>PLANTÃO DE PRÊMIOS</h2>
-        <div class="current-score">
-            SCORE: <span id="current-game-score">0</span>
-        </div>
-        <p class="prize-info">
-            <span id="prize-text">
+        <div class="game-result-panel">
+            <h2>PLANTÃO DE PRÊMIOS</h2>
+            
+            <p class="result-score">
+                SCORE: <span id="current-game-score">0</span>
+            </p>
+            
+            <p>
                 A CADA ${PONTOS_POR_GELADINHO.toLocaleString('pt-BR')} PONTOS VOCÊ GANHA 1 🍦!
-            </span>
-        </p>
-        <span class="icegurt-icon">
-            🍦 Ganhos: <span id="geladinhos-ganhos">0</span>
-        </span>
-        <button id="btnVoltarCanvas" class="btn-secondary" style="width: 100%; margin-top: 20px;">
-            📋 Voltar ao Menu
-        </button>
+            </p>
+            
+            <p>
+                🍦 Ganhos: <span id="geladinhos-ganhos">0</span>
+            </p>
+            
+            <div class="result-buttons">
+                <button id="btnVoltarCanvas" style="background: white; color: var(--icegurt-dark-blue); border: 2px solid var(--icegurt-dark-blue);">
+                    📋 Voltar ao Menu
+                </button>
+            </div>
+        </div>
     `;
+    // -------------------------------------------------------------------------
 
-    // Listener para o botão de voltar interno do Canvas
+    // Listener para o botão de voltar
     document.getElementById('btnVoltarCanvas').addEventListener('click', () => {
         voltarParaMenuPrincipal();
     });
 
+    // --- RESTANTE DO CÓDIGO DO JOGO ---
+    // Certifique-se de que 'gameMap' e 'nomeJogo' estão definidos antes daqui!
     const gameMap = {
         'Asteroids': typeof Asteroids !== 'undefined' ? Asteroids : null,
         'snake': typeof SnakeGame !== 'undefined' ? SnakeGame : null,
+        'pacman': typeof PacmanGame !== 'undefined' ? PacmanGame : null, // Adicionei caso tenha
+        // ... outros jogos
     };
 
     const ClasseJogo = gameMap[nomeJogo];
 
     if (!ClasseJogo) {
-        mostrarMensagem('❌ Erro', `Jogo ${nomeJogo} não carregou corretamente.`, true);
+        // Se usar a função mostrarMensagem, garanta que ela existe
+        if (typeof mostrarMensagem === 'function') {
+             mostrarMensagem('❌ Erro', `Jogo ${nomeJogo} não carregou corretamente.`, true);
+        } else {
+             alert(`Erro: Jogo ${nomeJogo} não carregou.`);
+        }
         voltarParaMenuPrincipal();
         return;
     }
@@ -544,16 +561,6 @@ function iniciarInstanciaJogo(nomeJogo) {
             finalizarJogo(instanciaJogo.score, instanciaJogo.gameWon, geladinhosGanhos);
         }
     }, 50);
-}
-
-function handleKeyGame(e) {
-    if (instanciaJogo && instanciaJogo.handleKeyPress && !janelaModalAberta) {
-        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
-            e.preventDefault();
-        }
-        instanciaJogo.handleKeyPress(e.key);
-    }
-}
 
 // =================================================
 // 🏁 FUNÇÃO FINALIZAR JOGO (CORRIGIDA)
