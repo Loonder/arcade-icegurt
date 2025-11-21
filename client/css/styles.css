@@ -604,7 +604,7 @@ main {
 }
 
 /* ================================================= */
-/* 🕹️ SUPER BLOCO DE JOGO (Visual + Tamanho) */
+/* 🕹️ TELA DE JOGO (SUPER BLOCO FINAL) */
 /* ================================================= */
 
 /* 1. Configuração da Tela Cheia */
@@ -630,39 +630,54 @@ body.game-is-active #gameScreen.active {
     padding: 0;
 }
 
-/* 2. PLACAR (Plantão de Prêmios - Pequeno e Elegante) */
+/* 2. PLACAR (HUD no Topo - Elegante e Pequeno) */
 #game-scoreboard, .game-scoreboard {
     position: fixed !important;
-    top: 20px !important;
+    top: 15px !important; /* Um pouco mais para cima */
     left: 50% !important;
     transform: translateX(-50%) !important;
     
-    /* Visual Pílula (Pequeno) */
     background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(5px);
     border: 2px solid var(--icegurt-dark-blue) !important;
     border-radius: 50px !important;
-    padding: 8px 30px !important; /* Fino e discreto */
+    padding: 8px 25px !important; /* Tamanho equilibrado */
     
-    /* Texto */
     font-family: 'Poppins', sans-serif;
     color: var(--icegurt-dark-blue) !important;
     font-weight: 700 !important;
-    font-size: 0.9rem !important; /* Fonte menor */
+    font-size: 0.9rem !important; /* Fonte levemente menor para ficar discreto */
     white-space: nowrap !important;
     z-index: 21000 !important;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
     
     display: flex;
     gap: 15px;
     align-items: center;
+    justify-content: center;
+    max-width: 90vw; /* Garante que não vaze da tela */
 }
 
 /* Só aparece se o jogo estiver rodando */
 body.game-is-active #game-scoreboard { display: flex !important; }
-.game-scoreboard span { color: var(--icegurt-red); font-size: 1.1em; margin-left: 4px; }
 
-/* 3. BOTÃO VOLTAR (Canto Esquerdo - Separado do Placar) */
+/* Destaque para os números */
+.game-scoreboard span { 
+    color: var(--icegurt-red); 
+    font-size: 1.1em; 
+    margin-left: 4px; 
+}
+
+/* Ajuste extra para telas muito pequenas */
+@media (max-width: 600px) {
+    #game-scoreboard, .game-scoreboard {
+        font-size: 0.75rem !important;
+        padding: 6px 15px !important;
+        gap: 8px;
+    }
+}
+
+/* 3. BOTÃO VOLTAR (Canto Esquerdo) */
 #gameScreen button:not(#btnPlayAgain),
 #gameScreen .btn-back,
 button[onclick*="Menu"] {
@@ -678,32 +693,24 @@ button[onclick*="Menu"] {
     border-radius: 30px !important;
     padding: 8px 20px !important;
     font-weight: bold !important;
-    font-size: 0.9rem !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
 }
 
-#gameScreen button:not(#btnPlayAgain):hover {
-    transform: scale(1.1) !important;
-    background: white !important;
-    color: var(--icegurt-red) !important;
-}
-
-/* 4. CORREÇÃO DOS JOGOS (Tamanho Perfeito) */
+/* 4. CORREÇÃO DOS JOGOS ENCOLHIDOS (Canvas) */
 #gameContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
-    /* Removemos padding exagerado para o jogo subir */
-    padding-top: 0 !important; 
+    padding-top: 60px; /* Espaço para o placar não cobrir o jogo */
 }
 
 #gameContainer canvas {
     width: auto !important; 
     height: auto !important;
     max-width: 95vw !important;
-    max-height: 85vh !important; /* Ocupa bem a tela */
+    max-height: 80vh !important;
     
     border: 4px solid var(--icegurt-white);
     border-radius: 12px;
@@ -712,7 +719,7 @@ button[onclick*="Menu"] {
     image-rendering: pixelated;
 }
 
-/* Jogos Iframe (CS, Krunker) */
+/* 5. CORREÇÃO DOS JOGOS IFRAME (CS, Krunker) */
 .game-iframe {
     position: absolute !important;
     top: 0; left: 0;
@@ -723,7 +730,7 @@ button[onclick*="Menu"] {
 }
 
 /* ================================================= */
-/* 💀 MODAL GAME OVER (Visual Atrativo) */
+/* 💀 MODAL GAME OVER (REMASTERIZADO) */
 /* ================================================= */
 .modal {
     background-color: rgba(0, 0, 20, 0.9);
@@ -739,7 +746,7 @@ button[onclick*="Menu"] {
     outline: 4px solid var(--icegurt-red);
     border-radius: 25px;
     padding: 40px;
-    box-shadow: 0 0 60px rgba(230, 0, 0, 0.5); /* Glow forte */
+    box-shadow: 0 0 60px rgba(230, 0, 0, 0.3);
     max-width: 450px;
     width: 90%;
     text-align: center;
@@ -750,86 +757,41 @@ button[onclick*="Menu"] {
 @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 .modal-content h3 {
-    font-size: 2.2em;
-    color: var(--icegurt-red);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 25px;
-    text-shadow: 2px 2px 0px var(--icegurt-dark-blue);
+    font-size: 2.2em; color: var(--icegurt-red); text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 25px; text-shadow: 2px 2px 0px var(--icegurt-dark-blue);
 }
+.modal-content p { color: var(--icegurt-text-dark); font-size: 1.1em; font-weight: 600; margin: 10px 0; }
 
-.modal-content p {
-    color: var(--icegurt-text-dark);
-    font-size: 1.1em;
-    font-weight: 600;
-    margin: 10px 0;
-}
-
-/* Score Gigante */
 #finalScoreDisplay {
-    font-size: 5.5em;
-    font-weight: 900;
-    color: var(--icegurt-dark-blue);
-    display: block;
-    margin: 5px 0 25px 0;
-    line-height: 0.9;
-    text-shadow: 5px 5px 0px var(--icegurt-light-blue);
+    font-size: 5.5em; font-weight: 900; color: var(--icegurt-dark-blue);
+    display: block; margin: 5px 0 25px 0; line-height: 0.9; text-shadow: 5px 5px 0px var(--icegurt-light-blue);
 }
-
-/* Caixa de Geladinhos */
 #geladinhosGanhosDisplay {
-    background: var(--icegurt-red);
-    color: var(--icegurt-white);
-    padding: 12px 30px;
-    border-radius: 50px;
-    display: inline-block;
-    font-weight: 800;
-    font-size: 1.1em;
-    margin-bottom: 25px;
-    border: 3px solid var(--icegurt-dark-blue);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    background: var(--icegurt-red); color: var(--icegurt-white); padding: 12px 30px;
+    border-radius: 50px; display: inline-block; font-weight: 800; font-size: 1.1em;
+    margin-bottom: 25px; border: 3px solid var(--icegurt-dark-blue); box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 /* Botão Jogar Novamente (TRAVADO NO MODAL) */
 #btnPlayAgain {
-    position: relative !important;
-    top: auto !important; left: auto !important;
-    width: 100% !important;
-    margin-top: 20px !important;
-    display: block !important;
+    position: relative !important; top: auto !important; left: auto !important;
+    width: 100% !important; margin-top: 20px !important; display: block !important;
     z-index: 20005 !important;
     
-    background: var(--icegurt-dark-blue) !important;
-    color: var(--icegurt-white) !important;
-    border: none !important;
-    border-radius: 15px !important;
-    padding: 18px !important;
-    font-size: 1.3em !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    box-shadow: 0 8px 0 rgba(0,0,0,0.3) !important;
-    transition: all 0.1s !important;
+    background: var(--icegurt-dark-blue) !important; color: var(--icegurt-white) !important;
+    border: none !important; border-radius: 15px !important; padding: 18px !important;
+    font-size: 1.3em !important; text-transform: uppercase !important; letter-spacing: 1px !important;
+    box-shadow: 0 8px 0 rgba(0,0,0,0.3) !important; transition: all 0.1s !important;
 }
-
-#btnPlayAgain:hover {
-    background: var(--icegurt-red) !important;
-    transform: translateY(-4px) !important;
-    box-shadow: 0 12px 0 rgba(0,0,0,0.3) !important;
-}
-
-#btnPlayAgain:active {
-    transform: translateY(4px) !important;
-    box-shadow: 0 2px 0 rgba(0,0,0,0.3) !important;
-}
+#btnPlayAgain:hover { background: var(--icegurt-red) !important; transform: translateY(-4px) !important; box-shadow: 0 12px 0 rgba(0,0,0,0.3) !important; }
+#btnPlayAgain:active { transform: translateY(4px) !important; box-shadow: 0 2px 0 rgba(0,0,0,0.3) !important; }
 
 /* ================================================= */
 /* 🚫 BLOQUEIO DE JOGOS NO MOBILE */
 /* ================================================= */
 .game-card.mobile-disabled {
-    opacity: 0.6;
-    filter: grayscale(100%);
-    pointer-events: none;
-    position: relative;
+    opacity: 0.6; filter: grayscale(100%);
+    pointer-events: none; position: relative;
 }
 .game-card.mobile-disabled .btn-primary { background-color: var(--icegurt-gray); cursor: not-allowed; box-shadow: none; }
 .game-card.mobile-disabled::after {
@@ -839,3 +801,266 @@ button[onclick*="Menu"] {
     font-weight: bold; font-size: 1.2em; border: 2px solid white; border-radius: 5px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.3); z-index: 10;
 }
+/* ============================== */
+/* ===== BOTÃO VOLTAR FIXO ===== */
+/* ============================== */
+
+#gameScreen .btn-back,
+button[onclick*="Menu"] {
+    position: fixed !important;
+    top: 20px !important;
+    left: 20px !important;
+    z-index: 21000 !important;
+
+    background: var(--icegurt-red) !important;
+    color: white !important;
+    border: 2px solid white !important;
+    border-radius: 30px !important;
+    padding: 8px 20px !important;
+    font-weight: bold !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+}
+
+/* 4. CORREÇÃO DOS JOGOS ENCOLHIDOS (Canvas) */
+#gameContainer {
+    display: flex;
+    justify-content: center;
+
+    /* ❗ REMOVIDO align-items: center (causava problema nos botões) */
+
+    width: 100%;
+    height: 100%;
+    padding-top: 60px; /* Espaço para o placar */
+}
+
+#gameContainer canvas {
+    width: auto !important; 
+    height: auto !important;
+    max-width: 95vw !important;
+    max-height: 80vh !important;
+    
+    border: 4px solid var(--icegurt-white);
+    border-radius: 12px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    background-color: #000;
+    image-rendering: pixelated;
+}
+
+/* 5. JOGOS EM IFRAME (TELA CHEIA REAL) */
+.game-iframe {
+    position: absolute !important;
+    top: 0; left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    border: none !important;
+    z-index: 10000;
+}
+
+/* ================================================= */
+/* 💀 MODAL GAME OVER (VISÍVEL + DESTACADO) */
+/* ================================================= */
+
+.modal {
+    background: rgba(0, 0, 0, 0.65); /* Fundo mais claro */
+    backdrop-filter: blur(6px);
+    position: fixed;
+    z-index: 22000;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* ===== RESULT PANEL (GAME OVER / VITÓRIA) ===== */
+
+.game-result-panel {
+    background: #ffffff;                 /* Fundo branco */
+    border: 3px solid #1a1a1a20;         /* Borda leve */
+    border-radius: 25px;                 /* Cantos arredondados */
+    padding: 40px;
+    max-width: 450px;
+    margin: 0 auto;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    text-align: center;
+    animation: pop 0.25s ease;
+}
+
+/* Animação de entrada */
+@keyframes pop {
+    from { transform: scale(0.85); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+/* Ajuste do título */
+#resultTitle {
+    font-size: 32px;
+    color: var(--icegurt-blue);
+    margin-bottom: 20px;
+}
+
+/* Pontuação */
+.result-score {
+    font-size: 28px;
+    color: var(--icegurt-blue-dark);
+    font-weight: 900;
+}
+
+/* Ajuste botões */
+.result-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+/* Botões maiores e mais bonitos */
+.result-buttons .btn-primary,
+.result-buttons .btn-secondary {
+    padding: 14px 25px;
+    font-size: 18px;
+    border-radius: 15px;
+}
+
+
+
+/* Card central */
+.modal-content {
+    background: #ffffff;
+    border: 4px solid var(--icegurt-dark-blue);
+    outline: 4px solid var(--icegurt-red);
+    border-radius: 30px;
+    
+    padding: 45px 35px;
+    max-width: 480px;
+    width: 95%;
+    text-align: center;
+
+    /* Moldura com leve brilho */
+    box-shadow: 0 0 35px rgba(255, 0, 0, 0.3), 
+                0 0 55px rgba(0, 40, 140, 0.3);
+
+    animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Animação */
+@keyframes popIn {
+    from { transform: scale(0.75); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+/* Título */
+.modal-content h3 {
+    font-size: 2.6em;
+    color: var(--icegurt-red);
+    text-shadow: 3px 3px 0px var(--icegurt-dark-blue);
+    margin-bottom: 25px;
+}
+
+/* Texto */
+.modal-content p {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--icegurt-text-dark);
+}
+
+/* Pontuação */
+#finalScoreDisplay {
+    font-size: 5em;
+    font-weight: 800;
+    color: var(--icegurt-dark-blue);
+    text-shadow: 4px 4px 0px var(--icegurt-light-blue);
+    margin: 10px 0 30px;
+}
+
+/* Geladinhos */
+#geladinhosGanhosDisplay {
+    background: var(--icegurt-red);
+    color: #fff;
+    padding: 12px 35px;
+    border-radius: 50px;
+    font-size: 1.3em;
+    font-weight: 800;
+    border: 3px solid var(--icegurt-dark-blue);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    margin-bottom: 30px;
+}
+
+/* Botão Jogar Novamente */
+#btnPlayAgain {
+    width: 100% !important;
+    background: var(--icegurt-dark-blue) !important;
+    color: white !important;
+    padding: 18px !important;
+    border-radius: 18px !important;
+    font-size: 1.4em !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none !important;
+    box-shadow: 0 7px 0 rgba(0,0,0,0.3);
+    transition: 0.15s;
+    margin-bottom: 15px;
+}
+
+#btnPlayAgain:hover {
+    background: var(--icegurt-red) !important;
+    transform: translateY(-4px);
+    box-shadow: 0 11px 0 rgba(0,0,0,0.3);
+}
+
+#btnPlayAgain:active {
+    transform: translateY(4px);
+    box-shadow: 0 3px 0 rgba(0,0,0,0.3);
+}
+
+/* Botão voltar */
+.btn-back,
+.modal button.btn-back {
+    width: 100% !important;
+    background: #fff !important;
+    color: var(--icegurt-dark-blue) !important;
+    border: 2px solid var(--icegurt-dark-blue) !important;
+    padding: 15px !important;
+    border-radius: 15px !important;
+    font-size: 1.2em !important;
+    font-weight: 700;
+}
+
+
+/* ================================================= */
+/* 🚫 BLOQUEIO DE JOGOS NO MOBILE */
+/* ================================================= */
+
+.game-card.mobile-disabled {
+    opacity: 0.6;
+    filter: grayscale(100%);
+    pointer-events: none;
+    position: relative;
+}
+
+.game-card.mobile-disabled .btn-primary {
+    background-color: var(--icegurt-gray);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.game-card.mobile-disabled::after {
+    content: "🚫 Apenas PC";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-10deg);
+    background: var(--icegurt-red);
+    color: white;
+    padding: 5px 15px;
+    font-weight: bold;
+    font-size: 1.2em;
+    border: 2px solid white;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    z-index: 10;
+}
+
+
+
