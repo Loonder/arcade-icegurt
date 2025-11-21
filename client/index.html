@@ -97,7 +97,7 @@
             font-size: 0.9em;
         }
 
-        /* --- ESTILOS DA DOCUMENTAÇÃO (EM TELA SEPARADA) --- */
+        /* --- ESTILOS DA DOCUMENTAÇÃO --- */
         .documentation-content {
             text-align: left;
             margin-top: 15px;
@@ -169,15 +169,103 @@
         .team-member-info a:hover {
             text-decoration: underline;
         }
+
+        /* --- ESTILOS DO GAME OVER (MODAL NOVO) --- */
+        .game-result-panel {
+            background: #FFFFFF;
+            border: 4px solid var(--icegurt-dark-blue);
+            border-radius: 25px;
+            padding: 40px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.85), 
+                        0 10px 30px rgba(0, 74, 173, 0.5);
+            z-index: 20000;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .game-result-panel h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            color: var(--icegurt-dark-blue);
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+
+        .game-result-panel p {
+            color: var(--icegurt-text-dark);
+            font-size: 1.1rem;
+            margin: 5px 0;
+        }
+
+        .game-result-panel .result-score {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--icegurt-dark-blue);
+            margin: 10px 0 20px 0;
+            line-height: 1;
+        }
+
+        .game-result-panel .result-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .game-result-panel button {
+            width: 100% !important;
+            max-width: 350px !important;
+            padding: 15px 20px !important;
+            font-size: 1.1rem !important;
+            margin: 0 !important;
+            position: static !important;
+            transform: none !important;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.2) !important;
+        }
+
+        #btnMenuFromResult {
+            background: white !important;
+            color: var(--icegurt-dark-blue) !important;
+            border: 2px solid var(--icegurt-dark-blue) !important;
+            cursor: pointer;
+        }
+
+        #btnMenuFromResult:hover {
+            background: var(--icegurt-light-blue) !important;
+        }
+
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body>
     <div id="app">
+        
         <div id="messageModal" class="modal" style="display: none;">
             <div class="modal-content">
                 <h3 id="modalTitle" class="error-title">Erro!</h3>
                 <p id="modalMessage">Mensagem de erro.</p>
                 <button id="modalCloseButton" class="btn-primary">Entendi</button>
+            </div>
+        </div>
+
+        <div id="gameOverModal" class="game-result-panel" style="display: none;">
+            <h2>PLANTÃO DE PRÊMIOS</h2>
+            <p class="result-score">SCORE: <span id="finalScore">0</span></p>
+            <p>A CADA 2.000 PONTOS VOCÊ GANHA 1 🍦!</p>
+            <p>🍦 Ganhos: <span id="icegurtGains">0</span></p>
+            <div class="result-buttons">
+                <button id="btnMenuFromResult">📋 Voltar ao Menu</button>
             </div>
         </div>
 
@@ -226,61 +314,62 @@
                 </div>
             </header>
 
-<main>
-    <section class="games-container">
-        <h2 class="section-title">🕹️ Escolha seu Jogo:</h2>
-        <div class="games-grid">
-            
-            <div class="game-card" data-game="snake">
-                <div class="game-icon">🐍</div>
-                <h3>SNAKE</h3>
-                <p>Coma a comida e cresça sem colidir!</p>
-                <button class="btn-play btn-primary">JOGAR</button>
-            </div>
-            
-            <div class="game-card" data-game="flappybird">
-                <div class="game-icon">🐦</div>
-                <h3>FLAPPY BIRD</h3>
-                <p>Desvie dos canos e chegue longe!</p>
-                <button class="btn-play btn-primary">JOGAR</button>
-            </div>
-            
-            <div class="game-card" data-game="pacman">
-                <div class="game-icon">👾</div>
-                <h3>PAC-MAN</h3>
-                <p>Coma os pellets e fuja dos fantasmas!</p>
-                <button class="btn-play btn-primary">JOGAR</button>
-            </div>
-            
-            <div class="game-card" data-game="Asteroids"> 
-                <div class="game-icon">🚀</div>
-                <h3>Asteroids</h3>
-                <p>Prepare-se para explodir!</p> 
-                <button class="btn-play btn-primary">JOGAR</button> 
-            </div>
-            
-            <div class="game-card" data-game="cs16">
-                <div class="game-icon">💣</div>
-                <h3>COUNTER-STRIKE 1.6</h3>
-                <p>FPS Clássico, jogue direto do navegador.</p>
-                <button class="btn-play btn-primary">JOGAR</button>
-            </div>
+            <main>
+                <section class="games-container">
+                    <h2 class="section-title">🕹️ Escolha seu Jogo:</h2>
+                    <div class="games-grid">
+                        
+                        <div class="game-card" data-game="snake">
+                            <div class="game-icon">🐍</div>
+                            <h3>SNAKE</h3>
+                            <p>Coma a comida e cresça sem colidir!</p>
+                            <button class="btn-play btn-primary">JOGAR</button>
+                        </div>
+                        
+                        <div class="game-card" data-game="flappybird">
+                            <div class="game-icon">🐦</div>
+                            <h3>FLAPPY BIRD</h3>
+                            <p>Desvie dos canos e chegue longe!</p>
+                            <button class="btn-play btn-primary">JOGAR</button>
+                        </div>
+                        
+                        <div class="game-card" data-game="pacman">
+                            <div class="game-icon">👾</div>
+                            <h3>PAC-MAN</h3>
+                            <p>Coma os pellets e fuja dos fantasmas!</p>
+                            <button class="btn-play btn-primary">JOGAR</button>
+                        </div>
+                        
+                        <div class="game-card" data-game="Asteroids"> 
+                            <div class="game-icon">🚀</div>
+                            <h3>Asteroids</h3>
+                            <p>Prepare-se para explodir!</p> 
+                            <button class="btn-play btn-primary">JOGAR</button> 
+                        </div>
+                        
+                        <div class="game-card" data-game="cs16">
+                            <div class="game-icon">💣</div>
+                            <h3>COUNTER-STRIKE 1.6</h3>
+                            <p>FPS Clássico, jogue direto do navegador.</p>
+                            <button class="btn-play btn-primary">JOGAR</button>
+                        </div>
 
-            <div class="game-card" data-game="krunker">
-                <div class="game-icon">🔫</div>
-                <h3>KRUNKER.IO</h3>
-                <p>FPS competitivo rápido, jogue online.</p>
-                <button class="btn-play btn-primary">JOGAR</button>
-
-            </div> </section>
-    
-    <section class="leaderboard-container">
-        <h2 class="section-title">🏆 Ranking 🏆</h2>
-        <p id="leaderboardStatus" style="text-align: center; color: #00AA00; margin-bottom: 10px;">Carregando...</p>
-        <div id="leaderboard"></div>
-        <button id="btnRefreshLeaderboard" class="btn-secondary" style="margin-top: 20px; width: 100%;">🔄 Atualizar Ranking</button>
-    </section>
-</main>
+                        <div class="game-card" data-game="krunker">
+                            <div class="game-icon">🔫</div>
+                            <h3>KRUNKER.IO</h3>
+                            <p>FPS competitivo rápido, jogue online.</p>
+                            <button class="btn-play btn-primary">JOGAR</button>
+                        </div> 
+                    </div>
+                </section>
+            
+                <section class="leaderboard-container">
+                    <h2 class="section-title">🏆 Ranking 🏆</h2>
+                    <p id="leaderboardStatus" style="text-align: center; color: #00AA00; margin-bottom: 10px;">Carregando...</p>
+                    <div id="leaderboard"></div>
+                    <button id="btnRefreshLeaderboard" class="btn-secondary" style="margin-top: 20px; width: 100%;">🔄 Atualizar Ranking</button>
+                </section>
+            </main>
 
             <footer>
                 <p>Arcade IceGurt © 2025 - Desenvolvido por Paulo Moraes</p>
@@ -288,19 +377,17 @@
         </div>
 
         <div id="gameScreen" class="screen">
-    
-    <button id="btnMenuFromGame" class="btn-back">
-    ⬅ Voltar ao Menu
-    </button>
-    
-    <div id="game-scoreboard" style="display:none;">
-        Pontos: <span id="score">0</span>
-    </div>
+            <button id="btnMenuFromGame" class="btn-back">
+            ⬅ Voltar ao Menu
+            </button>
+            
+            <div id="game-scoreboard" style="display:none;">
+                Pontos: <span id="score">0</span>
+            </div>
 
-    <div id="gameContainer">
+            <div id="gameContainer">
+                </div>
         </div>
-
-</div>
 
         <div id="profileScreen" class="screen">
             <div class="main-panel" style="max-width: 800px; width: 90%;">
@@ -308,8 +395,7 @@
                 
                 <div class="profile-section">
                     <h2>Meu Inventário</h2>
-                    <div id="inventory-grid">
-                        </div>
+                    <div id="inventory-grid"></div>
                     <p id="inventory-status" style="margin-top: 10px; color: var(--icegurt-text-dark);">Você ainda não comprou nenhum item.</p>
                 </div>
                 
@@ -356,132 +442,127 @@
             </div>
         </div>
 
-<div id="docsScreen" class="screen">
-    <div class="main-panel" style="max-width: 800px; width: 90%;">
-        <h1 class="main-title">📚 DOCUMENTAÇÃO</h1>
+        <div id="docsScreen" class="screen">
+            <div class="main-panel" style="max-width: 800px; width: 90%;">
+                <h1 class="main-title">📚 DOCUMENTAÇÃO</h1>
 
-        <div class="documentation-content">
-            <p>Bem-vindo aos bastidores do <strong>Arcade IceGurt</strong>! Aqui você encontra informações sobre o sistema, arquitetura e equipe que tornou tudo isso possível para a ExpoTech 2025/2.</p>
+                <div class="documentation-content">
+                    <p>Bem-vindo aos bastidores do <strong>Arcade IceGurt</strong>! Aqui você encontra informações sobre o sistema, arquitetura e equipe que tornou tudo isso possível para a ExpoTech 2025/2.</p>
 
-            <h4>Sobre o Grupo (IceGurt Team)</h4>
-<p>Este projeto foi desenvolvido pela equipe IceGurt Arcade para a ExpoTech 2025/2, unindo tecnologia, criatividade e um toque de diversão.</p>
+                    <h4>Sobre o Grupo (IceGurt Team)</h4>
+                    <p>Este projeto foi desenvolvido pela equipe IceGurt Arcade para a ExpoTech 2025/2, unindo tecnologia, criatividade e um toque de diversão.</p>
 
-<ul class="team-list">
+                    <ul class="team-list">
+                        <li class="team-member">
+                            <img src="img/eu_foto.JPEG" alt="Foto de Paulo Moraes">
+                            <div class="team-member-info">
+                                <h5>Paulo Moraes</h5>
+                                <div class="member-badges">
+                                    <div class="badge badge-fullstack"><span>💻</span> Full Stack</div>
+                                    <div class="badge badge-support"><span>🛠️</span> Suporte Técnico</div>
+                                </div>
+                                <a href="https://www.linkedin.com/in/paulomoraesdev/" target="_blank">Ver LinkedIn</a>
+                            </div>
+                        </li>
 
-    <!-- PAULO -->
-    <li class="team-member">
-        <img src="img/eu_foto.JPEG" alt="Foto de Paulo Moraes">
-        <div class="team-member-info">
-            <h5>Paulo Moraes</h5>
-            <div class="member-badges">
-                <div class="badge badge-fullstack"><span>💻</span> Full Stack</div>
-                <div class="badge badge-support"><span>🛠️</span> Suporte Técnico</div>
-            </div>
-            <a href="https://www.linkedin.com/in/paulomoraesdev/" target="_blank">Ver LinkedIn</a>
-        </div>
-    </li>
+                        <li class="team-member">
+                            <img src="img/miqueias_foto.jpeg" alt="Foto de Miqueias Santos">
+                            <div class="team-member-info">
+                                <h5>Miqueias Santos</h5>
+                                <div class="member-badges">
+                                    <div class="badge badge-hardware"><span>🔧</span> Hardware</div>
+                                </div>
+                                <a href="https://www.linkedin.com/in/miqueias-santos-3583b2314/" target="_blank">Ver LinkedIn</a>
+                            </div>
+                        </li>
 
-    <!-- MIQUEIAS -->
-    <li class="team-member">
-        <img src="img/miqueias_foto.jpeg" alt="Foto de Miqueias Santos">
-        <div class="team-member-info">
-            <h5>Miqueias Santos</h5>
-            <div class="member-badges">
-                <div class="badge badge-hardware"><span>🔧</span> Hardware</div>
-            </div>
-            <a href="https://www.linkedin.com/in/miqueias-santos-3583b2314/" target="_blank">Ver LinkedIn</a>
-        </div>
-    </li>
+                        <li class="team-member">
+                            <img src="img/guilherme_foto.jpg" alt="Foto de Guilherme Costa">
+                            <div class="team-member-info">
+                                <h5>Guilherme Costa</h5>
+                                <div class="member-badges">
+                                    <div class="badge badge-hardware"><span>🔧</span> Manutenção</div>
+                                </div>
+                                <a href="#" target="_blank">Ver LinkedIn</a>
+                            </div>
+                        </li>
 
-    <!-- GUILHERME -->
-    <li class="team-member">
-        <img src="img/guilherme_foto.jpg" alt="Foto de Guilherme Costa">
-        <div class="team-member-info">
-            <h5>Guilherme Costa</h5>
-            <div class="member-badges">
-                <div class="badge badge-hardware"><span>🔧</span> Manutenção</div>
-            </div>
-            <a href="#" target="_blank">Ver LinkedIn</a>
-        </div>
-    </li>
+                        <li class="team-member">
+                            <img src="img/lopes_foto.jpg" alt="Foto de João Lopes">
+                            <div class="team-member-info">
+                                <h5>João Lopes</h5>
+                                <div class="member-badges">
+                                    <div class="badge badge-video"><span>🎥</span> Videomaker</div>
+                                    <div class="badge badge-hardware"><span>🔧</span> Montagem</div>
+                                </div>
+                                <a href="https://www.linkedin.com/in/jo%C3%A3o-vitor-pedreira-lopes-114701232/" target="_blank">Ver LinkedIn</a>
+                            </div>
+                        </li>
 
-    <!-- LOPES -->
-    <li class="team-member">
-        <img src="img/lopes_foto.jpg" alt="Foto de João Lopes">
-        <div class="team-member-info">
-            <h5>João Lopes</h5>
-            <div class="member-badges">
-                <div class="badge badge-video"><span>🎥</span> Videomaker</div>
-                <div class="badge badge-hardware"><span>🔧</span> Montagem</div>
-            </div>
-            <a href="https://www.linkedin.com/in/jo%C3%A3o-vitor-pedreira-lopes-114701232/" target="_blank">Ver LinkedIn</a>
-        </div>
-    </li>
-
-    <!-- LUCAS -->
-    <li class="team-member">
-        <img src="img/lucas_foto.jpeg" alt="Foto de Lucas Barboza">
-        <div class="team-member-info">
-            <h5>Lucas Barboza</h5>
-            <div class="member-badges">
-                <div class="badge badge-vm"><span>🖥️</span> VirtualBox</div>
-                <div class="badge badge-hardware"><span>🔧</span> Montagem</div>
-            </div>
-            <a href="https://www.linkedin.com/in/lucas-barboza1/" target="_blank">Ver LinkedIn</a>
-        </div>
-    </li>
-
-</ul>
-
-            <hr class="docs-divider">
-
-            <h4>🖥️ Frontend — O que você vê</h4>
-            <ul>
-                <li><strong>HTML5:</strong> Estrutura das páginas.</li>
-                <li><strong>CSS3:</strong> Estilos usando variáveis, animações e layout responsivo.</li>
-                <li><strong>JavaScript (ES6+):</strong>
-                    <ul>
-                        <li>Controle das telas (Login, Menu, Loja etc.)</li>
-                        <li>Eventos e lógica dos botões</li>
-                        <li>Carregamento dos jogos</li>
-                        <li>Socket.IO para ranking e geladinhos em tempo real</li>
+                        <li class="team-member">
+                            <img src="img/lucas_foto.jpeg" alt="Foto de Lucas Barboza">
+                            <div class="team-member-info">
+                                <h5>Lucas Barboza</h5>
+                                <div class="member-badges">
+                                    <div class="badge badge-vm"><span>🖥️</span> VirtualBox</div>
+                                    <div class="badge badge-hardware"><span>🔧</span> Montagem</div>
+                                </div>
+                                <a href="https://www.linkedin.com/in/lucas-barboza1/" target="_blank">Ver LinkedIn</a>
+                            </div>
+                        </li>
                     </ul>
-                </li>
-            </ul>
 
-            <h4>⚙️ Backend — O cérebro do Arcade</h4>
-            <ul>
-                <li><strong>Node.js:</strong> Execução do servidor.</li>
-                <li><strong>Express.js:</strong> Gerenciamento das rotas de autenticação.</li>
-                <li><strong>Socket.IO:</strong> Comunicação em tempo real com todos os jogadores.</li>
-            </ul>
+                    <hr class="docs-divider">
 
-            <h4>🏗 Arquitetura do Sistema</h4>
-            <p>O fluxo geral funciona assim:</p>
+                    <h4>🖥️ Frontend — O que você vê</h4>
+                    <ul>
+                        <li><strong>HTML5:</strong> Estrutura das páginas.</li>
+                        <li><strong>CSS3:</strong> Estilos usando variáveis, animações e layout responsivo.</li>
+                        <li><strong>JavaScript (ES6+):</strong>
+                            <ul>
+                                <li>Controle das telas (Login, Menu, Loja etc.)</li>
+                                <li>Eventos e lógica dos botões</li>
+                                <li>Carregamento dos jogos</li>
+                                <li>Socket.IO para ranking e geladinhos em tempo real</li>
+                            </ul>
+                        </li>
+                    </ul>
 
-            <ol>
-                <li>Cliente faz login/registro pela API.</li>
-                <li>Servidor autentica e envia um Token JWT.</li>
-                <li>Cliente conecta ao Socket.IO usando o token.</li>
-                <li>Servidor valida a conexão.</li>
-                <li>Jogador inicia e conclui um jogo.</li>
-                <li>O score final é enviado via <code>socket.emit('jogo-finalizado')</code>.</li>
-                <li>Servidor salva no banco.</li>
-                <li>Servidor envia broadcast de atualização.</li>
-                <li>Todos os clientes recebem o novo ranking em tempo real.</li>
-            </ol>
+                    <h4>⚙️ Backend — O cérebro do Arcade</h4>
+                    <ul>
+                        <li><strong>Node.js:</strong> Execução do servidor.</li>
+                        <li><strong>Express.js:</strong> Gerenciamento das rotas de autenticação.</li>
+                        <li><strong>Socket.IO:</strong> Comunicação em tempo real com todos os jogadores.</li>
+                    </ul>
 
-            <h4>🎮 Os Jogos</h4>
-            <p>Os jogos são carregados dinamicamente pelo <code>app.js</code>, que atua como um “hub”. Cada score se transforma em geladinhos acumulados no ranking.</p>
+                    <h4>🏗 Arquitetura do Sistema</h4>
+                    <p>O fluxo geral funciona assim:</p>
 
-            <img src="img/foto_pacman.jpg" class="docs-img" alt="Jogo Pac-Man">
+                    <ol>
+                        <li>Cliente faz login/registro pela API.</li>
+                        <li>Servidor autentica e envia um Token JWT.</li>
+                        <li>Cliente conecta ao Socket.IO usando o token.</li>
+                        <li>Servidor valida a conexão.</li>
+                        <li>Jogador inicia e conclui um jogo.</li>
+                        <li>O score final é enviado via <code>socket.emit('jogo-finalizado')</code>.</li>
+                        <li>Servidor salva no banco.</li>
+                        <li>Servidor envia broadcast de atualização.</li>
+                        <li>Todos os clientes recebem o novo ranking em tempo real.</li>
+                    </ol>
+
+                    <h4>🎮 Os Jogos</h4>
+                    <p>Os jogos são carregados dinamicamente pelo <code>app.js</code>, que atua como um “hub”. Cada score se transforma em geladinhos acumulados no ranking.</p>
+
+                    <img src="img/foto_pacman.jpg" class="docs-img" alt="Jogo Pac-Man">
+                </div>
+
+                <button id="btnDocsToMenu" class="btn-secondary btn-with-icon" style="margin-top: 30px;">&#x2190; Voltar ao Menu</button>
+            </div>
         </div>
 
-        <button id="btnDocsToMenu" class="btn-secondary btn-with-icon" style="margin-top: 30px;">&#x2190; Voltar ao Menu</button>
     </div>
-</div>
-
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/app.js"></script>
 </body>
+</html>
