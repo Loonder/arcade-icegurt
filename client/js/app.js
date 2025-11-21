@@ -213,7 +213,7 @@ function atualizarShopDisplay() {
         if (saldoDisplay) saldoDisplay.textContent = usuarioAtual.geladinhos || 0;
         
         document.querySelectorAll('.btn-buy').forEach(btn => {
-            const preco = parseInt(btn.dataset.preco, 10);
+            const preco = parseInt(btn.dataset.preco, 1);
             if (usuarioAtual.geladinhos < preco && btn.textContent !== 'Em breve') {
                 btn.disabled = true;
             } else if (btn.textContent !== 'Em breve') {
@@ -272,7 +272,7 @@ document.querySelectorAll('.btn-buy').forEach(button => {
         }
         
         const itemNome = e.target.dataset.item;
-        const itemPreco = parseInt(e.target.dataset.preco, 10);
+        const itemPreco = parseInt(e.target.dataset.preco, 1);
 
         if (usuarioAtual.inventario && usuarioAtual.inventario.includes(itemNome)) {
             mostrarMensagem('ℹ️ Item já adquirido', 'Você já possui este item no seu inventário.', true);
