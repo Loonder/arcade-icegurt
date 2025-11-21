@@ -328,31 +328,32 @@ function carregarScriptJogo(nomeJogo, callback) {
     document.body.appendChild(script);
 }
 
-// Funções de Inicialização de IFRAME
+// =================================================
+// 🛠️ FUNÇÕES DE INICIALIZAÇÃO DE IFRAME (CORRIGIDO)
+// =================================================
+
 function criarGameIframe(src, id, allow = null) {
-    const gameScreenDiv = document.getElementById('gameScreen');
-    gameScreenDiv.innerHTML = ''; 
+    // CORREÇÃO 1: Alvo agora é o 'gameContainer' (filho), não 'gameScreen' (pai).
+    // Isso impede que o botão de voltar fixo seja apagado.
+    const gameContainer = document.getElementById('gameContainer');
+    gameContainer.innerHTML = ''; // Limpa apenas o jogo anterior
 
     const iframe = document.createElement('iframe');
     iframe.id = id;
     iframe.src = src;
     iframe.className = 'game-iframe';
     iframe.frameBorder = 0;
+    
+    // Força o iframe a ocupar a área disponível
+    iframe.style.width = "100%";
+    iframe.style.height = "100vh";
+    
     if (allow) iframe.allow = allow;
 
-    gameScreenDiv.appendChild(iframe);
+    gameContainer.appendChild(iframe);
     
-    // Botão Voltar
-    const btnVoltar = document.createElement('button');
-    btnVoltar.textContent = '📋 Voltar ao Menu';
-    btnVoltar.className = 'btn-secondary';
-    
-    btnVoltar.onclick = () => {
-        document.body.classList.remove('game-is-active');
-        mostrarTela('mainScreen');
-        gameScreenDiv.innerHTML = '';
-    };
-    gameScreenDiv.appendChild(btnVoltar);
+    // CORREÇÃO 2: Removi a criação do botão via JS.
+    // Motivo: Já existe o botão fixo <button id="btnBack"> no seu HTML.
 }
 
 function iniciarPacman() {
@@ -376,7 +377,7 @@ function iniciarCS16() {
     jogoEmJogo = 'cs16';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
-    // Adiciona permissões de sandbox e allow que você tinha
+    // Adiciona permissões de sandbox e allow
     criarGameIframe('https://play-cs.com/pt/servers', 'gameFrameCS', "fullscreen; clipboard-write; autoplay");
 }
 
@@ -385,7 +386,7 @@ function iniciarKrunker() {
     jogoEmJogo = 'krunker';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
-    // Adiciona permissões de FPS que você tinha
+    // Adiciona permissões de FPS
     criarGameIframe('https://krunker.io/', 'gameFrameKrunker', "fullscreen; pointer-lock; gyroscope; accelerometer");
 }
 
