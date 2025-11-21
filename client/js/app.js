@@ -9,7 +9,7 @@ let usuarioAtual = null;
 let jogoEmJogo = null;
 let instanciaJogo = null;
 let janelaModalAberta = false;
-const PONTOS_POR_GELADINHO = 2000; 
+const PONTOS_POR_GELADINHO = 1200; 
 
 // ===================================
 // ===== CONTROLE DE TELAS =====
