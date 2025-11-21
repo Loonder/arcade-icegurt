@@ -1490,4 +1490,23 @@ button[onclick*="backToMenu"],
         left: 10px !important;
         opacity: 0.9;
     }
+    /* ================================================= */
+/* 🐍 CORREÇÃO DE CENTRALIZAÇÃO DO SNAKE/CANVAS */
+/* ================================================= */
+.game-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;           /* Ativa o Flexbox */
+    justify-content: center; /* Centraliza Horizontalmente */
+    align-items: center;     /* Centraliza Verticalmente */
+    flex-direction: column;
+}
+
+/* Garante que o container do canvas não estique */
+#gameCanvasContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Espaço extra para separar do topo/placar */
+}
 }
