@@ -788,7 +788,7 @@ button[onclick*="backToMenu"],
 }
 
 .game-card.mobile-disabled::after {
-    content: "🚫 Apenas PC";
+    content: "🚫 Apenas Desktop";
     position: absolute;
     top: 50%;
     left: 50%;
