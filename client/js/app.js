@@ -494,7 +494,6 @@ function iniciarInstanciaJogo(nomeJogo) {
             instanciaJogo.stopGame();
         }
         instanciaJogo = null;
-        jogoEmJogo = null;
         document.removeEventListener('keydown', handleKeyGame);
     });
 
@@ -588,12 +587,12 @@ gameResultDiv.innerHTML = `
         }
     });
     
-    // Lógica do "Voltar ao Menu"
-    document.getElementById('btnMenuFromGame').addEventListener('click', () => {
-        document.body.classList.remove('game-is-active');
-        mostrarTela('mainScreen');
-    });
-    
+document.getElementById('btnMenuFromGame').addEventListener('click', () => {
+    document.body.classList.remove('game-is-active');
+    mostrarTela('mainScreen');
+});
+
+
     // Envia o score para o servidor e atualiza o estado local
     if (usuarioAtual && score !== undefined) {
         socket.emit('jogo-finalizado', {
