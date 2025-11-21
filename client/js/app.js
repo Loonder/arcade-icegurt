@@ -777,6 +777,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (usuarioSalvo) {
         try {
             usuarioAtual = JSON.parse(usuarioSalvo);
+            usuarioAtual.geladinhos = parseInt(usuarioAtual.geladinhos, 10) || 0;
             usuarioAtual.inventario = usuarioAtual.inventario || [];
             console.log('Usuário carregado:', usuarioAtual.username);
             atualizarInfoUsuario();
