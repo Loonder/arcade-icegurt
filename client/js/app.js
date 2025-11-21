@@ -28,6 +28,20 @@ function mostrarTela(telaId) {
     }
 }
 
+// Função Auxiliar para esconder/mostrar o botão fixo do topo
+function alternarBotaoFixo(mostrar) {
+    const btn = document.getElementById('btnMenuFromGame');
+    if (btn) {
+        if (mostrar) {
+            // Remove o inline style para voltar a usar o CSS original (flex)
+            btn.style.removeProperty('display'); 
+        } else {
+            // Força o desaparecimento com prioridade máxima para vencer o !important do CSS
+            btn.style.setProperty('display', 'none', 'important'); 
+        }
+    }
+}
+
 // ===================================
 // ===== MODAL DE MENSAGENS =====
 // ===================================
@@ -353,7 +367,7 @@ function carregarScriptJogo(nomeJogo, callback) {
 
 // Funções de Inicialização de IFRAME
 function criarGameIframe(src, id, allow = null) {
-    // IMPORTANTE: Limpa apenas o container, mantendo botões externos
+    // Limpa apenas o container
     const gameContainer = document.getElementById('gameContainer');
     if(gameContainer) {
         gameContainer.innerHTML = ''; 
@@ -378,6 +392,7 @@ function iniciarPacman() {
     jogoEmJogo = 'pacman';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
+    alternarBotaoFixo(true); // Garante que o botão apareça ao iniciar
     criarGameIframe('/js/games/pacman/index.html', 'gameFrame');
 }
 
@@ -386,6 +401,7 @@ function iniciarFlappyBird() {
     jogoEmJogo = 'flappybird';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
+    alternarBotaoFixo(true);
     criarGameIframe('/js/games/flappybird/index.html', 'gameFrame');
 }
 
@@ -394,6 +410,7 @@ function iniciarCS16() {
     jogoEmJogo = 'cs16';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
+    alternarBotaoFixo(true);
     criarGameIframe('https://play-cs.com/pt/servers', 'gameFrameCS', "fullscreen; clipboard-write; autoplay");
 }
 
@@ -402,6 +419,7 @@ function iniciarKrunker() {
     jogoEmJogo = 'krunker';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
+    alternarBotaoFixo(true);
     criarGameIframe('https://krunker.io/', 'gameFrameKrunker', "fullscreen; pointer-lock; gyroscope; accelerometer");
 }
 
@@ -440,8 +458,8 @@ function iniciarInstanciaJogo(nomeJogo) {
     }
 
     jogoEmJogo = nomeJogo;
-    
-    // Usa o gameContainer para injetar o Canvas
+    alternarBotaoFixo(true); // Mostra botão ao iniciar
+
     const gameContainer = document.getElementById('gameContainer');
     if(gameContainer) gameContainer.innerHTML = '';
 
@@ -449,7 +467,7 @@ function iniciarInstanciaJogo(nomeJogo) {
     gameWrapper.className = 'game-wrapper';
 
     const gameCanvasWrapper = document.createElement('div');
-    gameCanvasWrapper.id = 'gameCanvasContainer'; // ID interno para diferenciar
+    gameCanvasWrapper.id = 'gameCanvasContainer';
 
     const scoreboardDiv = document.createElement('div');
     scoreboardDiv.id = 'game-scoreboard';
@@ -465,7 +483,6 @@ function iniciarInstanciaJogo(nomeJogo) {
     gameWrapper.appendChild(scoreboardDiv);
     gameContainer.appendChild(gameWrapper);
 
-    // ---- ATUALIZAÇÃO DE SCORE ----
     let geladinhosGanhos = 0;
 
     let updateScoreDisplay = (score) => {
@@ -481,7 +498,6 @@ function iniciarInstanciaJogo(nomeJogo) {
         }
     };
 
-    // ---- SCOREBOARD HTML ----
     scoreboardDiv.innerHTML = `
         <h2>PLANTÃO DE PRÊMIOS</h2>
         <div class="current-score">
@@ -500,12 +516,11 @@ function iniciarInstanciaJogo(nomeJogo) {
         </button>
     `;
 
-    // Listener para o botão de voltar dentro do Canvas (opcional, já temos o global)
+    // Listener para o botão de voltar interno do Canvas
     document.getElementById('btnVoltarCanvas').addEventListener('click', () => {
         voltarParaMenuPrincipal();
     });
 
-    // ===== MAPA DE CLASSES DE JOGO =====
     const gameMap = {
         'Asteroids': typeof Asteroids !== 'undefined' ? Asteroids : null,
         'snake': typeof SnakeGame !== 'undefined' ? SnakeGame : null,
@@ -522,7 +537,6 @@ function iniciarInstanciaJogo(nomeJogo) {
     instanciaJogo = new ClasseJogo(gameCanvasWrapper, updateScoreDisplay); 
     document.addEventListener('keydown', handleKeyGame);
 
-    // Verifica fim do jogo
     const verificarFim = setInterval(() => {
         if (instanciaJogo && instanciaJogo.gameEnded) {
             clearInterval(verificarFim);
@@ -546,6 +560,9 @@ function handleKeyGame(e) {
 // =================================================
 
 function finalizarJogo(score, vitoria, geladinhosGanhos) {
+    // 1. Esconde o botão fixo do topo
+    alternarBotaoFixo(false); 
+
     const gameResultDiv = document.createElement('div');
     gameResultDiv.id = 'gameResult';
     gameResultDiv.className = 'game-result-panel';
@@ -566,15 +583,16 @@ function finalizarJogo(score, vitoria, geladinhosGanhos) {
         </div>
     `;
 
-    // CORREÇÃO CRÍTICA: Limpa o CONTAINER, não a TELA toda.
     const gameContainer = document.getElementById('gameContainer');
     if (gameContainer) {
         gameContainer.innerHTML = ''; 
         gameContainer.appendChild(gameResultDiv);
     }
 
-    // Lógica do "Jogar Novamente"
     document.getElementById('btnPlayAgain').addEventListener('click', () => {
+        // Reexibe o botão ao reiniciar
+        alternarBotaoFixo(true);
+
         if (jogoEmJogo === 'pacman') {
             iniciarPacman();
         } else if (jogoEmJogo === 'flappybird') {
@@ -590,12 +608,10 @@ function finalizarJogo(score, vitoria, geladinhosGanhos) {
         }
     });
     
-    // Lógica do botão "Voltar ao Menu" (Placar)
     document.getElementById('btnMenuFromResult').addEventListener('click', () => {
         voltarParaMenuPrincipal();
     });
 
-    // Envia o score para o servidor
     if (usuarioAtual && score !== undefined) {
         socket.emit('jogo-finalizado', {
             usuarioId: usuarioAtual.id,
@@ -684,24 +700,20 @@ window.addEventListener('message', (event) => {
 function voltarParaMenuPrincipal() {
     console.log("Voltando ao menu...");
     
-    // 1. Limpa o container do jogo
+    // Garante que o botão fixo reapareça ao sair do jogo
+    alternarBotaoFixo(true); 
+
     const gameContainer = document.getElementById('gameContainer');
     if (gameContainer) gameContainer.innerHTML = ''; 
 
-    // 2. Reseta a tela de jogo (removendo estilo manual)
     const gameScreen = document.getElementById('gameScreen');
     gameScreen.classList.remove('active');
     
     document.body.classList.remove('game-is-active');
-
-    // 3. Reativa a tela principal
     mostrarTela('mainScreen');
     
-    // 4. Reseta variáveis
     jogoEmJogo = null;
     instanciaJogo = null;
-    
-    // Remove listeners antigos
     document.removeEventListener('keydown', handleKeyGame);
 }
 
@@ -744,7 +756,7 @@ function verificarDispositivoEBloquearJogos() {
 window.addEventListener('DOMContentLoaded', () => {
     console.log('Página carregada, inicializando...');
     
-    // Listener do Botão Fixo Global (Topo Esquerdo)
+    // Listener do Botão Fixo Global
     const btnFixo = document.getElementById('btnMenuFromGame');
     if (btnFixo) {
         const novoBtn = btnFixo.cloneNode(true);
@@ -774,6 +786,5 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Listeners globais de janela
 window.addEventListener('load', verificarDispositivoEBloquearJogos);
 window.addEventListener('resize', verificarDispositivoEBloquearJogos);
