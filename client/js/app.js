@@ -9,7 +9,6 @@ let usuarioAtual = null;
 let jogoEmJogo = null;
 let instanciaJogo = null;
 let janelaModalAberta = false;
-// Usando o valor mais alto e mais recente do código fornecido
 const PONTOS_POR_GELADINHO = 2000; 
 
 // ===================================
@@ -18,7 +17,8 @@ const PONTOS_POR_GELADINHO = 2000;
 
 function mostrarTela(telaId) {
     document.querySelectorAll('.screen').forEach(tela => tela.classList.remove('active'));
-    document.getElementById(telaId).classList.add('active');
+    const telaAlvo = document.getElementById(telaId);
+    if(telaAlvo) telaAlvo.classList.add('active');
 
     if (telaId === 'shopScreen') {
         atualizarShopDisplay();
@@ -32,147 +32,169 @@ function mostrarTela(telaId) {
 // ===== MODAL DE MENSAGENS =====
 // ===================================
 function mostrarMensagem(titulo, mensagem, tipoErro = true) {
-    document.getElementById('modalTitle').textContent = titulo;
-    document.getElementById('modalMessage').textContent = mensagem;
-    document.getElementById('modalTitle').style.color = tipoErro ? 'var(--icegurt-red)' : '#00FF00'; // Verde sucesso
-    document.getElementById('messageModal').style.display = 'flex';
-    janelaModalAberta = true;
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMessage = document.getElementById('modalMessage');
+    const messageModal = document.getElementById('messageModal');
+
+    if(modalTitle && modalMessage && messageModal) {
+        modalTitle.textContent = titulo;
+        modalMessage.textContent = mensagem;
+        modalTitle.style.color = tipoErro ? 'var(--icegurt-red)' : '#00FF00';
+        messageModal.style.display = 'flex';
+        janelaModalAberta = true;
+    }
     console.log(`[${tipoErro ? 'ERRO' : 'SUCESSO'}] ${titulo}: ${mensagem}`);
 }
-document.getElementById('modalCloseButton').addEventListener('click', () => {
-    document.getElementById('messageModal').style.display = 'none';
-    janelaModalAberta = false;
-});
+
+const modalCloseBtn = document.getElementById('modalCloseButton');
+if(modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', () => {
+        document.getElementById('messageModal').style.display = 'none';
+        janelaModalAberta = false;
+    });
+}
 
 // ===================================
 // ===== LOGIN E REGISTRO (FLIP) =====
 // ===================================
 const authCard = document.getElementById('authCard');
-document.getElementById('toggleRegister').addEventListener('click', (e) => {
-    e.preventDefault();
-    authCard.classList.add('is-flipped');
-});
-document.getElementById('toggleLogin').addEventListener('click', (e) => {
-    e.preventDefault();
-    authCard.classList.remove('is-flipped');
-});
+if(authCard) {
+    document.getElementById('toggleRegister').addEventListener('click', (e) => {
+        e.preventDefault();
+        authCard.classList.add('is-flipped');
+    });
+    document.getElementById('toggleLogin').addEventListener('click', (e) => {
+        e.preventDefault();
+        authCard.classList.remove('is-flipped');
+    });
+}
 
 // Login
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    const senha = document.getElementById('senha').value.trim();
+const loginForm = document.getElementById('loginForm');
+if(loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value.trim();
+        const senha = document.getElementById('senha').value.trim();
 
-    if (!email || !senha) {
-        mostrarMensagem('❌ Campos Vazios', 'Por favor, preencha email e senha', true);
-        return;
-    }
-    try {
-        console.log('Tentando login com:', email);
-        const response = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, senha })
-        });
-        const data = await response.json();
-
-        if (response.ok) {
-            // Inicializa o inventário se não existir
-            data.usuario.inventario = data.usuario.inventario || [];
-            
-            usuarioAtual = { ...data.usuario, token: data.token };
-            localStorage.setItem('usuarioAtual', JSON.stringify(usuarioAtual));
-            
-            atualizarInfoUsuario();
-            carregarLeaderboard();
-            mostrarTela('mainScreen');
-            document.getElementById('loginForm').reset();
-            mostrarMensagem('✅ Bem-vindo!', `Login realizado com sucesso, ${usuarioAtual.username}!`, false);
-        } else {
-            mostrarMensagem('⚠️ Falha no Login', data.message || 'Credenciais inválidas.', true);
+        if (!email || !senha) {
+            mostrarMensagem('❌ Campos Vazios', 'Por favor, preencha email e senha', true);
+            return;
         }
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarMensagem('❌ Erro de Conexão', 'Não foi possível conectar ao servidor.', true);
-    }
-});
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, senha })
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                data.usuario.inventario = data.usuario.inventario || [];
+                usuarioAtual = { ...data.usuario, token: data.token };
+                localStorage.setItem('usuarioAtual', JSON.stringify(usuarioAtual));
+                
+                atualizarInfoUsuario();
+                carregarLeaderboard();
+                mostrarTela('mainScreen');
+                loginForm.reset();
+                mostrarMensagem('✅ Bem-vindo!', `Login realizado com sucesso, ${usuarioAtual.username}!`, false);
+            } else {
+                mostrarMensagem('⚠️ Falha no Login', data.message || 'Credenciais inválidas.', true);
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            mostrarMensagem('❌ Erro de Conexão', 'Não foi possível conectar ao servidor.', true);
+        }
+    });
+}
 
 // Registro
-document.getElementById('registerForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const username = document.getElementById('usernameReg').value.trim();
-    const email = document.getElementById('emailReg').value.trim();
-    const senha = document.getElementById('senhaReg').value.trim();
+const registerForm = document.getElementById('registerForm');
+if(registerForm) {
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('usernameReg').value.trim();
+        const email = document.getElementById('emailReg').value.trim();
+        const senha = document.getElementById('senhaReg').value.trim();
 
-    if (!username || !email || !senha) {
-        mostrarMensagem('❌ Campos Vazios', 'Preencha todos os campos.', true);
-        return;
-    }
-    if (senha.length < 6) {
-        mostrarMensagem('⚠️ Senha Fraca', 'A senha deve ter no mínimo 6 caracteres.', true);
-        return;
-    }
-    try {
-        const response = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, senha })
-        });
-        const data = await response.json();
-        if (response.ok) {
-            mostrarMensagem('✅ Sucesso!', 'Conta criada! Faça login para continuar.', false);
-            setTimeout(() => {
-                document.getElementById('messageModal').style.display = 'none';
-                janelaModalAberta = false;
-                authCard.classList.remove('is-flipped');
-            }, 2000);
-            document.getElementById('registerForm').reset();
-        } else {
-            mostrarMensagem('⚠️ Falha no Registro', data.message || 'Email/usuário já existe.', true);
+        if (!username || !email || !senha) {
+            mostrarMensagem('❌ Campos Vazios', 'Preencha todos os campos.', true);
+            return;
         }
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarMensagem('❌ Erro de Conexão', 'Não foi possível conectar ao servidor', true);
-    }
-});
+        if (senha.length < 6) {
+            mostrarMensagem('⚠️ Senha Fraca', 'A senha deve ter no mínimo 6 caracteres.', true);
+            return;
+        }
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, senha })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                mostrarMensagem('✅ Sucesso!', 'Conta criada! Faça login para continuar.', false);
+                setTimeout(() => {
+                    document.getElementById('messageModal').style.display = 'none';
+                    janelaModalAberta = false;
+                    if(authCard) authCard.classList.remove('is-flipped');
+                }, 2000);
+                registerForm.reset();
+            } else {
+                mostrarMensagem('⚠️ Falha no Registro', data.message || 'Email/usuário já existe.', true);
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            mostrarMensagem('❌ Erro de Conexão', 'Não foi possível conectar ao servidor', true);
+        }
+    });
+}
 
 // Logout
-document.getElementById('btnLogout').addEventListener('click', () => {
-    usuarioAtual = null;
-    localStorage.removeItem('usuarioAtual');
-    mostrarTela('authScreen');
-    document.getElementById('loginForm').reset();
-    document.getElementById('registerForm').reset();
-    mostrarMensagem('👋 Até logo!', 'Você foi desconectado com sucesso!', false);
-});
+const btnLogout = document.getElementById('btnLogout');
+if(btnLogout) {
+    btnLogout.addEventListener('click', () => {
+        usuarioAtual = null;
+        localStorage.removeItem('usuarioAtual');
+        mostrarTela('authScreen');
+        if(loginForm) loginForm.reset();
+        if(registerForm) registerForm.reset();
+        mostrarMensagem('👋 Até logo!', 'Você foi desconectado com sucesso!', false);
+    });
+}
 
 // ===================================
 // ===== PERFIL, LOJA E INVENTÁRIO (UI) =====
 // ===================================
 // Listeners de navegação
-document.getElementById('btnShowProfile').addEventListener('click', () => mostrarTela('profileScreen'));
-document.getElementById('btnShowShop').addEventListener('click', () => mostrarTela('shopScreen'));
-document.getElementById('btnProfileToMenu').addEventListener('click', () => mostrarTela('mainScreen'));
-document.getElementById('btnShopToMenu').addEventListener('click', () => mostrarTela('mainScreen'));
-document.getElementById('btnShowDocs').addEventListener('click', () => mostrarTela('docsScreen'));
-document.getElementById('btnDocsToMenu').addEventListener('click', () => mostrarTela('mainScreen'));
+const setupNav = (btnId, screenId) => {
+    const btn = document.getElementById(btnId);
+    if(btn) btn.addEventListener('click', () => mostrarTela(screenId));
+};
 
-// Atualiza todas as informações do usuário (header, loja, inventário)
+setupNav('btnShowProfile', 'profileScreen');
+setupNav('btnShowShop', 'shopScreen');
+setupNav('btnProfileToMenu', 'mainScreen');
+setupNav('btnShopToMenu', 'mainScreen');
+setupNav('btnShowDocs', 'docsScreen');
+setupNav('btnDocsToMenu', 'mainScreen');
+
 function atualizarInfoUsuario() {
     if (usuarioAtual) {
-        // Atualiza Header
-        document.getElementById('userGreeting').textContent = `👋 ${usuarioAtual.username}`;
-        document.getElementById('userGeladinhos').textContent = `🍦 ${usuarioAtual.geladinhos || 0} Geladinhos`;
+        const greeting = document.getElementById('userGreeting');
+        const geladinhos = document.getElementById('userGeladinhos');
+        if(greeting) greeting.textContent = `👋 ${usuarioAtual.username}`;
+        if(geladinhos) geladinhos.textContent = `🍦 ${usuarioAtual.geladinhos || 0} Geladinhos`;
         
-        // Atualiza a Loja e Inventário
         atualizarShopDisplay();
         atualizarInventarioDisplay();
     }
 }
 
-// Atualiza o display de saldo na loja e habilita/desabilita botões
 function atualizarShopDisplay() {
-    if (document.getElementById('shopScreen').classList.contains('active')) {
+    const shopScreen = document.getElementById('shopScreen');
+    if (shopScreen && shopScreen.classList.contains('active')) {
         const saldoDisplay = document.getElementById('shop-geladinhos-display');
         if (saldoDisplay) {
             saldoDisplay.textContent = usuarioAtual.geladinhos || 0;
@@ -188,12 +210,12 @@ function atualizarShopDisplay() {
     }
 }
 
-// Atualiza o display do inventário no Perfil
 function atualizarInventarioDisplay() {
-    if (document.getElementById('profileScreen').classList.contains('active')) {
+    const profileScreen = document.getElementById('profileScreen');
+    if (profileScreen && profileScreen.classList.contains('active')) {
         const inventoryGrid = document.getElementById('inventory-grid');
         const inventoryStatus = document.getElementById('inventory-status');
-        inventoryGrid.innerHTML = ''; // Limpa
+        inventoryGrid.innerHTML = ''; 
 
         if (!usuarioAtual.inventario || usuarioAtual.inventario.length === 0) {
             inventoryStatus.textContent = 'Você ainda não comprou nenhum item.';
@@ -239,7 +261,6 @@ document.querySelectorAll('.btn-buy').forEach(button => {
         const itemNome = e.target.dataset.item;
         const itemPreco = parseInt(e.target.dataset.preco, 10);
 
-        // Validação rápida do lado do cliente (o servidor fará a validação REAL)
         if (usuarioAtual.inventario && usuarioAtual.inventario.includes(itemNome)) {
             mostrarMensagem('ℹ️ Item já adquirido', 'Você já possui este item no seu inventário.', true);
             return;
@@ -249,7 +270,6 @@ document.querySelectorAll('.btn-buy').forEach(button => {
             return;
         }
 
-        // Enviar a INTENÇÃO de compra para o servidor via Socket.IO
         mostrarMensagem('⏳ Processando Compra', `Aguarde, comprando ${itemNome}...`, false);
 
         socket.emit('comprar-item', { 
@@ -267,6 +287,8 @@ async function carregarLeaderboard() {
         const response = await fetch('/api/leaderboard');
         const rankings = await response.json();
         const leaderboardDiv = document.getElementById('leaderboard');
+        if(!leaderboardDiv) return;
+        
         leaderboardDiv.innerHTML = '';
 
         if (rankings.length === 0) {
@@ -288,13 +310,16 @@ async function carregarLeaderboard() {
         });
     } catch (error) {
         console.error('Erro ao carregar leaderboard:', error);
-        document.getElementById('leaderboardStatus').textContent = 'Erro ao carregar ranking ❌';
+        const status = document.getElementById('leaderboardStatus');
+        if(status) status.textContent = 'Erro ao carregar ranking ❌';
     }
 }
-document.getElementById('btnRefreshLeaderboard').addEventListener('click', carregarLeaderboard);
+
+const btnRefresh = document.getElementById('btnRefreshLeaderboard');
+if(btnRefresh) btnRefresh.addEventListener('click', carregarLeaderboard);
 
 // ===================================
-// ===== CARREGAMENTO DE JOGOS (IFRAME/SCRIPT) =====
+// ===== CARREGAMENTO DE JOGOS =====
 // ===================================
 function carregarScriptJogo(nomeJogo, callback) {
     const scriptAntigo = document.getElementById('gameScript');
@@ -328,36 +353,29 @@ function carregarScriptJogo(nomeJogo, callback) {
     document.body.appendChild(script);
 }
 
-// =================================================
-// 🛠️ FUNÇÕES DE INICIALIZAÇÃO DE IFRAME (CORRIGIDO)
-// =================================================
-
+// Função para criar IFRAME (usada por Pacman, FlappyBird, etc)
 function criarGameIframe(src, id, allow = null) {
-    // CORREÇÃO 1: Alvo agora é o 'gameContainer' (filho), não 'gameScreen' (pai).
-    // Isso impede que o botão de voltar fixo seja apagado.
+    // CORREÇÃO IMPORTANTE: Limpa apenas o Container, preservando botões externos
     const gameContainer = document.getElementById('gameContainer');
-    gameContainer.innerHTML = ''; // Limpa apenas o jogo anterior
+    if(gameContainer) {
+        gameContainer.innerHTML = ''; 
 
-    const iframe = document.createElement('iframe');
-    iframe.id = id;
-    iframe.src = src;
-    iframe.className = 'game-iframe';
-    iframe.frameBorder = 0;
-    
-    // Força o iframe a ocupar a área disponível
-    iframe.style.width = "100%";
-    iframe.style.height = "100vh";
-    
-    if (allow) iframe.allow = allow;
+        const iframe = document.createElement('iframe');
+        iframe.id = id;
+        iframe.src = src;
+        iframe.className = 'game-iframe';
+        iframe.frameBorder = 0;
+        
+        // Força o iframe a ocupar a área
+        iframe.style.width = "100%";
+        iframe.style.height = "100vh";
 
-    gameContainer.appendChild(iframe);
-    
-    // CORREÇÃO 2: Removi a criação do botão via JS.
-    // Motivo: Já existe o botão fixo <button id="btnBack"> no seu HTML.
+        if (allow) iframe.allow = allow;
+        gameContainer.appendChild(iframe);
+    }
 }
 
 function iniciarPacman() {
-    console.log('Carregando Pac-Man via iframe...');
     jogoEmJogo = 'pacman';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
@@ -365,7 +383,6 @@ function iniciarPacman() {
 }
 
 function iniciarFlappyBird() {
-    console.log('Carregando Flappy Bird via iframe...');
     jogoEmJogo = 'flappybird';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
@@ -373,20 +390,16 @@ function iniciarFlappyBird() {
 }
 
 function iniciarCS16() {
-    console.log('Carregando CS 1.6 via iframe...');
     jogoEmJogo = 'cs16';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
-    // Adiciona permissões de sandbox e allow
     criarGameIframe('https://play-cs.com/pt/servers', 'gameFrameCS', "fullscreen; clipboard-write; autoplay");
 }
 
 function iniciarKrunker() {
-    console.log('Carregando Krunker.io via iframe...');
     jogoEmJogo = 'krunker';
     document.body.classList.add('game-is-active');
     mostrarTela('gameScreen');
-    // Adiciona permissões de FPS
     criarGameIframe('https://krunker.io/', 'gameFrameKrunker', "fullscreen; pointer-lock; gyroscope; accelerometer");
 }
 
@@ -415,30 +428,30 @@ document.querySelectorAll('.btn-play:not([disabled])').forEach(btn => {
 });
 
 // ===================================
-// ===== INICIALIZAÇÃO DE JOGOS CANVAS (Snake, Asteroids) =====
+// ===== JOGOS EM CANVAS (Snake, Asteroids) =====
 // ===================================
 function iniciarInstanciaJogo(nomeJogo) {
-
     if (!usuarioAtual) {
         mostrarMensagem('🛑 Sem Usuário', 'Você precisa fazer login para jogar!', true);
         return;
     }
 
     jogoEmJogo = nomeJogo;
-    const gameScreenDiv = document.getElementById('gameScreen');
-    gameScreenDiv.innerHTML = '';
+    
+    // Usa gameContainer para não apagar o botão de voltar global
+    const gameContainer = document.getElementById('gameContainer');
+    gameContainer.innerHTML = '';
 
     const gameWrapper = document.createElement('div');
     gameWrapper.className = 'game-wrapper';
 
     const gameCanvasWrapper = document.createElement('div');
-    gameCanvasWrapper.id = 'gameContainer';
+    gameCanvasWrapper.id = 'gameCanvasContainer'; // ID interno para o jogo
 
     const scoreboardDiv = document.createElement('div');
     scoreboardDiv.id = 'game-scoreboard';
     scoreboardDiv.className = 'game-scoreboard';
 
-    // Criar canvas
     const gameCanvas = document.createElement('canvas');
     gameCanvas.id = 'game';
     gameCanvas.width = 800;
@@ -447,9 +460,8 @@ function iniciarInstanciaJogo(nomeJogo) {
     gameCanvasWrapper.appendChild(gameCanvas);
     gameWrapper.appendChild(gameCanvasWrapper);
     gameWrapper.appendChild(scoreboardDiv);
-    gameScreenDiv.appendChild(gameWrapper);
+    gameContainer.appendChild(gameWrapper);
 
-    // ---- ATUALIZAÇÃO DE SCORE ----
     let geladinhosGanhos = 0;
 
     let updateScoreDisplay = (score) => {
@@ -465,7 +477,6 @@ function iniciarInstanciaJogo(nomeJogo) {
         }
     };
 
-    // ---- SCOREBOARD HTML ----
     scoreboardDiv.innerHTML = `
         <h2>PLANTÃO DE PRÊMIOS</h2>
         <div class="current-score">
@@ -479,49 +490,24 @@ function iniciarInstanciaJogo(nomeJogo) {
         <span class="icegurt-icon">
             🍦 Ganhos: <span id="geladinhos-ganhos">0</span>
         </span>
-        <button id="btnVoltarCanvas" class="btn-secondary" style="width: 100%; margin-top: 20px;">
-            📋 Voltar ao Menu
-        </button>
     `;
 
-    // ---- BOTÃO VOLTAR ----
-    document.getElementById('btnVoltarCanvas').addEventListener('click', () => {
-        document.body.classList.remove('game-is-active');
-        mostrarTela('mainScreen');
-        
-        // Limpeza
-        gameScreenDiv.innerHTML = '';
-        if (instanciaJogo && typeof instanciaJogo.stopGame === 'function') {
-            instanciaJogo.stopGame();
-        }
-        instanciaJogo = null;
-        document.removeEventListener('keydown', handleKeyGame);
-    });
-
-    // ===== MAPA DE CLASSES DE JOGO =====
     const gameMap = {
         'Asteroids': typeof Asteroids !== 'undefined' ? Asteroids : null,
         'snake': typeof SnakeGame !== 'undefined' ? SnakeGame : null,
     };
-    // Note: FlappyBirdGame e PacmanGame foram removidos do map pois são carregados via iframe
-    // mas o seu código original ainda os referencia. É seguro remover se você usa IFRAME.
-    // Mantendo a verificação para o caso de carregar scripts.
 
     const ClasseJogo = gameMap[nomeJogo];
 
     if (!ClasseJogo) {
         mostrarMensagem('❌ Erro', `Jogo ${nomeJogo} não carregou corretamente.`, true);
-        mostrarTela('mainScreen');
-        document.body.classList.remove('game-is-active');
+        voltarParaMenuPrincipal();
         return;
     }
 
-    // Inicializa o jogo
-    // O seu código indica que o construtor do jogo espera o wrapper do canvas e a função de update score
     instanciaJogo = new ClasseJogo(gameCanvasWrapper, updateScoreDisplay); 
     document.addEventListener('keydown', handleKeyGame);
 
-    // Verifica fim do jogo
     const verificarFim = setInterval(() => {
         if (instanciaJogo && instanciaJogo.gameEnded) {
             clearInterval(verificarFim);
@@ -531,10 +517,6 @@ function iniciarInstanciaJogo(nomeJogo) {
     }, 50);
 }
 
-
-// ===================================
-// ===== CONTROLES DO TECLADO =====
-// ===================================
 function handleKeyGame(e) {
     if (instanciaJogo && instanciaJogo.handleKeyPress && !janelaModalAberta) {
         if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
@@ -544,8 +526,9 @@ function handleKeyGame(e) {
     }
 }
 
-
-// (Função finalizarJogo)
+// =================================================
+// 🏁 FUNÇÃO FINALIZAR JOGO (ÚNICA E CORRIGIDA)
+// =================================================
 function finalizarJogo(score, vitoria, geladinhosGanhos) {
     const gameResultDiv = document.createElement('div');
     gameResultDiv.id = 'gameResult';
@@ -554,47 +537,55 @@ function finalizarJogo(score, vitoria, geladinhosGanhos) {
     
     const resultTitle = vitoria ? '🎉 VITÓRIA! 🎉' : '💀 GAME OVER 💀';
     
-gameResultDiv.innerHTML = `
-    <h2 id="resultTitle">${resultTitle}</h2>
-    <p style="margin-top: 20px; color: var(--icegurt-text-dark); font-weight: bold;">Pontuação Final:</p>
-    <p id="resultScore" class="result-score">${score.toLocaleString('pt-BR')}</p>
-    <p id="resultGeladinhos" style="color: var(--icegurt-red); font-weight: bold; margin: 20px 0;">
-        🍦 Você ganhou ${geladinhosGanhos} Geladinhos!
-    </p>
-    <div class="result-buttons">
-        <button id="btnPlayAgain" class="btn-primary">🔄 Jogar Novamente</button>
-        <button id="btnMenuFromGame" class="btn-secondary">📋 Voltar ao Menu</button>
-    </div>
-`;
-    const gameScreenDiv = document.getElementById('gameScreen');
-    gameScreenDiv.innerHTML = '';
-    gameScreenDiv.appendChild(gameResultDiv);
+    gameResultDiv.innerHTML = `
+        <h2 id="resultTitle">${resultTitle}</h2>
+        <p style="margin-top: 20px; color: var(--icegurt-text-dark); font-weight: bold;">Pontuação Final:</p>
+        <p id="resultScore" class="result-score">${score.toLocaleString('pt-BR')}</p>
+        <p id="resultGeladinhos" style="color: var(--icegurt-red); font-weight: bold; margin: 20px 0;">
+            🍦 Você ganhou ${geladinhosGanhos} Geladinhos!
+        </p>
+        <div class="result-buttons">
+            <button id="btnPlayAgain" class="btn-primary">🔄 Jogar Novamente</button>
+            <button id="btnMenuFromResult" class="btn-secondary">📋 Voltar ao Menu</button>
+        </div>
+    `;
 
-    // Lógica do "Jogar Novamente"
-    document.getElementById('btnPlayAgain').addEventListener('click', () => {
-        if (jogoEmJogo === 'pacman') {
-            iniciarPacman();
-        } else if (jogoEmJogo === 'flappybird') {
-            iniciarFlappyBird();
-        } else if (jogoEmJogo === 'cs16') {
-            iniciarCS16();
-        } else if (jogoEmJogo === 'krunker') {
-            iniciarKrunker();
-        } else if (jogoEmJogo) {
-            carregarScriptJogo(jogoEmJogo, () => iniciarInstanciaJogo(jogoEmJogo));
-        } else {
-            document.body.classList.remove('game-is-active');
-            mostrarTela('mainScreen');
-        }
-    });
+    // Limpa apenas o container, mantendo o botão fixo
+    const gameContainer = document.getElementById('gameContainer');
+    if (gameContainer) {
+        gameContainer.innerHTML = ''; 
+        gameContainer.appendChild(gameResultDiv);
+    }
+
+    // 1. Botão Jogar Novamente
+    const btnPlayAgain = document.getElementById('btnPlayAgain');
+    if (btnPlayAgain) {
+        btnPlayAgain.addEventListener('click', () => {
+            if (jogoEmJogo === 'pacman') {
+                iniciarPacman();
+            } else if (jogoEmJogo === 'flappybird') {
+                iniciarFlappyBird();
+            } else if (jogoEmJogo === 'cs16') {
+                iniciarCS16();
+            } else if (jogoEmJogo === 'krunker') {
+                iniciarKrunker();
+            } else if (jogoEmJogo) {
+                carregarScriptJogo(jogoEmJogo, () => iniciarInstanciaJogo(jogoEmJogo));
+            } else {
+                voltarParaMenuPrincipal();
+            }
+        });
+    }
     
-document.getElementById('btnMenuFromGame').addEventListener('click', () => {
-    document.body.classList.remove('game-is-active');
-    mostrarTela('mainScreen');
-});
+    // 2. Botão Voltar ao Menu (Do Placar)
+    const btnMenuResult = document.getElementById('btnMenuFromResult');
+    if (btnMenuResult) {
+        btnMenuResult.addEventListener('click', () => {
+            voltarParaMenuPrincipal();
+        });
+    }
 
-
-    // Envia o score para o servidor e atualiza o estado local
+    // Envia score ao servidor
     if (usuarioAtual && score !== undefined) {
         socket.emit('jogo-finalizado', {
             usuarioId: usuarioAtual.id,
@@ -608,24 +599,17 @@ document.getElementById('btnMenuFromGame').addEventListener('click', () => {
             atualizarInfoUsuario();
             localStorage.setItem('usuarioAtual', JSON.stringify(usuarioAtual));
         }
-        
-        setTimeout(() => {
-            carregarLeaderboard();
-        }, 1000);
+        setTimeout(() => { carregarLeaderboard(); }, 1000);
     }
-    
-    // Limpa instâncias
     instanciaJogo = null;
 }
 
 // ===================================
 // ===== SOCKET.IO HANDLERS =====
 // ===================================
-
 socket.on('connect', () => console.log('✅ Conectado ao Socket.IO'));
 socket.on('disconnect', () => console.log('❌ Desconectado do Socket.IO'));
 
-// Feedback de compra do servidor
 socket.on('compra-status', (dados) => {
     if (dados.sucesso) {
         mostrarMensagem('✅ Compra Efetuada!', dados.message, false);
@@ -634,32 +618,26 @@ socket.on('compra-status', (dados) => {
     }
 });
 
-// Atualização de saldo do servidor (após jogo ou outra ação)
 socket.on('atualizar-geladinhos', (dados) => {
     if (usuarioAtual && usuarioAtual.id === dados.usuarioId) {
-        console.log(`Servidor atualizou geladinhos: ${dados.totalGeladinhos}`);
         usuarioAtual.geladinhos = dados.totalGeladinhos;
         atualizarInfoUsuario();
         localStorage.setItem('usuarioAtual', JSON.stringify(usuarioAtual));
     }
 });
 
-// Atualização de inventário e saldo do servidor (após compra)
 socket.on('atualizar-inventario', (dados) => {
     if (usuarioAtual && usuarioAtual.id === dados.usuarioId) {
-        console.log('Servidor atualizou inventário e saldo.');
         usuarioAtual.inventario = dados.inventario;
         usuarioAtual.geladinhos = dados.totalGeladinhos;
-        
         atualizarInfoUsuario();
         localStorage.setItem('usuarioAtual', JSON.stringify(usuarioAtual));
     }
 });
 
 // ===================================
-// ===== RECEBE SCORE DO IFRAME (postMessage) =====
+// ===== POST MESSAGE (IFRAME SCORES) =====
 // ===================================
-
 window.addEventListener('message', (event) => {
     const data = event.data;
     let pontos = 0;
@@ -672,37 +650,59 @@ window.addEventListener('message', (event) => {
         pontos = data.pontos;
         jogoRecebido = 'flappybird';
     } 
-    // OBS: O jogo Asteroids usa 'iniciarInstanciaJogo' com updateScoreDisplay, 
-    // mas o seu código anterior também tinha um listener para ele. 
-    // Mantenho o listener para postMessage caso ele seja usado.
-    else if (data.tipo === 'ASTEROIDS_SCORE_LIVE') { 
-        pontos = data.pontos;
-        jogoRecebido = 'Asteroids';
-    }
 
     if (jogoRecebido) {
         console.log(`🏁 Pontuação recebida do ${jogoRecebido}: ${pontos}`);
-        
         const geladinhosGanhos = Math.floor(pontos / PONTOS_POR_GELADINHO);
-        const vitoria = false;
-        
-        // Define o jogoEmJogo e chama a função de finalização
         jogoEmJogo = jogoRecebido;
-        finalizarJogo(pontos, vitoria, geladinhosGanhos);
+        finalizarJogo(pontos, false, geladinhosGanhos);
     }
 });
 
+// =================================================
+// 🔄 FUNÇÃO AUXILIAR: VOLTAR AO MENU
+// =================================================
+function voltarParaMenuPrincipal() {
+    console.log("Voltando ao menu...");
+    
+    const gameContainer = document.getElementById('gameContainer');
+    if (gameContainer) gameContainer.innerHTML = ''; 
+
+    document.getElementById('gameScreen').classList.remove('active');
+    document.getElementById('gameScreen').style.display = 'none';
+    document.body.classList.remove('game-is-active');
+
+    const mainScreen = document.getElementById('mainScreen');
+    if(mainScreen) {
+        mainScreen.classList.add('active');
+        mainScreen.style.display = 'flex'; 
+    }
+    
+    jogoEmJogo = null;
+    instanciaJogo = null;
+}
 
 // ===================================
 // ===== INICIALIZAÇÃO DA PÁGINA =====
 // ===================================
 window.addEventListener('DOMContentLoaded', () => {
     console.log('Página carregada, inicializando...');
+    
+    // Listener do Botão Fixo (Global)
+    const btnFixo = document.getElementById('btnMenuFromGame');
+    if (btnFixo) {
+        const novoBtn = btnFixo.cloneNode(true);
+        btnFixo.parentNode.replaceChild(novoBtn, btnFixo);
+        novoBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            voltarParaMenuPrincipal();
+        });
+    }
+
     const usuarioSalvo = localStorage.getItem('usuarioAtual');
     if (usuarioSalvo) {
         try {
             usuarioAtual = JSON.parse(usuarioSalvo);
-            // Garante que o inventário exista
             usuarioAtual.inventario = usuarioAtual.inventario || [];
             
             console.log('Usuário carregado:', usuarioAtual.username);
@@ -717,14 +717,12 @@ window.addEventListener('DOMContentLoaded', () => {
         console.log('Nenhum usuário salvo, mostrando auth');
         mostrarTela('authScreen');
     }
+}); 
 
-
-    // =================================================
-// 📱 DETECÇÃO MOBILE E BLOQUEIO DE JOGOS
 // =================================================
-
+// 📱 DETECÇÃO MOBILE
+// =================================================
 function verificarDispositivoEBloquearJogos() {
-    // Considera mobile se a tela for menor que 768px
     const isMobile = window.innerWidth <= 768; 
     const gameCards = document.querySelectorAll('.game-card');
 
@@ -732,37 +730,27 @@ function verificarDispositivoEBloquearJogos() {
         const gameName = card.getAttribute('data-game');
         const btnJogar = card.querySelector('.btn-play');
 
-        // REGRA: Se for mobile E o jogo NÃO for 'flappybird' -> BLOQUEIA
         if (isMobile && gameName !== 'flappybird') {
-            // 1. Adiciona o visual cinza e a faixa de bloqueio
             card.classList.add('mobile-disabled');
-            
-            // 2. Muda o texto do botão e desativa
             if (btnJogar) {
                 btnJogar.textContent = "Disponível no PC";
                 btnJogar.disabled = true; 
             }
-            
-            // 3. Trava de segurança no clique do card
             card.onclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 alert("Este jogo precisa de teclado e mouse! Jogue o Flappy Bird :)");
             };
         } else {
-            // Se for PC ou for Flappy Bird -> LIBERA
             card.classList.remove('mobile-disabled');
             if (btnJogar) {
                 btnJogar.textContent = "JOGAR";
                 btnJogar.disabled = false;
             }
-            card.onclick = null; // Remove a trava de clique
+            card.onclick = null; 
         }
     });
 }
 
-// Executa a verificação quando a página carrega e quando redimensiona a tela
 window.addEventListener('load', verificarDispositivoEBloquearJogos);
 window.addEventListener('resize', verificarDispositivoEBloquearJogos);
-
-});
