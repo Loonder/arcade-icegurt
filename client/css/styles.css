@@ -55,7 +55,7 @@ a:hover {
 }
 
 /* ========================================= */
-/* 👥 TEAM SECTION (ESSENCIAL PARA A EQUIPE) */
+/* 👥 TEAM SECTION (Equipe Pro) */
 /* ========================================= */
 .team-list {
     list-style: none;
@@ -133,15 +133,27 @@ a:hover {
     width: 100%;
 }
 
-/* Cores específicas das Badges da Equipe */
-.badge-fullstack { background: #007bff; color: white; border: 1px solid #0062cc; }
-.badge-hardware  { background: #ffc107; color: #333; border: 1px solid #e0a800; }
-.badge-support   { background: #6f42c1; color: white; border: 1px solid #59359a; }
-.badge-video     { background: #dc3545; color: white; border: 1px solid #bd2130; }
-.badge-vm        { background: #28a745; color: white; border: 1px solid #1e7e34; }
+.badge {
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-/* Ajuste fino para ícones dentro das badges */
-.badge span { margin-right: 4px; font-size: 1.1em; }
+.badge-fullstack { background: #007bff; }
+.badge-hardware  { background: #ffc107; color: #333; }
+.badge-support   { background: #6f42c1; }
+.badge-video     { background: #dc3545; }
+.badge-vm        { background: #28a745; }
+.badge span { font-size: 1.1em; }
+
 /* ========================== */
 /* 🏗️ ESTRUTURA DE TELAS */
 /* ========================== */
