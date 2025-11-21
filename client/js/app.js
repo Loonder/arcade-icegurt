@@ -554,24 +554,24 @@ function finalizarJogo(score, vitoria, geladinhosGanhos) {
     
     const resultTitle = vitoria ? '🎉 VITÓRIA! 🎉' : '💀 GAME OVER 💀';
     
-    gameResultDiv.innerHTML = `
-        <h2 id="resultTitle">${resultTitle}</h2>
-        <p style="margin-top: 20px; color: var(--icegurt-text-dark); font-weight: bold;">Pontuação Final:</p>
-        <p id="resultScore" class="result-score">${score.toLocaleString('pt-BR')}</p>
-        <p id="resultGeladinhos" style="color: var(--icegurt-red); font-weight: bold; margin: 20px 0;">
-            🍦 Você ganhou ${geladinhosGanhos} Geladinhos!
-        </p>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-            <button id="btnRetry" class="btn-primary">🔄 Jogar Novamente</button>
-            <button id="btnMenuFromGame" class="btn-secondary">📋 Voltar ao Menu</button>
-        </div>`;
-
+gameResultDiv.innerHTML = `
+    <h2 id="resultTitle">${resultTitle}</h2>
+    <p style="margin-top: 20px; color: var(--icegurt-text-dark); font-weight: bold;">Pontuação Final:</p>
+    <p id="resultScore" class="result-score">${score.toLocaleString('pt-BR')}</p>
+    <p id="resultGeladinhos" style="color: var(--icegurt-red); font-weight: bold; margin: 20px 0;">
+        🍦 Você ganhou ${geladinhosGanhos} Geladinhos!
+    </p>
+    <div class="result-buttons">
+        <button id="btnPlayAgain" class="btn-primary">🔄 Jogar Novamente</button>
+        <button id="btnMenuFromGame" class="btn-secondary">📋 Voltar ao Menu</button>
+    </div>
+`;
     const gameScreenDiv = document.getElementById('gameScreen');
     gameScreenDiv.innerHTML = '';
     gameScreenDiv.appendChild(gameResultDiv);
 
     // Lógica do "Jogar Novamente"
-    document.getElementById('btnRetry').addEventListener('click', () => {
+    document.getElementById('btnPlayAgain').addEventListener('click', () => {
         if (jogoEmJogo === 'pacman') {
             iniciarPacman();
         } else if (jogoEmJogo === 'flappybird') {
