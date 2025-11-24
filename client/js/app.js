@@ -644,7 +644,19 @@ function finalizarJogo(score, vitoria, geladinhosGanhos) {
 // ===== SOCKET.IO HANDLERS =====
 // ===================================
 
-socket.on('connect', () => console.log('✅ Conectado ao Socket.IO'));
+socket.on('connect', () => {
+    console.log('✅ Conectado ao Socket.IO');
+
+    if (usuarioAtual) {
+        console.log('🔄 Reenviando credenciais para o servidor...');
+        socket.emit('usuario-conectado', {
+            usuarioId: usuarioAtual.id,
+            username: usuarioAtual.username,
+            jogo: jogoEmJogo || 'menu' // Informa o jogo atual ou 'menu'
+        });
+    }
+});
+
 socket.on('disconnect', () => console.log('❌ Desconectado do Socket.IO'));
 
 socket.on('compra-status', (dados) => {

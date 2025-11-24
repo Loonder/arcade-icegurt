@@ -259,10 +259,9 @@ app.get('/api/scores/:usuarioId', (req, res) => {
 
 // ===== DADOS GLOBAIS DA LOJA =====
 const SHOP_ITEMS = {
-    'morango': 100,
-    'chocolate': 150,
-    'uva': 120,
-    'skin-dourada': 500
+    'morango': 1,
+    'chocolate': 1,
+    'uva': 1,
 };
 
 // ===== SOCKET.IO HANDLERS =====
