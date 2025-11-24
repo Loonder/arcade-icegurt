@@ -18,7 +18,7 @@ const generateId = () => crypto.randomUUID();
 // 🚨 CONFIGURAÇÃO 🚨
 const PORT = process.env.PORT || 3000;
 const dbPath = process.env.DB_PATH || path.join(__dirname, 'arcade_icegurt.db');
-const PONTOS_POR_GELADINHO = 5000; 
+const PONTOS_POR_GELADINHO = 1200; 
 // O JWT_SECRET é lido automaticamente pelo require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET; 
 
