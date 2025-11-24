@@ -12,13 +12,20 @@ let janelaModalAberta = false;
 const PONTOS_POR_GELADINHO = 1200; 
 
 // ===================================
-// ===== CONTROLE DE TELAS =====
+// ===== CONTROLE DE TELAS (CORRIGIDO) =====
 // ===================================
 
 function mostrarTela(telaId) {
+    // 1. Remove a classe 'active' de TODAS as telas
     document.querySelectorAll('.screen').forEach(tela => tela.classList.remove('active'));
+    
+    // 2. Adiciona a classe 'active' à tela de destino
     const telaAlvo = document.getElementById(telaId);
     if(telaAlvo) telaAlvo.classList.add('active');
+
+    // 3. CORREÇÃO: Força o botão fixo (de jogo) a SUMIR em qualquer tela que não seja a de jogo.
+    // Isso usa a função que força 'display: none !important'
+    alternarBotaoFixo(telaId === 'gameScreen');
 
     if (telaId === 'shopScreen') {
         atualizarShopDisplay();
@@ -706,8 +713,6 @@ window.addEventListener('message', (event) => {
 function voltarParaMenuPrincipal() {
     console.log("Voltando ao menu...");
     
-    // Garante que o botão fixo reapareça ao sair do jogo
-    alternarBotaoFixo(true); 
 
     const gameContainer = document.getElementById('gameContainer');
     if (gameContainer) gameContainer.innerHTML = ''; 
