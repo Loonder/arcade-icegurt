@@ -312,6 +312,14 @@ io.on('connection', (socket) => {
             if (err || !usuario) {
                 return socket.emit('compra-status', { sucesso: false, message: 'Usuário não encontrado.' });
             }
+        
+            
+        console.log("--- TENTATIVA DE COMPRA ---");
+        console.log("Item pedido:", itemNome);
+        console.log("Preço no sistema:", preco);
+        console.log("Saldo do usuário:", usuario.geladinhos);
+        console.log("Comparação:", usuario.geladinhos, "<", preco, "?", (usuario.geladinhos < preco));
+        // ---------------------------------------
 
             // 3. Validação de Saldo e Posse
             if (usuario.inventario.includes(itemNome)) {
