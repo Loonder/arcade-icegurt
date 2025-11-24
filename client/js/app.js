@@ -1,9 +1,9 @@
-// ===================================
-// ===== CONFIGURAÇÕES GLOBAIS =====
-// ===================================
+
+//  CONFIGURAÇÕES GLOBAIS 
+
 
 const socket = io();
-window.socket = socket; // Disponibiliza para o escopo global
+window.socket = socket; 
 
 let usuarioAtual = null;
 let jogoEmJogo = null;
@@ -16,7 +16,7 @@ function mostrarTela(telaId) {
     
     document.querySelectorAll('.screen').forEach(tela => tela.classList.remove('active'));
     
-    // 2. Adiciona a classe 'active' à tela de destino
+    
     const telaAlvo = document.getElementById(telaId);
     if(telaAlvo) telaAlvo.classList.add('active');
 
@@ -180,9 +180,9 @@ if(btnLogout) {
     });
 }
 
-// ===================================
-// ===== PERFIL, LOJA E INVENTÁRIO (UI) =====
-// ===================================
+// 
+// PERFIL, LOJA E INVENTÁRIO (UI) 
+
 function setupNav(btnId, screenId) {
     const btn = document.getElementById(btnId);
     if(btn) btn.addEventListener('click', () => mostrarTela(screenId));
@@ -261,9 +261,9 @@ function atualizarInventarioDisplay() {
     }
 }
 
-// ===================================
-// ===== LÓGICA DE COMPRA (SERVIDOR) =====
-// ===================================
+
+// LÓGICA DE COMPRA (SERVIDOR)
+
 document.querySelectorAll('.btn-buy').forEach(button => {
     button.addEventListener('click', (e) => {
         if (!usuarioAtual) {
@@ -292,9 +292,9 @@ document.querySelectorAll('.btn-buy').forEach(button => {
     });
 });
 
-// ===================================
-// ===== LEADERBOARD =====
-// ===================================
+// 
+//  LEADERBOARD 
+
 async function carregarLeaderboard() {
     try {
         const response = await fetch('/api/leaderboard');
@@ -640,9 +640,9 @@ function finalizarJogo(score, vitoria, geladinhosGanhos) {
     instanciaJogo = null;
 }
 
-// ===================================
-// ===== SOCKET.IO HANDLERS =====
-// ===================================
+// 
+//  SOCKET.IO HANDLERS 
+
 
 socket.on('connect', () => {
     console.log('✅ Conectado ao Socket.IO');
