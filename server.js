@@ -223,23 +223,36 @@ app.post('/api/auth/login', (req, res) => {
         }
     );
 });
-
 // ===== ROTAS DE LEADERBOARD E SCORES =====
 app.get('/api/leaderboard', (req, res) => {
-    db.all(
-        `SELECT u.username, l.total_geladinhos, l.vitorias 
-         FROM leaderboard l 
-         JOIN usuarios u ON l.usuario_id = u.id 
-         ORDER BY l.total_geladinhos DESC 
-         LIMIT 10`,
-        (err, rows) => {
-            if (err) {
-                console.error('Erro ao buscar leaderboard:', err.message);
-                return res.status(500).json([]);
-            }
-            res.json(rows || []);
+    // Consulta Melhorada: Traz também o High Score (Pontuação Máxima) de cada um
+    const query = `
+        SELECT 
+            u.username, 
+            l.total_geladinhos, 
+            l.vitorias,
+            MAX(s.score) as high_score 
+        FROM leaderboard l 
+        JOIN usuarios u ON l.usuario_id = u.id 
+        LEFT JOIN scores s ON u.id = s.usuario_id
+        GROUP BY u.id
+        ORDER BY l.total_geladinhos DESC 
+        LIMIT 10
+    `;
+
+    db.all(query, (err, rows) => {
+        if (err) {
+            console.error('Erro ao buscar leaderboard:', err.message);
+            return res.status(500).json([]);
         }
-    );
+        // Se o jogador não tiver jogado nada ainda, o score vem null. Vamos arrumar para 0.
+        const rankingFormatado = rows.map(row => ({
+            ...row,
+            high_score: row.high_score || 0
+        }));
+        
+        res.json(rankingFormatado);
+    });
 });
 
 app.get('/api/scores/:usuarioId', (req, res) => {
