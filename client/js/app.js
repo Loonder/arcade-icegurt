@@ -11,20 +11,16 @@ let instanciaJogo = null;
 let janelaModalAberta = false;
 const PONTOS_POR_GELADINHO = 1200; 
 
-// ===================================
-// ===== CONTROLE DE TELAS (CORRIGIDO) =====
-// ===================================
 
 function mostrarTela(telaId) {
-    // 1. Remove a classe 'active' de TODAS as telas
+    
     document.querySelectorAll('.screen').forEach(tela => tela.classList.remove('active'));
     
     // 2. Adiciona a classe 'active' à tela de destino
     const telaAlvo = document.getElementById(telaId);
     if(telaAlvo) telaAlvo.classList.add('active');
 
-    // 3. CORREÇÃO: Força o botão fixo (de jogo) a SUMIR em qualquer tela que não seja a de jogo.
-    // Isso usa a função que força 'display: none !important'
+
     alternarBotaoFixo(telaId === 'gameScreen');
 
     if (telaId === 'shopScreen') {
@@ -35,15 +31,13 @@ function mostrarTela(telaId) {
     }
 }
 
-// Função Auxiliar para esconder/mostrar o botão fixo do topo
+
 function alternarBotaoFixo(mostrar) {
     const btn = document.getElementById('btnMenuFromGame');
     if (btn) {
         if (mostrar) {
-            // Remove o inline style para voltar a usar o CSS original (flex)
             btn.style.removeProperty('display'); 
         } else {
-            // Força o desaparecimento com prioridade máxima para vencer o !important do CSS
             btn.style.setProperty('display', 'none', 'important'); 
         }
     }
@@ -247,7 +241,6 @@ function atualizarInventarioDisplay() {
             'morango': '🍓',
             'chocolate': '🍫',
             'uva': '🍇',
-            'skin-dourada': '✨'
         };
 
         usuarioAtual.inventario.forEach(itemNome => {
