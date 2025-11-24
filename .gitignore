@@ -10,3 +10,6 @@
 # Excluir arquivos de debug ou de sistema
 .DS_Store
 npm-debug.log
+
+# Ignorar banco de dados local
+arcade_icegurt.db
