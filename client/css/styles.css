@@ -564,6 +564,38 @@ body.game-is-active #gameScreen.active {
     display: block;
 }
 
+
+/* ================================================= */
+/* 🗃️ MODAIS & POPUPS (CORREÇÃO DA MENSAGEM DE SUCESSO) */
+/* ================================================= */
+
+.modal {
+    position: fixed; /* Essencial: fixa na janela do navegador */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Ocupa a largura total da tela */
+    height: 100vh; /* Ocupa a altura total da tela */
+    
+    /* Centraliza o conteúdo (a caixa branca) */
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    
+    background-color: rgba(0, 0, 0, 0.6); /* Fundo escuro semi-transparente */
+    z-index: 10000; /* Garante que fique acima de tudo (incluindo o header) */
+}
+
+.modal-content {
+    background: var(--icegurt-white); /* Cor de fundo da caixa */
+    padding: 30px 40px;
+    border-radius: 12px;
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+    
 /* CORREÇÃO DA SNAKE (CANVAS) */
 canvas {
     border: 6px solid var(--icegurt-dark-blue);
