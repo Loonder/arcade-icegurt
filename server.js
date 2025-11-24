@@ -286,7 +286,7 @@ io.on('connection', (socket) => {
             jogo: dados.jogo,
             conectado: true
         };
-        
+    
         io.emit('jogadores-atualizados', jogadoresConectados);
     });
 
